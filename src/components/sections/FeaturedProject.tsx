@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitType from "split-type";
 import { LuxuryBackground } from "@/components/ui/luxury-background";
 
@@ -11,152 +11,252 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function FeaturedProject() {
   const sectionRef = useRef<HTMLElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-  const textBlockRef = useRef<HTMLDivElement>(null);
+  const veilRef = useRef<HTMLDivElement>(null);
+  const bracketsRef = useRef<HTMLDivElement>(null);
+  const initLabelRef = useRef<HTMLDivElement>(null);
+  const eyebrowRef = useRef<HTMLSpanElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const projectNumRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!sectionRef.current || !imageContainerRef.current || !textBlockRef.current) return;
-
-    const matchMedia = gsap.matchMedia();
-
-    matchMedia.add("(min-width: 1024px)", () => {
-      // Desktop Parallax
+    const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1.8,
         },
       });
 
-      // Image moves up slightly
+      // ── Phase 1 → 2: frame expands to fill viewport ──────────────
       tl.fromTo(
         imageContainerRef.current,
-        { y: "10%" },
-        { y: "-10%", ease: "none" },
-        0
+        { clipPath: "inset(16% 21%)" },
+        { clipPath: "inset(0% 0%)", ease: "none", duration: 0.46 }
       );
 
-      // Text block moves up faster to create depth overlap
-      tl.fromTo(
-        textBlockRef.current,
-        { y: "30%" },
-        { y: "-20%", ease: "none" },
-        0
-      );
+      // Cream background dissolves
+      tl.to(bgRef.current, { opacity: 0, ease: "none", duration: 0.38 }, 0);
 
-      // Image internal parallax
-      if (imageRef.current) {
-        tl.fromTo(
-          imageRef.current,
-          { scale: 1.15, y: "-5%" },
-          { scale: 1, y: "5%", ease: "none" },
-          0
+      // Corner brackets + init label fade out
+      tl.to([bracketsRef.current, initLabelRef.current], { opacity: 0, ease: "none", duration: 0.28 }, 0);
+
+      // Dark cinematic veil sweeps in
+      tl.fromTo(veilRef.current, { opacity: 0 }, { opacity: 1, ease: "none", duration: 0.36 }, 0.22);
+
+      // Ghost project number — bottom-right, ultra-faint
+      tl.fromTo(projectNumRef.current, { opacity: 0 }, { opacity: 1, ease: "none", duration: 0.18 }, 0.44);
+
+      // ── Phase 3: editorial content ───────────────────────────────
+      tl.fromTo(eyebrowRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, ease: "none", duration: 0.14 }, 0.50);
+
+      if (titleRef.current) {
+        const split = new SplitType(titleRef.current, { types: "lines" });
+        gsap.set(split.lines, { clipPath: "inset(0 0 100% 0)" });
+        tl.to(
+          split.lines,
+          { clipPath: "inset(0 0 0% 0)", stagger: 0.08, ease: "none", duration: 0.3 },
+          0.54
         );
       }
-    });
 
-    matchMedia.add("(max-width: 1023px)", () => {
-       // Mobile animations
-       gsap.fromTo(
-         textBlockRef.current,
-         { opacity: 0, y: 30 },
-         {
-           opacity: 1, 
-           y: 0, 
-           duration: 1, 
-           ease: "power3.out",
-           scrollTrigger: {
-             trigger: textBlockRef.current,
-             start: "top 85%"
-           }
-         }
-       );
-    });
-
-    // Split text reveal for title
-    let split: SplitType | null = null;
-    if (titleRef.current) {
-      split = new SplitType(titleRef.current, { types: "lines, words" });
-      gsap.fromTo(
-        split.words,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.05,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: "top 80%",
-          },
-        }
+      tl.fromTo(
+        lineRef.current,
+        { scaleX: 0, transformOrigin: "center" },
+        { scaleX: 1, ease: "none", duration: 0.12 },
+        0.74
       );
-    }
 
-    return () => {
-      matchMedia.revert();
-      if (split) {
-         split.revert();
+      if (descRef.current) {
+        const split = new SplitType(descRef.current, { types: "lines" });
+        gsap.set(split.lines, { clipPath: "inset(0 0 100% 0)" });
+        tl.to(
+          split.lines,
+          { clipPath: "inset(0 0 0% 0)", stagger: 0.04, ease: "none", duration: 0.2 },
+          0.76
+        );
       }
-    };
+
+      tl.fromTo(ctaRef.current, { opacity: 0, y: 10 }, { opacity: 1, y: 0, ease: "none", duration: 0.12 }, 0.90);
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
-    /* Warm gold gradient — alternating section WITH chandelier */
-    <section 
-      ref={sectionRef} 
-      className="relative w-full pt-24 pb-32 lg:py-0 lg:min-h-[120vh] flex items-center overflow-hidden"
-      style={{ background: "linear-gradient(150deg, #F5E8D9 0%, #EDD9C0 45%, #E8D0B0 100%)" }}
+    <section
+      ref={sectionRef}
+      className="relative h-[280vh]"
+      style={{ background: "linear-gradient(135deg, #F5E8D9 0%, #EDD9C0 50%, #F0DFC8 100%)" }}
     >
-      <LuxuryBackground />
-      <div className="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-12 relative lg:h-[80vh] flex flex-col lg:block z-10">
-        
-        {/* Image Block */}
-        <div 
-          ref={imageContainerRef} 
-          className="relative w-full lg:w-[65%] lg:absolute lg:right-0 lg:top-0 h-[60vh] lg:h-full z-0 overflow-hidden"
+      <div className="sticky top-0 h-screen overflow-hidden">
+
+        {/* ── Warm cream background with chandelier ── */}
+        <div ref={bgRef} className="absolute inset-0">
+          <div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(135deg, #F5E8D9 0%, #EDD9C0 50%, #F0DFC8 100%)" }}
+          />
+          <LuxuryBackground />
+        </div>
+
+        {/* ── Project image — full viewport, initially clipped to gallery frame ── */}
+        <div
+          ref={imageContainerRef}
+          className="absolute inset-0"
+          style={{ clipPath: "inset(16% 21%)", willChange: "clip-path" }}
         >
           <Image
-            ref={imageRef}
             src="/images/featured-project.png"
             alt="The Artisan House"
             fill
-            className="object-cover"
+            className="object-cover object-center"
+            priority={false}
           />
-          <div className="absolute inset-0 bg-foreground/30 mix-blend-overlay" />
+
+          {/* Dark veil — fades in during expansion */}
+          <div
+            ref={veilRef}
+            className="absolute inset-0"
+            style={{
+              opacity: 0,
+              background:
+                "linear-gradient(to top, rgba(8,7,5,0.94) 0%, rgba(8,7,5,0.58) 45%, rgba(8,7,5,0.22) 100%)",
+            }}
+          />
         </div>
 
-        {/* Text Block */}
-        <div 
-          ref={textBlockRef}
-          className="relative z-10 w-[90%] sm:w-[80%] lg:w-[45%] mx-auto lg:mx-0 lg:absolute lg:left-0 lg:top-[15%] bg-background/90 backdrop-blur-xl p-8 sm:p-12 lg:p-16 border border-accent/30 -mt-20 lg:mt-0 shadow-2xl shadow-accent/10"
+        {/* ── Gold corner brackets (mark the initial frame) ── */}
+        <div ref={bracketsRef} className="absolute inset-0 pointer-events-none">
+          {/* ┌ top-left */}
+          <div
+            className="absolute"
+            style={{
+              top: "16%", left: "21%", width: 30, height: 30,
+              borderTop: "1px solid rgba(201,169,110,0.6)",
+              borderLeft: "1px solid rgba(201,169,110,0.6)",
+            }}
+          />
+          {/* ┐ top-right */}
+          <div
+            className="absolute"
+            style={{
+              top: "16%", right: "21%", width: 30, height: 30,
+              borderTop: "1px solid rgba(201,169,110,0.6)",
+              borderRight: "1px solid rgba(201,169,110,0.6)",
+            }}
+          />
+          {/* └ bottom-left */}
+          <div
+            className="absolute"
+            style={{
+              bottom: "16%", left: "21%", width: 30, height: 30,
+              borderBottom: "1px solid rgba(201,169,110,0.6)",
+              borderLeft: "1px solid rgba(201,169,110,0.6)",
+            }}
+          />
+          {/* ┘ bottom-right */}
+          <div
+            className="absolute"
+            style={{
+              bottom: "16%", right: "21%", width: 30, height: 30,
+              borderBottom: "1px solid rgba(201,169,110,0.6)",
+              borderRight: "1px solid rgba(201,169,110,0.6)",
+            }}
+          />
+        </div>
+
+        {/* ── Initial label — above the frame, visible before scroll ── */}
+        <div
+          ref={initLabelRef}
+          className="absolute left-1/2 -translate-x-1/2 pointer-events-none flex flex-col items-center gap-3"
+          style={{ top: "calc(16% - 4rem)" }}
         >
-          <span className="text-accent font-mono text-sm tracking-widest uppercase mb-6 block">
-            Featured Residence
+          <span className="block text-foreground/35 text-[0.56rem] tracking-[0.55em] uppercase font-sans">
+            Featured Residence &nbsp;·&nbsp; 01
           </span>
-          <h2 
-            ref={titleRef}
-            className="font-display text-4xl sm:text-5xl lg:text-6xl text-foreground leading-[1.1] mb-8"
+          <div className="flex items-center gap-3 w-28">
+            <div className="flex-1 h-px bg-foreground/15" />
+            <div className="w-[3px] h-[3px] rounded-full bg-foreground/20" />
+            <div className="flex-1 h-px bg-foreground/15" />
+          </div>
+        </div>
+
+        {/* ── Ghost project number ── */}
+        <div
+          ref={projectNumRef}
+          className="absolute right-8 md:right-14 bottom-10 pointer-events-none opacity-0"
+        >
+          <span
+            className="font-display font-light leading-none text-white/[0.04] select-none"
+            style={{ fontSize: "clamp(7rem, 14vw, 13rem)", letterSpacing: "-0.04em" }}
           >
-            The Artisan House
-          </h2>
-          <p className="text-foreground/70 font-light text-base sm:text-lg mb-10 leading-relaxed">
-            Curved walls in Venetian plaster finish in warm greige, a statement arched fireplace in aged travertine, bespoke curved seating in deep cognac leather. A moody, editorial exploration of form and light, redefining what it means to live in functional art.
-          </p>
-          <div>
-            <a 
-              href="#project-details" 
-              className="inline-flex items-center gap-4 text-sm tracking-widest uppercase font-medium text-foreground hover:text-accent transition-colors group"
-              data-cursor-interact
+            01
+          </span>
+        </div>
+
+        {/* ── Phase 3: editorial content — pinned to bottom ── */}
+        <div
+          className="absolute inset-0 z-20 flex flex-col items-center justify-end pointer-events-none"
+          style={{ paddingBottom: "clamp(3.5rem, 8vh, 6.5rem)" }}
+        >
+          <div className="flex flex-col items-center text-center px-6 max-w-3xl">
+
+            <span
+              ref={eyebrowRef}
+              className="block text-[#C9A96E] text-[0.56rem] tracking-[0.55em] uppercase font-sans font-medium mb-7"
+              style={{ opacity: 0 }}
             >
-              View Case Study
-              <span className="w-12 h-[1px] bg-foreground group-hover:bg-accent transition-all group-hover:w-16 duration-300" />
-            </a>
+              Featured Residence &nbsp;·&nbsp; 01
+            </span>
+
+            <h2
+              ref={titleRef}
+              className="font-display font-light text-white leading-[1.05] mb-8"
+              style={{ fontSize: "clamp(2.8rem, 6.5vw, 5.8rem)", letterSpacing: "-0.02em" }}
+            >
+              The Artisan House
+            </h2>
+
+            {/* Ornamental rule */}
+            <div
+              ref={lineRef}
+              className="flex items-center gap-4 mb-8 w-[180px]"
+              style={{ transformOrigin: "center" }}
+            >
+              <div className="flex-1 h-px bg-[#C9A96E]/30" />
+              <div
+                className="rounded-full bg-[#C9A96E]/55"
+                style={{ width: 4, height: 4 }}
+              />
+              <div className="flex-1 h-px bg-[#C9A96E]/30" />
+            </div>
+
+            <p
+              ref={descRef}
+              className="text-white/50 font-light leading-[1.9] max-w-lg mb-10"
+              style={{ fontSize: "clamp(0.88rem, 1.25vw, 1.02rem)" }}
+            >
+              Curved walls in Venetian plaster, a statement arched fireplace in aged travertine, bespoke seating in deep cognac leather. An editorial exploration of form and light.
+            </p>
+
+            <div ref={ctaRef} className="pointer-events-auto" style={{ opacity: 0 }}>
+              <a
+                href="#"
+                className="inline-flex items-center gap-4 text-[0.6rem] tracking-[0.48em] uppercase font-sans text-white/60 hover:text-[#C9A96E] transition-colors duration-500 group"
+                data-cursor-interact
+              >
+                View Case Study
+                <span className="w-10 h-px bg-white/25 group-hover:bg-[#C9A96E] group-hover:w-14 transition-all duration-500" />
+              </a>
+            </div>
+
           </div>
         </div>
 
