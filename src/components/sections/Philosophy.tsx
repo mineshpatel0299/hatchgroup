@@ -46,23 +46,23 @@ export default function Philosophy() {
     >
       <LuxuryBackground />
 
-      <div className="relative z-10 flex flex-col items-center justify-center max-w-6xl px-6 mx-auto text-center">
-        <span className="block text-accent/60 text-xs tracking-[0.4em] uppercase font-medium mb-10 font-sans">
+      <div className="relative z-10 flex flex-col items-center justify-center max-w-6xl px-5 md:px-6 mx-auto text-center">
+        <span className="block text-accent/60 text-[9px] md:text-xs tracking-[0.45em] uppercase font-medium mb-7 md:mb-10 font-sans">
           Our Philosophy
         </span>
         <h2
           ref={textRef1}
-          className="text-4xl md:text-6xl lg:text-7xl font-display text-foreground/40 leading-[1.2] mb-4"
+          className="text-[1.85rem] sm:text-4xl md:text-6xl lg:text-7xl font-display text-foreground/40 leading-[1.15] mb-3 md:mb-4"
         >
           We don&apos;t decorate spaces.
         </h2>
         <h2
           ref={textRef2}
-          className="text-4xl md:text-6xl lg:text-7xl font-display text-foreground leading-[1.2] mb-12"
+          className="text-[1.85rem] sm:text-4xl md:text-6xl lg:text-7xl font-display text-foreground leading-[1.15] mb-10 md:mb-12"
         >
           We architect experiences.
         </h2>
-        <div ref={ruleRef} className="w-20 h-[1px] bg-accent" />
+        <div ref={ruleRef} className="w-16 md:w-20 h-px bg-accent" />
       </div>
     </section>
   );

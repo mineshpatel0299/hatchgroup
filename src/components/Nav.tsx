@@ -132,27 +132,54 @@ export default function Nav() {
       {/* Mobile menu drawer */}
       <div
         className={clsx(
-          "fixed inset-0 z-40 flex flex-col justify-center items-center gap-10 bg-background transition-all duration-500 md:hidden",
+          "fixed inset-0 z-40 flex flex-col justify-center items-center bg-background transition-all duration-500 md:hidden overflow-hidden",
           menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
       >
-        {links.map(({ label, href }) => (
-          <a
-            key={label}
-            href={href}
-            onClick={() => setMenuOpen(false)}
-            className="font-display text-5xl text-foreground hover:text-accent transition-colors duration-300"
-          >
-            {label}
-          </a>
-        ))}
+        {/* Subtle warm gradient wash */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 60% 30%, rgba(223,155,77,0.07) 0%, transparent 65%)" }} />
+
+        {/* Gold horizontal rule top */}
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-8 h-px bg-accent/40" />
+
+        <nav className="flex flex-col items-center gap-8">
+          {links.map(({ label, href }, i) => (
+            <a
+              key={label}
+              href={href}
+              onClick={() => setMenuOpen(false)}
+              className="relative group flex flex-col items-center"
+            >
+              <span className="font-display text-[2.8rem] text-foreground group-hover:text-accent transition-colors duration-300 leading-none">
+                {label}
+              </span>
+              <span className="mt-1.5 block text-[8px] tracking-[0.55em] uppercase text-accent/40 font-sans">
+                0{i + 1}
+              </span>
+            </a>
+          ))}
+        </nav>
+
+        {/* Gold divider */}
+        <div className="my-10 flex items-center gap-4 w-28">
+          <div className="flex-1 h-px bg-accent/20" />
+          <div className="w-1 h-1 rounded-full bg-accent/40" />
+          <div className="flex-1 h-px bg-accent/20" />
+        </div>
+
         <a
           href="#contact"
           onClick={() => setMenuOpen(false)}
-          className="mt-4 text-[10px] tracking-[0.3em] uppercase border border-foreground/30 px-8 py-3 text-foreground hover:bg-foreground hover:text-background transition-all duration-300"
+          className="text-[9px] tracking-[0.38em] uppercase border border-foreground/20 px-10 py-3.5 text-foreground hover:bg-foreground hover:text-background transition-all duration-300 font-sans"
         >
           Enquire
         </a>
+
+        {/* Bottom signature */}
+        <div className="absolute bottom-10 flex flex-col items-center gap-1.5">
+          <div className="w-5 h-px bg-accent/30" />
+          <span className="text-[8px] tracking-[0.5em] uppercase text-foreground/25 font-sans mt-1">Hatch Group</span>
+        </div>
       </div>
     </>
   );

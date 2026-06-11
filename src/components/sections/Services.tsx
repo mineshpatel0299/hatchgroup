@@ -112,26 +112,50 @@ export default function Services() {
     /* Pure cream — clean alternating section, no chandelier */
     <section ref={containerRef} className="relative bg-background w-full overflow-hidden">
       {/* Mobile Layout: Stacking Cards */}
-      <div className="md:hidden flex flex-col w-full px-4 py-20 gap-12">
+      <div className="md:hidden flex flex-col w-full px-4 py-16 gap-6">
+        {/* Mobile section heading */}
+        <div className="flex flex-col items-center text-center mb-4 px-2">
+          <span className="block text-[8px] tracking-[0.55em] uppercase text-accent/60 font-sans mb-3">Our Services</span>
+          <h2 className="font-display text-3xl text-foreground leading-tight">What We Do</h2>
+          <div className="mt-4 flex items-center gap-3 w-20">
+            <div className="flex-1 h-px bg-accent/30" />
+            <div className="w-1 h-1 rounded-full bg-accent/50" />
+            <div className="flex-1 h-px bg-accent/30" />
+          </div>
+        </div>
+
         {SERVICES.map((service, index) => (
-          <div key={service.id} className="relative w-full h-[80vh] sticky top-10 overflow-hidden rounded-2xl group">
+          <div key={service.id} className="w-full h-[78vw] max-h-105 sticky top-4 overflow-hidden group" style={{ borderRadius: 0 }}>
+            {/* Thin gold accent line top */}
+            <div className="absolute top-0 left-6 right-6 h-px bg-linear-to-r from-transparent via-accent/50 to-transparent z-20" />
+
             <div className="absolute inset-0 w-full h-full">
               <Image
                 src={service.image}
                 alt={service.title}
                 fill
-                className="object-cover transform group-hover:scale-105 transition-transform duration-[2s] ease-out"
+                className="object-cover transform group-active:scale-[1.02] transition-transform duration-[2s] ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent" />
+              {/* Richer cinematic veil */}
+              <div className="absolute inset-0 bg-linear-to-t from-[#0a0906]/95 via-[#0a0906]/45 to-[#0a0906]/15" />
+              <div className="absolute inset-0 bg-linear-to-r from-[#0a0906]/30 via-transparent to-[#0a0906]/10" />
             </div>
-            <div className="absolute bottom-0 left-0 w-full p-8 flex flex-col justify-end">
-              <span className="text-accent font-mono text-sm tracking-widest mb-4">
-                {service.id}
-              </span>
-              <h3 className="font-display text-4xl text-foreground leading-none mb-4">
+
+            {/* Corner bracket — top left */}
+            <div className="absolute top-4 left-4 w-5 h-5 border-t border-l border-accent/35 z-20" />
+            {/* Corner bracket — bottom right */}
+            <div className="absolute bottom-4 right-4 w-5 h-5 border-b border-r border-accent/35 z-20" />
+
+            <div className="absolute bottom-0 left-0 w-full px-6 pb-7 pt-10 flex flex-col justify-end z-10">
+              {/* Number */}
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-accent font-mono text-[10px] tracking-[0.4em]">{service.id}</span>
+                <div className="flex-1 h-px bg-accent/20" />
+              </div>
+              <h3 className="font-display text-[2.1rem] text-white leading-none mb-3">
                 {service.title}
               </h3>
-              <p className="text-foreground/80 text-base font-light">
+              <p className="text-white/55 text-[0.82rem] font-light leading-[1.7] max-w-xs">
                 {service.description}
               </p>
             </div>

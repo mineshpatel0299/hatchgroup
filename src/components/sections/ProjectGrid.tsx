@@ -49,28 +49,30 @@ export default function ProjectGrid() {
 
   return (
     /* Pure cream — clean alternating section, no chandelier */
-    <section className="relative py-28 md:py-36 px-6 md:px-12 bg-background overflow-hidden">
+    <section className="relative py-20 md:py-36 px-5 md:px-12 bg-background overflow-hidden">
 
       <div className="relative z-10 max-w-7xl mx-auto">
 
-        {/* Header */}
-        <div className="flex items-end justify-between mb-14 border-b border-foreground/10 pb-6">
-          <div>
-            <p className="text-[9px] tracking-[0.55em] uppercase text-foreground/40 font-medium mb-3">
-              Selected Portfolio
-            </p>
-            <h2 className="font-display text-4xl md:text-5xl text-foreground">Selected Works</h2>
+        {/* Header — stacks on mobile */}
+        <div className="mb-10 md:mb-14 border-b border-foreground/10 pb-6">
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="text-[8px] md:text-[9px] tracking-[0.55em] uppercase text-foreground/40 font-medium mb-2 md:mb-3">
+                Selected Portfolio
+              </p>
+              <h2 className="font-display text-3xl md:text-5xl text-foreground leading-tight">Selected Works</h2>
+            </div>
+            <button
+              className="text-[9px] md:text-xs tracking-widest uppercase font-medium text-foreground/50 hover:text-accent transition-colors duration-300 pb-1 border-b border-transparent hover:border-accent/50 self-end"
+              data-cursor-interact
+            >
+              View All
+            </button>
           </div>
-          <button
-            className="text-xs tracking-widest uppercase font-medium text-foreground/50 hover:text-accent transition-colors duration-300 pb-1 border-b border-transparent hover:border-accent/50"
-            data-cursor-interact
-          >
-            View All
-          </button>
         </div>
 
         {/* Grid */}
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 md:gap-y-20">
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-8 gap-y-12 md:gap-y-20">
           {PROJECTS.map((project, i) => (
             <motion.div
               key={project.id}
@@ -81,32 +83,33 @@ export default function ProjectGrid() {
               className="pgrid-card cursor-pointer group"
               data-cursor-interact
             >
-              {/* Image container — overflow hidden so parallax image stays clipped */}
-              <div className="relative aspect-[4/5] overflow-hidden border border-foreground/8">
+              {/* Image container */}
+              <div className="relative aspect-4/5 overflow-hidden border border-foreground/8">
+                {/* Gold corner accent */}
+                <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-accent/30 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-accent/30 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="pgrid-img absolute inset-[-10%] w-[120%] h-[120%]">
                   <Image
                     src={project.image}
                     alt={project.title}
                     fill
-                    className="object-cover group-hover:scale-[1.04] transition-transform duration-[1400ms] ease-out"
+                    className="object-cover group-hover:scale-[1.04] transition-transform duration-1400 ease-out"
                   />
                 </div>
-                {/* Subtle hover veil */}
                 <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/8 transition-colors duration-700" />
               </div>
 
               {/* Caption */}
-              <div className="mt-5 flex items-start justify-between">
+              <div className="mt-4 md:mt-5 flex items-start justify-between">
                 <div>
-                  <h3 className="font-display text-xl md:text-2xl text-foreground group-hover:text-accent transition-colors duration-400 leading-tight">
+                  <h3 className="font-display text-[1.25rem] md:text-2xl text-foreground group-hover:text-accent transition-colors duration-400 leading-tight">
                     {project.title}
                   </h3>
-                  <span className="mt-1.5 block text-[10px] tracking-[0.35em] uppercase text-foreground/40">
+                  <span className="mt-1.5 block text-[9px] tracking-[0.35em] uppercase text-foreground/40">
                     {project.category}
                   </span>
                 </div>
-                {/* Arrow — appears on hover */}
-                <span className="mt-1 opacity-0 group-hover:opacity-100 translate-x-[-6px] group-hover:translate-x-0 transition-all duration-400 text-accent text-sm">
+                <span className="mt-1 opacity-0 group-hover:opacity-100 -translate-x-1.5 group-hover:translate-x-0 transition-all duration-400 text-accent text-sm">
                   →
                 </span>
               </div>

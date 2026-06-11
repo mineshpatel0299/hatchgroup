@@ -237,21 +237,21 @@ export default function Walkthrough() {
           ref={label1Ref}
           className="absolute z-30 pointer-events-none"
           style={{
-            bottom: "clamp(3.5rem, 6vh, 5rem)",
-            left: "clamp(1.75rem, 4vw, 4rem)",
+            bottom: "clamp(3rem, 6vh, 5rem)",
+            left: "clamp(1.25rem, 4vw, 4rem)",
             opacity: 0,
             transform: "translateY(18px)",
-            maxWidth: 240,
+            maxWidth: "min(200px, 42vw)",
             willChange: "opacity, transform",
           }}
         >
-          <div className="flex items-center gap-2 mb-2.5">
-            <div style={{ width: 14, height: 1, background: "rgba(223,155,77,0.5)" }} />
-            <span className="font-mono uppercase" style={{ fontSize: "9px", letterSpacing: "0.36em", color: "rgba(223,155,77,0.5)" }}>
-              01 / Common Spaces
+          <div className="flex items-center gap-2 mb-2">
+            <div style={{ width: 12, height: 1, background: "rgba(223,155,77,0.5)", flexShrink: 0 }} />
+            <span className="font-mono uppercase" style={{ fontSize: "8px", letterSpacing: "0.3em", color: "rgba(223,155,77,0.5)" }}>
+              01 / Common
             </span>
           </div>
-          <h3 className="font-display text-white leading-[1.08]" style={{ fontSize: "clamp(1.75rem, 2.8vw, 2.4rem)" }}>
+          <h3 className="font-display text-white leading-[1.08]" style={{ fontSize: "clamp(1.4rem, 4.5vw, 2.4rem)" }}>
             Curated<br />Atmosphere
           </h3>
         </div>
@@ -261,22 +261,22 @@ export default function Walkthrough() {
           ref={label2Ref}
           className="absolute z-30 pointer-events-none"
           style={{
-            bottom: "clamp(3.5rem, 6vh, 5rem)",
-            right: "clamp(1.75rem, 4vw, 4rem)",
+            bottom: "clamp(3rem, 6vh, 5rem)",
+            right: "clamp(1.25rem, 4vw, 4rem)",
             textAlign: "right",
             opacity: 0,
             transform: "translateY(18px)",
-            maxWidth: 240,
+            maxWidth: "min(200px, 42vw)",
             willChange: "opacity, transform",
           }}
         >
-          <div className="flex items-center justify-end gap-2 mb-2.5">
-            <span className="font-mono uppercase" style={{ fontSize: "9px", letterSpacing: "0.36em", color: "rgba(223,155,77,0.5)" }}>
-              02 / Private Sanctuaries
+          <div className="flex items-center justify-end gap-2 mb-2">
+            <span className="font-mono uppercase" style={{ fontSize: "8px", letterSpacing: "0.3em", color: "rgba(223,155,77,0.5)" }}>
+              02 / Private
             </span>
-            <div style={{ width: 14, height: 1, background: "rgba(223,155,77,0.5)" }} />
+            <div style={{ width: 12, height: 1, background: "rgba(223,155,77,0.5)", flexShrink: 0 }} />
           </div>
-          <h3 className="font-display text-white leading-[1.08]" style={{ fontSize: "clamp(1.75rem, 2.8vw, 2.4rem)" }}>
+          <h3 className="font-display text-white leading-[1.08]" style={{ fontSize: "clamp(1.4rem, 4.5vw, 2.4rem)" }}>
             Intimate<br />Precision
           </h3>
         </div>

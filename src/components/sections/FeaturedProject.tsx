@@ -204,13 +204,13 @@ export default function FeaturedProject() {
         {/* ── Phase 3: editorial content — pinned to bottom ── */}
         <div
           className="absolute inset-0 z-20 flex flex-col items-center justify-end pointer-events-none"
-          style={{ paddingBottom: "clamp(3.5rem, 8vh, 6.5rem)" }}
+          style={{ paddingBottom: "clamp(2.5rem, 8vh, 6.5rem)" }}
         >
-          <div className="flex flex-col items-center text-center px-6 max-w-3xl">
+          <div className="flex flex-col items-center text-center px-5 md:px-6 max-w-3xl w-full">
 
             <span
               ref={eyebrowRef}
-              className="block text-[#C9A96E] text-[0.56rem] tracking-[0.55em] uppercase font-sans font-medium mb-7"
+              className="block text-[#C9A96E] text-[0.52rem] md:text-[0.56rem] tracking-[0.45em] md:tracking-[0.55em] uppercase font-sans font-medium mb-5 md:mb-7"
               style={{ opacity: 0 }}
             >
               Featured Residence &nbsp;·&nbsp; 01
@@ -218,8 +218,8 @@ export default function FeaturedProject() {
 
             <h2
               ref={titleRef}
-              className="font-display font-light text-white leading-[1.05] mb-8"
-              style={{ fontSize: "clamp(2.8rem, 6.5vw, 5.8rem)", letterSpacing: "-0.02em" }}
+              className="font-display font-light text-white leading-[1.05] mb-5 md:mb-8"
+              style={{ fontSize: "clamp(2.2rem, 6.5vw, 5.8rem)", letterSpacing: "-0.02em" }}
             >
               The Artisan House
             </h2>
@@ -227,21 +227,18 @@ export default function FeaturedProject() {
             {/* Ornamental rule */}
             <div
               ref={lineRef}
-              className="flex items-center gap-4 mb-8 w-[180px]"
+              className="flex items-center gap-4 mb-5 md:mb-8 w-35 md:w-45"
               style={{ transformOrigin: "center" }}
             >
               <div className="flex-1 h-px bg-[#C9A96E]/30" />
-              <div
-                className="rounded-full bg-[#C9A96E]/55"
-                style={{ width: 4, height: 4 }}
-              />
+              <div className="rounded-full bg-[#C9A96E]/55" style={{ width: 4, height: 4 }} />
               <div className="flex-1 h-px bg-[#C9A96E]/30" />
             </div>
 
             <p
               ref={descRef}
-              className="text-white/50 font-light leading-[1.9] max-w-lg mb-10"
-              style={{ fontSize: "clamp(0.88rem, 1.25vw, 1.02rem)" }}
+              className="text-white/50 font-light leading-[1.85] max-w-xs md:max-w-lg mb-7 md:mb-10"
+              style={{ fontSize: "clamp(0.8rem, 1.25vw, 1.02rem)" }}
             >
               Curved walls in Venetian plaster, a statement arched fireplace in aged travertine, bespoke seating in deep cognac leather. An editorial exploration of form and light.
             </p>
@@ -249,11 +246,11 @@ export default function FeaturedProject() {
             <div ref={ctaRef} className="pointer-events-auto" style={{ opacity: 0 }}>
               <a
                 href="#"
-                className="inline-flex items-center gap-4 text-[0.6rem] tracking-[0.48em] uppercase font-sans text-white/60 hover:text-[#C9A96E] transition-colors duration-500 group"
+                className="inline-flex items-center gap-4 text-[0.58rem] tracking-[0.44em] uppercase font-sans text-white/60 hover:text-[#C9A96E] transition-colors duration-500 group"
                 data-cursor-interact
               >
                 View Case Study
-                <span className="w-10 h-px bg-white/25 group-hover:bg-[#C9A96E] group-hover:w-14 transition-all duration-500" />
+                <span className="w-8 md:w-10 h-px bg-white/25 group-hover:bg-[#C9A96E] group-hover:w-12 md:group-hover:w-14 transition-all duration-500" />
               </a>
             </div>
 
