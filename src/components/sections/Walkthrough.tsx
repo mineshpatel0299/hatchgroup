@@ -6,6 +6,16 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+/** Unlock video seeking on iOS Safari — must call play/pause before currentTime works */
+async function unlockVideoScrub(video: HTMLVideoElement) {
+  try {
+    video.muted = true;
+    await video.play();
+    video.pause();
+    video.currentTime = 0;
+  } catch (_) { /* autoplay blocked */ }
+}
+
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), hi);
 const smoothstep = (e0: number, e1: number, x: number) => {
@@ -43,6 +53,17 @@ export default function Walkthrough() {
     const checkMobile = () => { isMobileRef.current = window.innerWidth < 768; };
     checkMobile();
     window.addEventListener("resize", checkMobile, { passive: true });
+
+    // Unlock seeking on iOS Safari for both videos
+    const unlockOnReady = (video: HTMLVideoElement) => {
+      if (video.readyState >= 1) {
+        unlockVideoScrub(video);
+      } else {
+        video.addEventListener("loadedmetadata", () => unlockVideoScrub(video), { once: true });
+      }
+    };
+    unlockOnReady(v1);
+    unlockOnReady(v2);
 
     const state = {
       progress: 0,
