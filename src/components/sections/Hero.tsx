@@ -86,7 +86,7 @@ export default function Hero() {
       </div>
 
       {/* Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D0D]/60 via-transparent to-[#0D0D0D]/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background/80" />
 
       {/* Content */}
       <div
@@ -107,7 +107,7 @@ export default function Hero() {
           We architect experiences that transcend traditional interior design, blending cinematic aesthetics with uncompromising material quality.
         </p>
         <button
-          className="hero-cta relative overflow-hidden group px-8 py-4 border border-white/20 bg-transparent text-foreground uppercase tracking-widest text-xs font-medium hover:border-accent transition-colors duration-500"
+          className="hero-cta relative overflow-hidden group px-8 py-4 border border-foreground/20 bg-transparent text-foreground uppercase tracking-widest text-xs font-medium hover:border-accent transition-colors duration-500"
           data-cursor-interact
         >
           <span className="relative z-10">Discover Projects</span>

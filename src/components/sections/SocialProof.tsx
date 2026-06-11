@@ -41,9 +41,9 @@ export default function SocialProof() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-40 bg-[#0D0D0D] overflow-hidden">
+    <section ref={sectionRef} className="relative py-40 bg-background overflow-hidden">
       {/* Background Texture */}
-      <div className="absolute inset-0 opacity-20 mix-blend-screen">
+      <div className="absolute inset-0 opacity-20 mix-blend-multiply">
         <Image
           src="/images/materials-bg.png"
           alt="Premium Materials"

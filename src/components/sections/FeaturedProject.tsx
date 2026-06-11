@@ -124,7 +124,7 @@ export default function FeaturedProject() {
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-[#0D0D0D]/10" />
+          <div className="absolute inset-0 bg-foreground/10" />
         </div>
 
         {/* Text Block */}

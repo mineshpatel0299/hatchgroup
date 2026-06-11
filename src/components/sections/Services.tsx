@@ -120,7 +120,7 @@ export default function Services() {
                 fill
                 className="object-cover transform group-hover:scale-105 transition-transform duration-[2s] ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/90 via-[#0D0D0D]/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent" />
             </div>
             <div className="absolute bottom-0 left-0 w-full p-8 flex flex-col justify-end">
               <span className="text-accent font-mono text-sm tracking-widest mb-4">
@@ -159,7 +159,7 @@ export default function Services() {
                 priority={index === 0}
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-[#0D0D0D]/20" />
+              <div className="absolute inset-0 bg-background/20" />
             </div>
           ))}
         </div>

@@ -58,7 +58,7 @@ export default function Philosophy() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative w-full h-screen bg-[#0D0D0D] flex items-center justify-center overflow-hidden">
+    <section ref={sectionRef} className="relative w-full h-screen bg-emerald flex items-center justify-center overflow-hidden">
       {/* Background Texture */}
       <div className="absolute inset-0 opacity-40 mix-blend-overlay">
         <Image
@@ -72,13 +72,13 @@ export default function Philosophy() {
       <div className="relative z-10 flex flex-col items-center justify-center max-w-6xl px-6 mx-auto text-center">
         <h2
           ref={textRef1}
-          className="text-4xl md:text-6xl lg:text-7xl font-display text-foreground/60 leading-[1.2] mb-4"
+          className="text-4xl md:text-6xl lg:text-7xl font-display text-background/60 leading-[1.2] mb-4"
         >
           We don&apos;t decorate spaces.
         </h2>
         <h2
           ref={textRef2}
-          className="text-4xl md:text-6xl lg:text-7xl font-display text-foreground leading-[1.2] mb-12"
+          className="text-4xl md:text-6xl lg:text-7xl font-display text-background leading-[1.2] mb-12"
         >
           We architect experiences.
         </h2>

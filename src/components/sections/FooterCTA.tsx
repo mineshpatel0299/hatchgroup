@@ -51,7 +51,7 @@ export default function FooterCTA() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative w-full h-screen overflow-hidden bg-[#0D0D0D]">
+    <section ref={sectionRef} className="relative w-full h-screen overflow-hidden bg-emerald">
       {/* Parallax Background */}
       <div ref={mediaRef} className="absolute inset-0 w-full h-[120%] top-0">
         <Image
@@ -63,19 +63,19 @@ export default function FooterCTA() {
       </div>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-[#0D0D0D]/50" />
+      <div className="absolute inset-0 bg-emerald/50" />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
         <h2
           ref={titleRef}
-          className="font-display text-5xl md:text-8xl text-foreground leading-[1.1] mb-12 max-w-4xl"
+          className="font-display text-5xl md:text-8xl text-background leading-[1.1] mb-12 max-w-4xl"
           style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)" }}
         >
           Ready to architect your experience?
         </h2>
         <button
-          className="footer-cta-btn relative overflow-hidden group px-8 py-4 border border-white/20 bg-transparent text-foreground uppercase tracking-widest text-xs font-medium hover:border-accent transition-colors duration-500"
+          className="footer-cta-btn relative overflow-hidden group px-8 py-4 border border-background/20 bg-transparent text-background uppercase tracking-widest text-xs font-medium hover:border-accent transition-colors duration-500"
           data-cursor-interact
         >
           <span className="relative z-10">Start a Project</span>
