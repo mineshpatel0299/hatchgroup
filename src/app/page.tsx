@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/Hero";
+import AboutUs from "@/components/sections/AboutUs";
 // import VisionMissionParallax from "@/components/sections/VisionMissionParallax";
 import Philosophy from "@/components/sections/Philosophy";
 import Services from "@/components/sections/Services";
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <main className="relative bg-background w-full min-h-screen">
       <Hero />
+      <AboutUs />
       {/* <VisionMissionParallax /> */}
       <Philosophy />
       <Services />
