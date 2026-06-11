@@ -99,7 +99,7 @@ export default function Services() {
         textRefs.current.forEach((textEl) => {
            if(textEl) {
               const title = textEl.querySelector("h3");
-              if(title) SplitType.revert(title);
+              if(title) new SplitType(title).revert();
            }
         });
       };
