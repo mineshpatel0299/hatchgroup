@@ -7,6 +7,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import SplitType from "split-type";
 import clsx from "clsx";
 
+
 gsap.registerPlugin(ScrollTrigger);
 
 const SERVICES = [
@@ -108,7 +109,8 @@ export default function Services() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative bg-background w-full">
+    /* Pure cream — clean alternating section, no chandelier */
+    <section ref={containerRef} className="relative bg-background w-full overflow-hidden">
       {/* Mobile Layout: Stacking Cards */}
       <div className="md:hidden flex flex-col w-full px-4 py-20 gap-12">
         {SERVICES.map((service, index) => (

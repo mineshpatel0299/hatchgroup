@@ -1,115 +1,127 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Image from "next/image";
 import Floating, { FloatingElement } from "@/components/ui/parallax-floating";
 import { motion } from "motion/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const exampleImages = [
-  {
-    url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop", // Luxury mansion
-  },
-  {
-    url: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop", // Modern interior
-  },
-  {
-    url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop", // Luxury modern house
-  },
-  {
-    url: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=2070&auto=format&fit=crop", // Premium living room
-  },
-  {
-    url: "https://images.unsplash.com/photo-1613490908676-e633d4da3d61?q=80&w=2070&auto=format&fit=crop", // Luxury dining room
-  },
-  {
-    url: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=2070&auto=format&fit=crop", // Modern bedroom
-  },
-  {
-    url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop", // Luxury architecture
-  },
-  {
-    url: "https://images.unsplash.com/photo-1600573472591-ee6981cf35b6?q=80&w=2070&auto=format&fit=crop", // Minimalist interior
-  },
+const IMGS = [
+  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1613490908676-e633d4da3d61?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600573472591-ee6981cf35b6?q=80&w=2070&auto=format&fit=crop",
 ];
 
-const VisionMissionParallax = () => {
+export default function VisionMissionParallax() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const heroImageRef = useRef<HTMLDivElement>(null);
-  const heroImageInnerRef = useRef<HTMLImageElement>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const heroImgRef = useRef<HTMLImageElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
-  const parallaxContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    let ctx = gsap.context(() => {
+    // Hero image starts off-screen below
+    gsap.set(heroRef.current, { y: "100vh" });
+
+    const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=400%", // 4 screens of scrolling
+          end: "+=650%",
           pin: true,
           scrub: 1,
+          invalidateOnRefresh: true,
         },
       });
 
-      // Phase 1: Scroll parallax up for the floating images
-      // We will select all images inside the floating container except the hero one
+      // Phase 1 (0→3): Parallax image field scrolls upward
       tl.to(
-        ".parallax-item",
+        parallaxRef.current,
         {
-          y: (i) => -800 - i * 200, // Move up at different speeds
-          opacity: 0,
+          y: () => -window.innerHeight * 2,
           ease: "none",
+          duration: 3,
         },
         0
       );
 
-      // Phase 2: Expand the hero image
+      // Fade "Our Work" text the moment the card starts rising
       tl.to(
-        heroImageRef.current,
+        textRef.current,
+        {
+          opacity: 0,
+          y: -20,
+          ease: "power2.in",
+          duration: 0.4,
+        },
+        2.0
+      );
+
+      // Phase 2 (2.0→2.8): Hero card rises from bottom — linear, no deceleration
+      tl.to(
+        heroRef.current,
+        {
+          y: 0,
+          ease: "none",
+          duration: 0.8,
+        },
+        2.0
+      );
+
+      // Phase 3 (2.4→4.4): Expansion starts while card is still rising — one fluid motion
+      tl.to(
+        heroRef.current,
         {
           width: "100vw",
           height: "100vh",
-          y: 0, // ensure it's centered
           borderRadius: "0px",
           ease: "power2.inOut",
+          duration: 2.0,
         },
-        "<=0.2"
+        2.4
       );
 
-      // Darken the hero image slightly to make text readable
       tl.to(
-        heroImageInnerRef.current,
+        heroImgRef.current,
         {
-          filter: "brightness(0.4)",
+          filter: "brightness(0.45)",
           ease: "none",
+          duration: 2.0,
         },
-        "<"
+        2.4
       );
 
-      // Phase 3: Show the slider and slide horizontally
+      // Phase 4 (4.5→4.7): Slider fades in over the expanded image
       tl.to(
         sliderRef.current,
         {
           opacity: 1,
           ease: "none",
-          duration: 0.1,
+          duration: 0.2,
         },
-        ">"
+        4.5
       );
 
+      // Phase 5 (4.5→6.0): Slider pans from Vision to Mission
       tl.to(
-        ".slider-content",
+        ".vm-slider-content",
         {
-          xPercent: -100, // Slide to the second panel (Mission)
+          xPercent: -50,
           ease: "none",
+          duration: 1.5,
         },
-        ">"
+        4.5
       );
     }, containerRef);
 
@@ -117,111 +129,222 @@ const VisionMissionParallax = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full h-screen bg-black overflow-hidden">
-      {/* Background Floating Elements (Interactive with mouse) */}
-      <div ref={parallaxContainerRef} className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-        <Floating sensitivity={-1} className="overflow-hidden">
-          <FloatingElement depth={0.5} className="top-[10%] left-[10%] parallax-item">
+    <div
+      ref={containerRef}
+      className="relative w-full h-screen overflow-hidden"
+      style={{ backgroundColor: "#F4EFE6" }}
+    >
+      {/* ── Parallax image field (300vh tall, scrolls up) ── */}
+      <div
+        ref={parallaxRef}
+        className="absolute top-0 left-0 w-full h-[300vh] z-0 pointer-events-none"
+      >
+        <Floating sensitivity={-0.6} className="w-full h-full overflow-hidden">
+
+          {/* ── First viewport images ── */}
+
+          {/* Large left image — pulled in from edge */}
+          <FloatingElement depth={0.4} className="top-[1%] left-[2%]">
             <motion.img
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              src={exampleImages[0].url}
-              className="w-24 h-24 md:w-36 md:h-36 object-cover rounded-xl"
+              animate={{ opacity: 0.88 }}
+              transition={{ duration: 1.2 }}
+              src={IMGS[0]}
+              className="w-40 h-[380px] md:w-[200px] md:h-[450px] object-cover rounded-xl"
             />
           </FloatingElement>
-          <FloatingElement depth={1} className="top-[20%] left-[80%] parallax-item">
+
+          {/* Top-center-right tall image (slightly behind title area) */}
+          <FloatingElement depth={0.55} className="top-[6%] left-[36%]">
             <motion.img
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              src={exampleImages[1].url}
-              className="w-32 h-40 md:w-48 md:h-64 object-cover rounded-xl"
+              animate={{ opacity: 0.72 }}
+              transition={{ duration: 1.2, delay: 0.1 }}
+              src={IMGS[2]}
+              className="w-44 h-[300px] md:w-[210px] md:h-[340px] object-cover rounded-xl"
             />
           </FloatingElement>
-          <FloatingElement depth={2} className="top-[60%] left-[5%] parallax-item">
+
+          {/* Top-right image */}
+          <FloatingElement depth={0.8} className="top-[4%] right-[4%]">
             <motion.img
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              src={exampleImages[3].url}
-              className="w-40 h-32 md:w-56 md:h-48 object-cover rounded-xl"
+              animate={{ opacity: 0.9 }}
+              transition={{ duration: 1.2, delay: 0.08 }}
+              src={IMGS[1]}
+              className="w-48 h-56 md:w-[240px] md:h-[260px] object-cover rounded-xl"
             />
           </FloatingElement>
-          <FloatingElement depth={1.5} className="top-[70%] left-[75%] parallax-item">
+
+          {/* Center-left small */}
+          <FloatingElement depth={1.0} className="top-[30%] left-[6%]">
             <motion.img
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              src={exampleImages[4].url}
-              className="w-28 h-28 md:w-40 md:h-40 object-cover rounded-xl"
+              animate={{ opacity: 0.55 }}
+              transition={{ duration: 1.2, delay: 0.2 }}
+              src={IMGS[3]}
+              className="w-28 h-36 md:w-36 md:h-44 object-cover rounded-xl"
             />
           </FloatingElement>
-          <FloatingElement depth={0.8} className="top-[5%] left-[50%] parallax-item">
+
+          {/* Right-center ghost/faded — partially off right edge */}
+          <FloatingElement depth={1.2} className="top-[40%] right-[-1%]">
             <motion.img
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              src={exampleImages[5].url}
-              className="w-20 h-20 md:w-32 md:h-32 object-cover rounded-xl"
+              animate={{ opacity: 0.38 }}
+              transition={{ duration: 1.2, delay: 0.25 }}
+              src={IMGS[4]}
+              className="w-28 h-40 md:w-36 md:h-52 object-cover rounded-xl"
             />
           </FloatingElement>
+
+          {/* Bottom-left — starts just below fold */}
+          <FloatingElement depth={0.65} className="top-[58%] left-[3%]">
+            <motion.img
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.82 }}
+              transition={{ duration: 1 }}
+              src={IMGS[6]}
+              className="w-44 h-64 md:w-56 md:h-80 object-cover rounded-xl"
+            />
+          </FloatingElement>
+
+          {/* Bottom-center */}
+          <FloatingElement depth={1.1} className="top-[63%] left-[38%]">
+            <motion.img
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.7 }}
+              transition={{ duration: 1 }}
+              src={IMGS[5]}
+              className="w-56 h-40 md:w-72 md:h-48 object-cover rounded-xl"
+            />
+          </FloatingElement>
+
+          {/* Bottom-right */}
+          <FloatingElement depth={0.75} className="top-[65%] right-[4%]">
+            <motion.img
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.65 }}
+              transition={{ duration: 1 }}
+              src={IMGS[7]}
+              className="w-40 h-28 md:w-56 md:h-36 object-cover rounded-xl"
+            />
+          </FloatingElement>
+
         </Floating>
       </div>
 
-      {/* Center Hero Image that will expand */}
-      <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+      {/* ── "Our Work" centered title ── */}
+      <div
+        ref={textRef}
+        className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none"
+      >
+        <p
+          className="text-[9px] tracking-[0.55em] uppercase font-medium mb-7"
+          style={{ color: "#9A8570" }}
+        >
+          Selected Portfolio
+        </p>
+
+        <h2
+          className="font-calendas italic text-center leading-none"
+          style={{
+            fontSize: "clamp(5.5rem, 11vw, 10rem)",
+            color: "#1A1815",
+          }}
+        >
+          Our
+          <br />
+          Work
+        </h2>
+
+        <div className="flex items-center gap-4 mt-9">
+          <div className="h-px" style={{ width: 50, backgroundColor: "#C4A97D" }} />
+          <svg width="6" height="6" viewBox="0 0 6 6" fill="none">
+            <circle cx="3" cy="3" r="2.5" fill="#C4A97D" />
+          </svg>
+          <div className="h-px" style={{ width: 50, backgroundColor: "#C4A97D" }} />
+        </div>
+      </div>
+
+      {/* ── Hero image — rises from bottom, then expands fullscreen ── */}
+      <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
         <div
-          ref={heroImageRef}
-          className="relative w-64 h-80 md:w-96 md:h-[30rem] rounded-2xl overflow-hidden shadow-2xl will-change-transform"
+          ref={heroRef}
+          className="relative overflow-hidden shadow-2xl will-change-transform"
+          style={{
+            width: "22rem",
+            height: "28rem",
+            borderRadius: "1rem",
+          }}
         >
           <img
-            ref={heroImageInnerRef}
-            src={exampleImages[2].url}
-            alt="Luxury architecture"
-            className="w-full h-full object-cover transition-all duration-300"
+            ref={heroImgRef}
+            src={IMGS[2]}
+            alt="Our Work"
+            className="w-full h-full object-cover"
           />
         </div>
       </div>
 
-      {/* Horizontal Slider for Vision & Mission */}
+      {/* ── Vision / Mission slider — appears over expanded image ── */}
       <div
         ref={sliderRef}
-        className="absolute inset-0 z-20 opacity-0 pointer-events-none flex"
+        className="absolute inset-0 z-30 opacity-0 overflow-hidden pointer-events-none"
       >
-        <div className="flex w-[200vw] h-full slider-content will-change-transform">
-          {/* Vision Panel */}
-          <div className="w-[100vw] h-full flex flex-col items-center justify-center text-white px-6 md:px-20">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="max-w-4xl text-center space-y-6"
+        {/* Track is 200vw wide; pans left by 50% (=100vw) to reveal Mission */}
+        <div className="vm-slider-content flex w-[200vw] h-full will-change-transform">
+
+          {/* Vision */}
+          <div className="w-screen h-full flex flex-col items-center justify-center px-6 md:px-20 text-white">
+            <p className="text-[9px] tracking-[0.55em] uppercase font-medium mb-8 text-white/50">
+              Our Vision
+            </p>
+            <h2
+              className="font-calendas italic text-center leading-none"
+              style={{ fontSize: "clamp(4rem, 9vw, 8rem)" }}
             >
-              <h2 className="text-5xl md:text-8xl font-calendas italic font-light tracking-tight">
-                Our Vision
-              </h2>
-              <p className="text-lg md:text-2xl font-light text-white/80 leading-relaxed max-w-2xl mx-auto">
-                To redefine luxury living through exceptional design, creating spaces that inspire and elevate the human experience on a global scale.
-              </p>
-            </motion.div>
+              Vision
+            </h2>
+            <div className="flex items-center gap-4 mt-8 mb-8">
+              <div className="h-px" style={{ width: 50, backgroundColor: "#C4A97D" }} />
+              <svg width="6" height="6" viewBox="0 0 6 6" fill="none">
+                <circle cx="3" cy="3" r="2.5" fill="#C4A97D" />
+              </svg>
+              <div className="h-px" style={{ width: 50, backgroundColor: "#C4A97D" }} />
+            </div>
+            <p className="text-base md:text-xl font-light text-white/70 leading-relaxed max-w-xl text-center">
+              To redefine luxury living through exceptional design, creating spaces that inspire
+              and elevate the human experience on a global scale.
+            </p>
           </div>
 
-          {/* Mission Panel */}
-          <div className="w-[100vw] h-full flex flex-col items-center justify-center text-white px-6 md:px-20">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="max-w-4xl text-center space-y-6"
+          {/* Mission */}
+          <div className="w-screen h-full flex flex-col items-center justify-center px-6 md:px-20 text-white">
+            <p className="text-[9px] tracking-[0.55em] uppercase font-medium mb-8 text-white/50">
+              Our Mission
+            </p>
+            <h2
+              className="font-calendas italic text-center leading-none"
+              style={{ fontSize: "clamp(4rem, 9vw, 8rem)" }}
             >
-              <h2 className="text-5xl md:text-8xl font-calendas italic font-light tracking-tight">
-                Our Mission
-              </h2>
-              <p className="text-lg md:text-2xl font-light text-white/80 leading-relaxed max-w-2xl mx-auto">
-                Crafting unparalleled architectural masterpieces that seamlessly blend innovation, sustainability, and timeless elegance, delivering lasting value to our clients.
-              </p>
-            </motion.div>
+              Mission
+            </h2>
+            <div className="flex items-center gap-4 mt-8 mb-8">
+              <div className="h-px" style={{ width: 50, backgroundColor: "#C4A97D" }} />
+              <svg width="6" height="6" viewBox="0 0 6 6" fill="none">
+                <circle cx="3" cy="3" r="2.5" fill="#C4A97D" />
+              </svg>
+              <div className="h-px" style={{ width: 50, backgroundColor: "#C4A97D" }} />
+            </div>
+            <p className="text-base md:text-xl font-light text-white/70 leading-relaxed max-w-xl text-center">
+              Crafting unparalleled architectural masterpieces that seamlessly blend innovation,
+              sustainability, and timeless elegance — delivering lasting value to our clients.
+            </p>
           </div>
+
         </div>
       </div>
     </div>
   );
-};
-
-export default VisionMissionParallax;
+}

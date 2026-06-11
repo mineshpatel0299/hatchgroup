@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import SplitType from "split-type";
+import { LuxuryBackground } from "@/components/ui/luxury-background";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -106,11 +107,14 @@ export default function FeaturedProject() {
   }, []);
 
   return (
+    /* Warm gold gradient — alternating section WITH chandelier */
     <section 
       ref={sectionRef} 
-      className="relative w-full bg-background pt-24 pb-32 lg:py-0 lg:min-h-[120vh] flex items-center overflow-hidden"
+      className="relative w-full pt-24 pb-32 lg:py-0 lg:min-h-[120vh] flex items-center overflow-hidden"
+      style={{ background: "linear-gradient(150deg, #F5E8D9 0%, #EDD9C0 45%, #E8D0B0 100%)" }}
     >
-      <div className="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-12 relative lg:h-[80vh] flex flex-col lg:block">
+      <LuxuryBackground />
+      <div className="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-12 relative lg:h-[80vh] flex flex-col lg:block z-10">
         
         {/* Image Block */}
         <div 
@@ -124,13 +128,13 @@ export default function FeaturedProject() {
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-foreground/10" />
+          <div className="absolute inset-0 bg-foreground/30 mix-blend-overlay" />
         </div>
 
         {/* Text Block */}
         <div 
           ref={textBlockRef}
-          className="relative z-10 w-[90%] sm:w-[80%] lg:w-[45%] mx-auto lg:mx-0 lg:absolute lg:left-0 lg:top-[15%] bg-background/90 backdrop-blur-xl p-8 sm:p-12 lg:p-16 border border-foreground/5 -mt-20 lg:mt-0 shadow-2xl"
+          className="relative z-10 w-[90%] sm:w-[80%] lg:w-[45%] mx-auto lg:mx-0 lg:absolute lg:left-0 lg:top-[15%] bg-background/90 backdrop-blur-xl p-8 sm:p-12 lg:p-16 border border-accent/30 -mt-20 lg:mt-0 shadow-2xl shadow-accent/10"
         >
           <span className="text-accent font-mono text-sm tracking-widest uppercase mb-6 block">
             Featured Residence
