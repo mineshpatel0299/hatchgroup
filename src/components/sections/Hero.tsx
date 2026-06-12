@@ -51,10 +51,11 @@ function GoldRule({ className = "" }: { className?: string }) {
 }
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const videoRef   = useRef<HTMLVideoElement>(null);
-  const rafRef     = useRef<number | null>(null);
-  const targetRef  = useRef<number>(0);
+  const sectionRef  = useRef<HTMLElement>(null);
+  const videoRef    = useRef<HTMLVideoElement>(null);
+  const rafRef      = useRef<number | null>(null);
+  const targetRef   = useRef<number>(0);
+  const unlockedRef = useRef(false);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -62,6 +63,27 @@ export default function Hero() {
   });
 
   const videoWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  // iOS Safari blocks currentTime until play() has been called once.
+  // On loadedmetadata, silently play→pause to unlock seeking.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const unlock = () => {
+      if (unlockedRef.current) return;
+      video.play()
+        .then(() => { video.pause(); video.currentTime = 0; unlockedRef.current = true; })
+        .catch(() => {});
+    };
+    video.addEventListener("loadedmetadata", unlock, { once: true });
+    // Fallback: unlock on first user touch as well
+    const onTouch = () => { unlock(); document.removeEventListener("touchstart", onTouch); };
+    document.addEventListener("touchstart", onTouch, { passive: true });
+    return () => {
+      video.removeEventListener("loadedmetadata", unlock);
+      document.removeEventListener("touchstart", onTouch);
+    };
+  }, []);
 
   // Scrub video — throttled to one seek per animation frame
   useEffect(() => {
@@ -85,8 +107,9 @@ export default function Hero() {
   }, [scrollYProgress]);
 
   return (
-    <section ref={sectionRef} className="relative" style={{ height: "400vh" }}>
-      <div className="sticky top-0 h-screen overflow-hidden bg-black">
+    // Use svh so iOS address bar doesn't overflow the sticky viewport
+    <section ref={sectionRef} className="relative" style={{ height: "400svh" }}>
+      <div className="sticky top-0 overflow-hidden bg-black" style={{ height: "100svh" }}>
 
         {/* ── Video ── */}
         <video
@@ -96,6 +119,7 @@ export default function Hero() {
           preload="auto"
           muted
           playsInline
+          {...{ "webkit-playsinline": "true" }}
         />
 
         {/* Cinematic dark vignette */}
