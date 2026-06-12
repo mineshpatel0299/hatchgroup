@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { Marcellus, Jost } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
 import CustomCursor from "@/components/CustomCursor";
 import Nav from "@/components/Nav";
 
-const cormorant = Cormorant_Garamond({
-  weight: ["300", "400", "500", "600", "700"],
+const marcellus = Marcellus({
+  weight: "400",
   subsets: ["latin"],
-  variable: "--font-cormorant",
+  variable: "--font-marcellus",
 });
 
-const dmSans = DM_Sans({
-  weight: ["400", "500", "700"],
+const jost = Jost({
+  weight: ["300", "400", "500", "600"],
   subsets: ["latin"],
-  variable: "--font-dm-sans",
+  variable: "--font-jost",
 });
 
 export const metadata: Metadata = {
@@ -28,8 +28,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
-      <body className="antialiased font-sans text-foreground bg-background cursor-none">
+    <html lang="en" className={`${marcellus.variable} ${jost.variable}`}>
+      {/* suppressHydrationWarning: browser extensions (e.g. Grammarly) inject
+          attributes into <body> before hydration, causing false mismatches */}
+      <body suppressHydrationWarning className="antialiased font-sans text-foreground bg-background cursor-none">
         <LenisProvider>
           <CustomCursor />
           <Nav />

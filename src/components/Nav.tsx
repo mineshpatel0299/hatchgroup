@@ -13,23 +13,17 @@ const links = [
 
 export default function Nav() {
   const [scrolled, setScrolled]   = useState(false);
-  const [overDark, setOverDark]   = useState(true);
   const [menuOpen, setMenuOpen]   = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      // Hero outer section is 400vh; sticky video is visible for the first ~3 viewports of scroll
-      const heroVideoEnd = window.innerHeight * 3;
-      setScrolled(y > 60);
-      setOverDark(y < heroVideoEnd);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 60);
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const light = overDark;   // shorthand — true while over dark video
+  // Entire site sits on a light porcelain canvas — nav always uses dark-ink treatment
+  const light = false;
 
   return (
     <>

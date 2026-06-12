@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #E9D3C0;
-  --foreground: #00251F;
-  --accent: #DF9B4D;
-  --emerald: #004737;
+  --background: #F7F2E9;   /* warm porcelain */
+  --foreground: #1C2420;   /* deep ink emerald */
+  --accent: #A98C5F;       /* antique gold */
+  --emerald: #0E3B2E;
+  --ivory: #FFFDF4;        /* true ivory — used sparingly */
+  --champagne: #EFE3CC;
 }
 
 @theme inline {
@@ -12,8 +14,10 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --color-emerald: var(--emerald);
-  --font-display: var(--font-cormorant);
-  --font-sans: var(--font-dm-sans);
+  --color-ivory: var(--ivory);
+  --color-champagne: var(--champagne);
+  --font-display: var(--font-marcellus);
+  --font-sans: var(--font-jost);
 }
 
 body {
@@ -52,4 +56,65 @@ html.lenis, html.lenis body {
   0%, 100% { transform: scaleY(0); opacity: 0; }
   30%       { opacity: 1; }
   70%       { transform: scaleY(1); opacity: 0.4; }
+}
+
+/* ── Light Luxe utilities ───────────────────────────── */
+
+/* Antique-gold gradient text — deep enough to read on light canvases */
+.luxe-gradient-text {
+  background: linear-gradient(115deg, #8C6F3F 0%, #C2A878 40%, #8C6F3F 70%, #C2A878 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: luxe-shimmer 8s ease-in-out infinite;
+}
+
+@keyframes luxe-shimmer {
+  0%, 100% { background-position: 0% center; }
+  50%      { background-position: 100% center; }
+}
+
+/* Ivory canvas: ivory melting into soft gold */
+.luxe-canvas {
+  background:
+    radial-gradient(ellipse 65% 45% at 85% -5%, rgba(199,164,106,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 40% at 5% 105%, rgba(222,196,142,0.28) 0%, transparent 60%),
+    linear-gradient(168deg, #FFFDF4 0%, #F9F1DE 45%, #F0E2C2 100%);
+}
+
+/* Gold canvas — richer champagne-gold wash, lit by ivory from above */
+.luxe-canvas-deep {
+  background:
+    radial-gradient(ellipse 70% 50% at 15% -10%, rgba(255,253,244,0.9) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 90% 110%, rgba(186,148,88,0.3) 0%, transparent 60%),
+    linear-gradient(160deg, #F8EFD9 0%, #F0DFB9 55%, #E7CF9E 100%);
+}
+
+/* Very subtle film grain for texture on light backgrounds */
+.luxe-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Hairline gold rule with faded ends */
+.luxe-rule {
+  background: linear-gradient(to right, transparent, rgba(169,140,95,0.5) 30%, rgba(169,140,95,0.5) 70%, transparent);
+}
+
+/* Slow ambient drift for glow washes */
+@keyframes luxe-float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(2%, -3%, 0) scale(1.05); }
+}
+
+/* Infinite press marquee */
+@keyframes luxe-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.luxe-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: luxe-marquee 36s linear infinite;
 }

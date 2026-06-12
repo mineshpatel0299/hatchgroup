@@ -2,13 +2,21 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { LuxuryBackground } from "@/components/ui/luxury-background";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "motion/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const STATS = [
   { label: "Years of Excellence", value: 15, suffix: "+" },
   { label: "Completed Projects", value: 240, suffix: "" },
   { label: "Design Awards", value: 38, suffix: "" },
   { label: "Global Locations", value: 4, suffix: "" },
+];
+
+const PRESS = [
+  "Architectural Digest", "Elle Decor", "AD India", "Vogue Living",
+  "Design Pataki", "Condé Nast Traveller",
 ];
 
 export default function SocialProof() {
@@ -24,11 +32,11 @@ export default function SocialProof() {
       const obj = { val: 0 };
       gsap.to(obj, {
         val: targetValue,
-        duration: 1.5,
+        duration: 1.8,
         ease: "power2.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%",
+          start: "top 75%",
           once: true,
         },
         onUpdate: () => {
@@ -39,57 +47,100 @@ export default function SocialProof() {
   }, []);
 
   return (
-    /* Warm cream — alternating section WITH chandelier */
-    <section
-      ref={sectionRef}
-      className="relative py-40 overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #F5E8D9 0%, #EDD9C0 50%, #F0DFC8 100%)" }}
-    >
-      <LuxuryBackground />
+    <section ref={sectionRef} className="relative py-28 md:py-40 overflow-hidden luxe-canvas">
+      <div className="absolute inset-0 pointer-events-none luxe-grain" />
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "-18%", right: "-10%", width: "46vw", height: "46vw",
+          background: "radial-gradient(ellipse at center, rgba(214,189,148,0.3) 0%, transparent 60%)",
+          animation: "luxe-float 16s ease-in-out infinite",
+        }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-        {/* Mobile eyebrow */}
-        <div className="flex flex-col items-center mb-12 md:hidden">
-          <span className="text-[8px] tracking-[0.55em] uppercase text-accent/60 font-sans mb-3">Legacy of Excellence</span>
-          <div className="flex items-center gap-3 w-16">
-            <div className="flex-1 h-px bg-accent/30" />
-            <div className="w-1 h-1 rounded-full bg-accent/50" />
-            <div className="flex-1 h-px bg-accent/30" />
+      <div className="relative z-10">
+
+        {/* ── Press marquee ── */}
+        <div className="relative mb-20 md:mb-28 py-6 border-y border-foreground/10 overflow-hidden">
+          {/* Edge fades */}
+          <div className="absolute inset-y-0 left-0 w-24 md:w-48 z-10 bg-gradient-to-r from-background to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 md:w-48 z-10 bg-gradient-to-l from-background to-transparent pointer-events-none" />
+
+          <div className="luxe-marquee-track">
+            {[...PRESS, ...PRESS].map((name, i) => (
+              <span key={i} className="flex items-center shrink-0">
+                <span className="font-display font-light text-foreground/35 text-2xl md:text-4xl whitespace-nowrap px-8 md:px-14">
+                  {name}
+                </span>
+                <span className="w-1.5 h-1.5 rotate-45 border border-accent/50 shrink-0" />
+              </span>
+            ))}
           </div>
         </div>
 
-        {/* Stats grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 md:gap-8 text-center mb-16 md:mb-20">
-          {STATS.map((stat, i) => (
-            <div key={i} className="flex flex-col items-center justify-center">
-              {/* Thin gold top rule */}
-              <div className="w-6 h-px bg-accent/30 mb-4 md:mb-5" />
-              <div className="font-display leading-none text-accent mb-3 flex items-baseline" style={{ fontSize: "clamp(3rem, 12vw, 6.25rem)" }}>
-                <span ref={(el) => { countersRef.current[i] = el; }}>0</span>
-                <span>{stat.suffix}</span>
-              </div>
-              <span className="font-sans text-[9px] md:text-xs tracking-[0.3em] md:tracking-widest text-foreground/50 uppercase leading-relaxed">
-                {stat.label}
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+
+          {/* ── Stats ── */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12 md:gap-8 text-center mb-20 md:mb-28">
+            {STATS.map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.9, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col items-center justify-center group"
+              >
+                <div
+                  className="font-display font-light leading-none mb-4 flex items-baseline luxe-gradient-text"
+                  style={{ fontSize: "clamp(3rem, 11vw, 6rem)" }}
+                >
+                  <span ref={(el) => { countersRef.current[i] = el; }}>0</span>
+                  <span>{stat.suffix}</span>
+                </div>
+                <div className="w-6 h-px bg-accent/40 mb-4 group-hover:w-12 transition-all duration-700" />
+                <span className="font-sans text-[9px] md:text-xs tracking-[0.3em] md:tracking-widest text-foreground/45 uppercase leading-relaxed">
+                  {stat.label}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* ── Testimonial on ivory plate ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            className="relative max-w-4xl mx-auto bg-ivory px-8 py-12 md:px-20 md:py-16 text-center shadow-[0_50px_100px_-50px_rgba(28,36,32,0.35)]"
+          >
+            {/* Gold corner ticks */}
+            <div className="absolute top-4 left-4 w-5 h-5 border-t border-l border-accent/50" />
+            <div className="absolute bottom-4 right-4 w-5 h-5 border-b border-r border-accent/50" />
+
+            <span
+              aria-hidden="true"
+              className="absolute -top-10 left-1/2 -translate-x-1/2 font-display text-accent/20 select-none leading-none pointer-events-none"
+              style={{ fontSize: "7rem" }}
+            >
+              &ldquo;
+            </span>
+
+            <p className="font-display font-light text-xl sm:text-2xl md:text-[2rem] text-foreground/80 leading-[1.6] mb-8">
+              Hatch Group doesn&apos;t just design spaces; they orchestrate atmospheres
+              that breathe life into the architecture. A truly visionary approach to
+              modern luxury.
+            </p>
+            <div className="flex items-center justify-center gap-4">
+              <div className="w-8 h-px bg-accent/40" />
+              <span className="text-accent tracking-[0.35em] uppercase text-[10px] md:text-xs font-medium font-sans">
+                Architectural Digest
               </span>
+              <div className="w-8 h-px bg-accent/40" />
             </div>
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div className="w-16 h-px bg-accent mx-auto mb-14 md:mb-20 opacity-60" />
-
-        {/* Testimonial */}
-        <div className="max-w-4xl mx-auto text-center px-2 md:px-0">
-          <span className="block text-[8px] tracking-[0.5em] uppercase text-accent/50 font-sans mb-6 md:hidden">Featured Review</span>
-          <p className="font-display text-xl sm:text-2xl md:text-4xl text-foreground/80 leading-[1.6] md:leading-relaxed mb-6 md:mb-8 italic">
-            &ldquo;Hatch Group doesn&apos;t just design spaces; they orchestrate atmospheres that breathe life into the architecture. A truly visionary approach to modern luxury.&rdquo;
-          </p>
-          <span className="text-accent tracking-[0.3em] uppercase text-[10px] md:text-xs font-medium font-sans">
-            — Architectural Digest
-          </span>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 }
-
