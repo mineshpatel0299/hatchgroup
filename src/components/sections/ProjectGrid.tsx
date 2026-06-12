@@ -52,7 +52,8 @@ function MobileLookbook() {
       if (!container) return;
       const cards = Array.from(container.children) as HTMLElement[];
       const next = (activeRef.current + 1) % cards.length;
-      cards[next].scrollIntoView({ behavior: "smooth", block: "nearest" });
+      // scrollTo on the container only — scrollIntoView would hijack the page scroll too
+      container.scrollTo({ top: (cards[next] as HTMLElement).offsetTop, behavior: "smooth" });
     }, 3500);
   };
 
