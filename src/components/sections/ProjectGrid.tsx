@@ -68,11 +68,12 @@ function MobileLookbook() {
       <div
         ref={containerRef}
         onScroll={scheduleNext}
-        className="overflow-y-auto snap-y snap-mandatory flex flex-col gap-3 px-4 py-3"
+        className="overflow-y-auto snap-y snap-mandatory"
         style={{ height: "82vh", scrollbarWidth: "none" }}
       >
         {PROJECTS.map((p, i) => (
-          <div key={p.id} className="snap-start shrink-0 h-full relative overflow-hidden rounded-t-[2.5rem] rounded-b-2xl shadow-[0_24px_50px_-20px_rgba(140,111,63,0.45)]">
+          <div key={p.id} className="snap-start h-full p-3">
+          <div className="relative w-full h-full overflow-hidden rounded-t-[2.5rem] rounded-b-2xl shadow-[0_24px_50px_-20px_rgba(140,111,63,0.45)]">
             <Image src={p.image} alt={p.title} fill className="object-cover" sizes="100vw" />
 
             {/* Scrims */}
@@ -119,6 +120,7 @@ function MobileLookbook() {
                 <span className="text-white text-[7px] tracking-[0.4em] uppercase" style={{ writingMode: "vertical-rl" }}>swipe</span>
               </div>
             )}
+          </div>
           </div>
         ))}
       </div>
@@ -260,7 +262,7 @@ export default function ProjectGrid() {
             style={{ x: px, y: py }}
             className="absolute top-0 left-0 z-20 pointer-events-none"
           >
-            <div className="absolute -translate-x-1/2 -translate-y-[110%] w-[19vw] aspect-[3/4]">
+            <div className="absolute -translate-x-1/2 translate-y-[-110%] w-[19vw] aspect-3/4">
               <AnimatePresence>
                 {active !== null && (
                   <motion.div
