@@ -1,138 +1,288 @@
 "use client";
 
-import { useRef } from "react";
-import Image from "next/image";
-import { motion, useScroll, useTransform } from "motion/react";
-import Floating, { FloatingElement } from "@/components/ui/parallax-floating";
+import { useRef, useEffect } from "react";
+import { motion, useScroll, useTransform, MotionValue } from "motion/react";
 
-const FLOATERS = [
-  { src: "/images/residential-thumb.png",  className: "top-[12%] left-[4%] w-[26vw] sm:w-[18vw] md:w-[15vw] aspect-[3/4]",            depth: 0.6, arch: true,  delay: 0.4 },
-  { src: "/images/hospitality-thumb.png",  className: "top-[6%] right-[6%] w-[30vw] sm:w-[22vw] md:w-[17vw] aspect-[4/5]",            depth: 1,   arch: false, delay: 0.55 },
-  { src: "/images/commercial-thumb.png",   className: "bottom-[14%] left-[8%] w-[28vw] sm:w-[20vw] md:w-[14vw] aspect-[4/5]",         depth: 1.4, arch: false, delay: 0.7 },
-  { src: "/images/turnkey-thumb.png",      className: "bottom-[8%] right-[10%] w-[24vw] sm:w-[18vw] md:w-[13vw] aspect-[3/4]",        depth: 0.8, arch: true,  delay: 0.85 },
-  { src: "/images/featured-project.png",   className: "top-[40%] right-[26%] hidden lg:block w-[9vw] aspect-square",                  depth: 2,   arch: false, delay: 1 },
-];
+// ─── Scroll-timed text overlay ──────────────────────────────────────────────
+// Each overlay fades up in, holds, then drifts up out — all driven by scroll.
+function Overlay({
+  progress,
+  inStart, inEnd, outStart, outEnd,
+  children,
+  className = "",
+}: {
+  progress: MotionValue<number>;
+  inStart: number; inEnd: number;
+  outStart: number; outEnd: number;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const opacity = useTransform(
+    progress,
+    [inStart, inEnd, outStart, outEnd],
+    [0, 1, 1, 0]
+  );
+  const y = useTransform(
+    progress,
+    [inStart, inEnd, outStart, outEnd],
+    [28, 0, 0, -22]
+  );
+  return (
+    <motion.div
+      style={{ opacity, y }}
+      className={`absolute pointer-events-none ${className}`}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ─── Gold hairline rule ──────────────────────────────────────────────────────
+function GoldRule({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`h-px ${className}`}
+      style={{
+        background:
+          "linear-gradient(to right, transparent, rgba(169,140,95,0.7) 30%, rgba(214,189,148,0.9) 50%, rgba(169,140,95,0.7) 70%, transparent)",
+      }}
+    />
+  );
+}
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const videoRef   = useRef<HTMLVideoElement>(null);
+  const rafRef     = useRef<number | null>(null);
+  const targetRef  = useRef<number>(0);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start start", "end start"],
+    offset: ["start start", "end end"],
   });
 
-  // Content drifts up & fades, imagery sinks slower — layered parallax exit
-  const contentY  = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const contentO  = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const floatersY = useTransform(scrollYProgress, [0, 1], [0, 90]);
-  const floatersO = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const videoWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  // Scrub video — throttled to one seek per animation frame
+  useEffect(() => {
+    const unsub = scrollYProgress.on("change", (latest) => {
+      const video = videoRef.current;
+      if (!video || !video.duration) return;
+      targetRef.current = latest * video.duration;
+      if (rafRef.current !== null) return;
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
+        const v = videoRef.current;
+        if (!v) return;
+        if (Math.abs(v.currentTime - targetRef.current) < 0.016) return;
+        v.currentTime = targetRef.current;
+      });
+    });
+    return () => {
+      unsub();
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, [scrollYProgress]);
 
   return (
-    <section ref={sectionRef} className="relative h-screen overflow-hidden luxe-canvas">
-      {/* Ambient champagne washes */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          top: "-20%", left: "30%", width: "55vw", height: "55vw",
-          background: "radial-gradient(ellipse at center, rgba(214,189,148,0.35) 0%, transparent 62%)",
-          animation: "luxe-float 16s ease-in-out infinite",
-        }}
-      />
-      <div className="absolute inset-0 pointer-events-none luxe-grain" />
+    <section ref={sectionRef} className="relative" style={{ height: "400vh" }}>
+      <div className="sticky top-0 h-screen overflow-hidden bg-black">
 
-      {/* Mouse-parallax floating imagery */}
-      <motion.div style={{ y: floatersY, opacity: floatersO }} className="absolute inset-0">
-        <Floating sensitivity={-0.8} className="pointer-events-none">
-          {FLOATERS.map((f, i) => (
-            <FloatingElement key={i} depth={f.depth} className={f.className}>
-              <motion.div
-                initial={{ opacity: 0, y: 40, scale: 0.94 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 1.4, delay: f.delay, ease: [0.16, 1, 0.3, 1] }}
-                className={`relative w-full h-full overflow-hidden shadow-[0_30px_60px_-20px_rgba(28,36,32,0.25)] ${
-                  f.arch ? "rounded-t-full" : "rounded-sm"
-                }`}
-              >
-                <Image src={f.src} alt="" fill className="object-cover" sizes="30vw" />
-                {/* Soft ivory veil so imagery sits back behind type */}
-                <div className="absolute inset-0 bg-ivory/15" />
-              </motion.div>
-            </FloatingElement>
-          ))}
-        </Floating>
-      </motion.div>
+        {/* ── Video ── */}
+        <video
+          ref={videoRef}
+          src="/vids/jj-scrub.mp4"
+          className="w-full h-full object-cover"
+          preload="auto"
+          muted
+          playsInline
+        />
 
-      {/* Centre editorial content */}
-      <motion.div
-        style={{ y: contentY, opacity: contentO }}
-        className="relative z-10 flex flex-col items-center justify-center h-full px-5 md:px-6 text-center"
-      >
+        {/* Cinematic dark vignette */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, transparent 40%, rgba(14,20,16,0.55) 100%)",
+          }}
+        />
+        {/* Bottom scrim so text never fights the video */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-48 pointer-events-none"
+          style={{
+            background: "linear-gradient(to top, rgba(14,20,16,0.7) 0%, transparent 100%)",
+          }}
+        />
+        {/* Top scrim */}
+        <div
+          className="absolute inset-x-0 top-0 h-32 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, rgba(14,20,16,0.4) 0%, transparent 100%)",
+          }}
+        />
+
+        {/* ══════════════════════════════════════════════════════════════════
+            TEXT OVERLAYS — timed to scroll progress
+        ══════════════════════════════════════════════════════════════════ */}
+
+        {/* ── 1. Opening statement (scroll 0 → 0.22) ── */}
+        <Overlay
+          progress={scrollYProgress}
+          inStart={0} inEnd={0.07} outStart={0.16} outEnd={0.22}
+          className="inset-0 flex flex-col items-center justify-center px-6 text-center z-10"
+        >
+          {/* Small label with gold rules */}
+          <div className="flex items-center gap-5 mb-8">
+            <GoldRule className="w-12 md:w-20" />
+            <span
+              className="text-[#D6BD94] text-[9px] md:text-[11px] font-sans font-medium tracking-[0.55em] uppercase"
+            >
+              Interior Atelier · Est. 2014
+            </span>
+            <GoldRule className="w-12 md:w-20" />
+          </div>
+
+          {/* Hero headline */}
+          <h1
+            className="font-display font-light text-ivory leading-[1.05] mb-7"
+            style={{
+              fontSize: "clamp(2.8rem, 8.5vw, 8rem)",
+              letterSpacing: "-0.02em",
+              textShadow: "0 4px 40px rgba(0,0,0,0.5)",
+            }}
+          >
+            The Art of
+            <br />
+            <span
+              style={{
+                background:
+                  "linear-gradient(115deg, #C2A878 0%, #EFD99B 35%, #C2A878 65%, #EFD99B 100%)",
+                backgroundSize: "220% auto",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                animation: "luxe-shimmer 8s ease-in-out infinite",
+              }}
+            >
+              Believable Luxury
+            </span>
+          </h1>
+
+          <p
+            className="text-ivory/55 font-sans font-light text-[0.9rem] md:text-lg max-w-md leading-[1.85]"
+            style={{ textShadow: "0 2px 12px rgba(0,0,0,0.4)" }}
+          >
+            Cinematic aesthetics. Uncompromising material quality.
+          </p>
+
+          {/* Scroll nudge */}
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+            <span className="text-[#D6BD94]/70 text-[8px] tracking-[0.45em] uppercase font-sans">
+              Scroll
+            </span>
+            <div
+              className="w-px h-10"
+              style={{
+                background: "linear-gradient(to bottom, rgba(214,189,148,0.7), transparent)",
+                animation: "grow 1.8s ease-in-out infinite",
+              }}
+            />
+          </div>
+        </Overlay>
+
+        {/* ── 2. Chapter I — Craft (scroll 0.26 → 0.52) ── */}
+        <Overlay
+          progress={scrollYProgress}
+          inStart={0.26} inEnd={0.33} outStart={0.46} outEnd={0.52}
+          className="left-8 md:left-16 bottom-16 md:bottom-20 z-10"
+        >
+          <GoldRule className="w-10 mb-5" />
+          <p
+            className="font-display font-light text-ivory leading-[1.2]"
+            style={{
+              fontSize: "clamp(1.6rem, 3.5vw, 3rem)",
+              textShadow: "0 4px 30px rgba(0,0,0,0.6)",
+              maxWidth: "14ch",
+            }}
+          >
+            Spaces crafted
+            <br />
+            <span className="text-[#D6BD94]">to transcend.</span>
+          </p>
+        </Overlay>
+
+        {/* ── 3. Chapter II — Material (scroll 0.54 → 0.80) ── */}
+        <Overlay
+          progress={scrollYProgress}
+          inStart={0.54} inEnd={0.61} outStart={0.74} outEnd={0.80}
+          className="right-8 md:right-16 top-1/2 -translate-y-1/2 text-right z-10"
+        >
+          <GoldRule className="w-10 ml-auto mb-5" />
+          <p
+            className="font-display font-light text-ivory leading-[1.2]"
+            style={{
+              fontSize: "clamp(1.6rem, 3.5vw, 3rem)",
+              textShadow: "0 4px 30px rgba(0,0,0,0.6)",
+              maxWidth: "13ch",
+            }}
+          >
+            Uncompromising
+            <br />
+            <span className="text-[#D6BD94]">in every detail.</span>
+          </p>
+        </Overlay>
+
+        {/* ── 4. Closing — brand statement (scroll 0.83 → 1.0) ── */}
+        <Overlay
+          progress={scrollYProgress}
+          inStart={0.83} inEnd={0.90} outStart={0.97} outEnd={1.0}
+          className="inset-0 flex flex-col items-center justify-center text-center z-10"
+        >
+          <GoldRule className="w-16 mx-auto mb-8" />
+          <p
+            className="font-sans text-[#D6BD94] text-[9px] md:text-[11px] tracking-[0.55em] uppercase mb-6"
+          >
+            Hatch Group
+          </p>
+          <h2
+            className="font-display font-light text-ivory leading-[1.05] mb-8"
+            style={{
+              fontSize: "clamp(2rem, 5.5vw, 5rem)",
+              letterSpacing: "-0.015em",
+              textShadow: "0 4px 40px rgba(0,0,0,0.5)",
+            }}
+          >
+            Every project,
+            <br />
+            <span
+              style={{
+                background:
+                  "linear-gradient(115deg, #C2A878 0%, #EFD99B 35%, #C2A878 65%, #EFD99B 100%)",
+                backgroundSize: "220% auto",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                animation: "luxe-shimmer 8s ease-in-out infinite",
+              }}
+            >
+              a masterwork.
+            </span>
+          </h2>
+          <GoldRule className="w-16 mx-auto mb-8" />
+          <span className="font-sans text-ivory/40 text-[8px] tracking-[0.45em] uppercase">
+            Mumbai · New Delhi · Dubai
+          </span>
+        </Overlay>
+
+        {/* ── Gold progress bar ── */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center gap-4 md:gap-6 mb-7 md:mb-9"
-        >
-          <div className="w-8 md:w-14 h-px luxe-rule" />
-          <span className="block text-accent text-[9px] sm:text-[11px] md:text-xs font-medium tracking-[0.45em] uppercase">
-            Interior Atelier · Est. 2014
-          </span>
-          <div className="w-8 md:w-14 h-px luxe-rule" />
-        </motion.div>
+          className="absolute bottom-0 left-0 h-0.5 z-20"
+          style={{
+            width: videoWidth,
+            background: "linear-gradient(90deg, #A98C5F, #D6BD94, #A98C5F)",
+          }}
+        />
 
-        <motion.h1
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.3, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-light text-foreground leading-[1.04] mb-7 md:mb-9 max-w-6xl"
-          style={{ fontSize: "clamp(3rem, 9.5vw, 8.5rem)", letterSpacing: "-0.02em" }}
-        >
-          The Art of
-          <br />
-          <span className="luxe-gradient-text">Believable Luxury</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 26 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-foreground/55 text-[0.92rem] sm:text-lg md:text-xl font-light max-w-xs sm:max-w-lg md:max-w-2xl mb-10 md:mb-12 leading-[1.8]"
-        >
-          We architect experiences that transcend traditional interior design —
-          cinematic aesthetics, uncompromising material quality.
-        </motion.p>
-
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative overflow-hidden group px-10 py-4 md:px-13 md:py-5 bg-foreground text-ivory uppercase tracking-[0.3em] text-[10px] md:text-[11px] font-medium"
-          data-cursor-interact
-        >
-          <span className="relative z-10 group-hover:text-foreground transition-colors duration-500">
-            Discover the Maison
-          </span>
-          <div
-            className="absolute inset-0 transform scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-in-out"
-            style={{ background: "linear-gradient(115deg, #D6BD94 0%, #C2A878 60%, #A98C5F 100%)" }}
-          />
-        </motion.button>
-      </motion.div>
-
-      {/* Bottom meta bar */}
-      <div className="absolute bottom-9 md:bottom-11 inset-x-8 md:inset-x-14 z-10 hidden sm:flex items-end justify-between pointer-events-none">
-        <span className="text-foreground/35 text-[8px] md:text-[9px] tracking-[0.4em] uppercase font-sans">
-          Mumbai · New Delhi · Dubai
-        </span>
-        <span className="text-foreground/35 text-[8px] md:text-[9px] tracking-[0.4em] uppercase font-sans">
-          Interiors · Architecture · Turnkey
-        </span>
-      </div>
-
-      {/* Scroll hint */}
-      <div className="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
-        <span className="text-accent/80 text-[8px] md:text-[10px] tracking-[0.35em] uppercase">Scroll</span>
-        <div className="w-px h-10 md:h-12 bg-gradient-to-b from-accent/70 to-transparent origin-top animate-[grow_1.8s_ease-in-out_infinite]" />
       </div>
     </section>
   );
