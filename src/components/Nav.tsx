@@ -41,13 +41,10 @@ export default function Nav() {
           {/* Logo */}
           <a href="/" className="relative flex-shrink-0 w-40 md:w-55 h-12 md:h-14" data-cursor-interact>
             <Image
-              src="https://res.cloudinary.com/de4pazo51/image/upload/v1781195359/HATCH_DARK_LOGO-01_1_1_osknv0.png"
+              src="https://res.cloudinary.com/de4pazo51/image/upload/c_crop,g_north_west,h_1055,w_6125,x_908,y_1653/HATCH_LOGO_GOLD-02_1_arrhel.png"
               alt="Hatch Group"
               fill
-              className={clsx(
-                "object-contain object-left transition-all duration-500",
-                light ? "brightness-0 invert" : "brightness-0"
-              )}
+              className="object-contain object-left transition-all duration-500"
               priority
               unoptimized
             />

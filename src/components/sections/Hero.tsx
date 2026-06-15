@@ -120,28 +120,21 @@ export default function Hero() {
           muted
           playsInline
           {...{ "webkit-playsinline": "true" }}
+          style={{ filter: "contrast(1.08) saturate(1.12) brightness(1.04)" }}
         />
 
-        {/* Cinematic dark vignette */}
+        {/* Bottom scrim — thin, just enough to ground the text */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
           style={{
-            background:
-              "radial-gradient(ellipse at center, transparent 40%, rgba(14,20,16,0.55) 100%)",
+            background: "linear-gradient(to top, rgba(14,20,16,0.22) 0%, transparent 100%)",
           }}
         />
-        {/* Bottom scrim so text never fights the video */}
+        {/* Top scrim — barely visible */}
         <div
-          className="absolute inset-x-0 bottom-0 h-48 pointer-events-none"
+          className="absolute inset-x-0 top-0 h-16 pointer-events-none"
           style={{
-            background: "linear-gradient(to top, rgba(14,20,16,0.7) 0%, transparent 100%)",
-          }}
-        />
-        {/* Top scrim */}
-        <div
-          className="absolute inset-x-0 top-0 h-32 pointer-events-none"
-          style={{
-            background: "linear-gradient(to bottom, rgba(14,20,16,0.4) 0%, transparent 100%)",
+            background: "linear-gradient(to bottom, rgba(14,20,16,0.12) 0%, transparent 100%)",
           }}
         />
 
