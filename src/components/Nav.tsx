@@ -2,18 +2,19 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 const links = [
-  { label: "Philosophy", href: "#philosophy" },
-  { label: "Services",   href: "#services"   },
-  { label: "Projects",   href: "#projects"   },
-  { label: "Contact",    href: "#contact"    },
+  { label: "Home",     href: "/"      },
+  { label: "About Us", href: "/about" },
 ];
 
 export default function Nav() {
   const [scrolled, setScrolled]   = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -22,8 +23,8 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Entire site sits on a light porcelain canvas — nav always uses dark-ink treatment
-  const light = false;
+  // Light treatment on dark-background pages (e.g. /about hero) until the user scrolls
+  const light = pathname === "/about" && !scrolled;
 
   return (
     <>
@@ -54,31 +55,41 @@ export default function Nav() {
 
           {/* Desktop links — centred */}
           <ul className="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
-            {links.map(({ label, href }) => (
-              <li key={label}>
-                <a
-                  href={href}
-                  data-cursor-interact
-                  className={clsx(
-                    "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300",
-                    light ? "text-white/80 hover:text-white" : "text-foreground/70 hover:text-foreground"
-                  )}
-                >
-                  {label}
-                  <span
+            {links.map(({ label, href }) => {
+              const isActive =
+                href === "/"
+                  ? pathname === "/"
+                  : href.startsWith("/") && !href.includes("#")
+                  ? pathname === href
+                  : false;
+              return (
+                <li key={label}>
+                  <Link
+                    href={href}
+                    data-cursor-interact
                     className={clsx(
-                      "absolute -bottom-0.5 left-0 h-px w-0 group-hover:w-full transition-all duration-500 ease-in-out",
-                      light ? "bg-white/60" : "bg-accent"
+                      "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300",
+                      light ? "text-white/80 hover:text-white" : "text-foreground/70 hover:text-foreground",
+                      isActive && (light ? "text-white" : "text-foreground")
                     )}
-                  />
-                </a>
-              </li>
-            ))}
+                  >
+                    {label}
+                    <span
+                      className={clsx(
+                        "absolute -bottom-0.5 left-0 h-px transition-all duration-500 ease-in-out",
+                        isActive ? "w-full" : "w-0 group-hover:w-full",
+                        light ? "bg-white/60" : "bg-accent"
+                      )}
+                    />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Desktop CTA */}
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             data-cursor-interact
             className={clsx(
               "hidden md:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-medium px-5 py-2.5 border transition-all duration-500",
@@ -88,7 +99,7 @@ export default function Nav() {
             )}
           >
             Enquire
-          </a>
+          </Link>
 
           {/* Mobile hamburger */}
           <button
@@ -138,7 +149,7 @@ export default function Nav() {
 
         <nav className="flex flex-col items-center gap-8">
           {links.map(({ label, href }, i) => (
-            <a
+            <Link
               key={label}
               href={href}
               onClick={() => setMenuOpen(false)}
@@ -148,9 +159,9 @@ export default function Nav() {
                 {label}
               </span>
               <span className="mt-1.5 block text-[8px] tracking-[0.55em] uppercase text-accent/40 font-sans">
-                0{i + 1}
+                {String(i + 1).padStart(2, "0")}
               </span>
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -161,13 +172,13 @@ export default function Nav() {
           <div className="flex-1 h-px bg-accent/20" />
         </div>
 
-        <a
-          href="#contact"
+        <Link
+          href="/#contact"
           onClick={() => setMenuOpen(false)}
           className="text-[9px] tracking-[0.38em] uppercase border border-foreground/20 px-10 py-3.5 text-foreground hover:bg-foreground hover:text-background transition-all duration-300 font-sans"
         >
           Enquire
-        </a>
+        </Link>
 
         {/* Bottom signature */}
         <div className="absolute bottom-10 flex flex-col items-center gap-1.5">

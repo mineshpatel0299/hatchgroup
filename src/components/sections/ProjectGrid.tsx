@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import {
   AnimatePresence,
@@ -18,128 +18,100 @@ const PROJECTS = [
   { id: "06", title: "Penthouse Terrace",  category: "Residential", year: "2022", image: "/images/turnkey-thumb.png",       description: "Sky, stone, and copper — an outdoor living room thirty floors above the city." },
 ];
 
-function MobileLookbook() {
-  const [active, setActive] = useState(0);
-  const containerRef  = useRef<HTMLDivElement>(null);
-  const activeRef     = useRef(0);   // shadow ref so the interval always has the latest value
-  const timerRef      = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  // Keep shadow ref in sync
-  useEffect(() => { activeRef.current = active; }, [active]);
-
-  // IntersectionObserver — track which card is visible
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    const cards = Array.from(container.children) as HTMLElement[];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(cards.indexOf(e.target as HTMLElement));
-        });
-      },
-      { root: container, threshold: 0.55 }
-    );
-    cards.forEach((c) => observer.observe(c));
-    return () => observer.disconnect();
-  }, []);
-
-  // Auto-advance every 3.5 s; reset timer on manual scroll
-  const scheduleNext = () => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    timerRef.current = setInterval(() => {
-      const container = containerRef.current;
-      if (!container) return;
-      const cards = Array.from(container.children) as HTMLElement[];
-      const next = (activeRef.current + 1) % cards.length;
-      // scrollTo on the container only — scrollIntoView would hijack the page scroll too
-      container.scrollTo({ top: (cards[next] as HTMLElement).offsetTop, behavior: "smooth" });
-    }, 3500);
-  };
-
-  useEffect(() => {
-    scheduleNext();
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+function MobileEditorialRoll() {
   return (
-    <div className="md:hidden relative">
-      {/* Scroll-snap lookbook */}
-      <div
-        ref={containerRef}
-        onScroll={scheduleNext}
-        className="overflow-y-auto snap-y snap-mandatory"
-        style={{ height: "82vh", scrollbarWidth: "none" }}
-      >
-        {PROJECTS.map((p, i) => (
-          <div key={p.id} className="snap-start h-full p-3">
-          <div className="relative w-full h-full overflow-hidden rounded-t-[2.5rem] rounded-b-2xl shadow-[0_24px_50px_-20px_rgba(140,111,63,0.45)]">
-            <Image src={p.image} alt={p.title} fill className="object-cover" sizes="100vw" />
-
-            {/* Scrims */}
-            <div className="absolute inset-x-0 top-0 h-28 pointer-events-none"
-              style={{ background: "linear-gradient(to bottom, rgba(14,20,16,0.5) 0%, transparent 100%)" }} />
-            <div className="absolute inset-x-0 bottom-0 h-56 pointer-events-none"
-              style={{ background: "linear-gradient(to top, rgba(14,20,16,0.82) 0%, transparent 100%)" }} />
-
-            {/* Counter */}
-            <div className="absolute top-6 left-5 flex items-center gap-3">
-              <span className="font-display text-[#D6BD94] text-xs tracking-[0.35em]">{p.id}</span>
-              <div className="w-8 h-px bg-white/25" />
-              <span className="font-sans text-white/40 text-[8px] tracking-[0.4em] uppercase">
-                {String(PROJECTS.length).padStart(2, "0")}
-              </span>
-            </div>
-
-            {/* Bottom text */}
-            <div className="absolute bottom-0 inset-x-0 px-5 pb-8">
-              <span className="block text-[#D6BD94] text-[8px] tracking-[0.5em] uppercase mb-2">
-                {p.category} · {p.year}
-              </span>
-              <div className="h-px mb-4 w-10"
-                style={{ background: "linear-gradient(to right, rgba(214,189,148,0.7), transparent)" }} />
-              <h3
-                className="font-display font-light text-white leading-[1.1] mb-3"
-                style={{ fontSize: "clamp(1.7rem, 7vw, 2.4rem)" }}
+    <div className="md:hidden px-5 pt-2 pb-16">
+      <div className="flex flex-col gap-20">
+        {PROJECTS.map((p, i) => {
+          const isRight = i % 2 === 1;
+          return (
+            <motion.div
+              key={p.id}
+              initial={{ opacity: 0, y: 48 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative"
+            >
+              {/* Ghost index number — bleeds behind the image */}
+              <span
+                aria-hidden
+                className="absolute -top-6 font-display font-light text-foreground/[0.06] leading-none select-none pointer-events-none"
+                style={{
+                  fontSize: "clamp(6rem, 30vw, 9rem)",
+                  right: isRight ? "auto" : "-0.1em",
+                  left: isRight ? "-0.1em" : "auto",
+                }}
               >
-                {p.title}
-              </h3>
-              <p className="text-white/50 font-light text-[0.78rem] leading-[1.8] max-w-[28ch]">
-                {p.description}
-              </p>
-              <a href="#" className="inline-flex items-center gap-3 mt-5 text-[8px] tracking-[0.45em] uppercase text-[#D6BD94]">
-                View Project
-                <span className="w-6 h-px bg-[#D6BD94]/50" />
-              </a>
-            </div>
+                {p.id}
+              </span>
 
-            {/* Swipe hint on first card */}
-            {i === 0 && (
-              <div className="absolute bottom-8 right-5 flex flex-col items-center gap-1.5 opacity-50">
-                <div className="w-px h-8 bg-linear-to-b from-white/60 to-transparent" />
-                <span className="text-white text-[7px] tracking-[0.4em] uppercase" style={{ writingMode: "vertical-rl" }}>swipe</span>
+              {/* Image — offset left or right to create stagger rhythm */}
+              <div
+                className={`relative overflow-hidden rounded-t-[2rem] rounded-b-xl shadow-[0_28px_60px_-24px_rgba(140,111,63,0.42)] ${
+                  isRight ? "ml-6" : "mr-6"
+                }`}
+                style={{ aspectRatio: "3/4" }}
+              >
+                <Image
+                  src={p.image}
+                  alt={p.title}
+                  fill
+                  className="object-cover"
+                  sizes="90vw"
+                />
+                {/* Ivory gradient at base */}
+                <div
+                  className="absolute inset-x-0 bottom-0 h-20 pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(to top, rgba(248,239,217,0.7) 0%, transparent 100%)",
+                  }}
+                />
+                {/* Year */}
+                <span className="absolute bottom-3 right-4 font-sans text-[8px] tracking-[0.4em] uppercase text-foreground/45">
+                  {p.year}
+                </span>
               </div>
-            )}
-          </div>
-          </div>
-        ))}
-      </div>
 
-      {/* Side dot indicators */}
-      <div className="absolute right-3 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10">
-        {PROJECTS.map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{ height: i === active ? 20 : 5, opacity: i === active ? 1 : 0.3 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="w-0.5 rounded-full bg-white"
-          />
-        ))}
+              {/* Text block — opposite side to image offset */}
+              <div className={`mt-5 ${isRight ? "pr-6" : "pl-2"}`}>
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="font-sans text-[8px] tracking-[0.5em] uppercase text-accent">
+                    {p.category}
+                  </span>
+                  <div
+                    className="flex-1 h-px"
+                    style={{
+                      background:
+                        "linear-gradient(to right, rgba(169,140,95,0.45), transparent)",
+                    }}
+                  />
+                </div>
+                <h3
+                  className="font-display font-light text-foreground leading-[1.1] mb-2"
+                  style={{ fontSize: "clamp(1.55rem, 6.5vw, 2rem)" }}
+                >
+                  {p.title}
+                </h3>
+                <p className="text-foreground/45 font-light text-[0.8rem] leading-[1.85]">
+                  {p.description}
+                </p>
+                <a
+                  href="#"
+                  className="inline-flex items-center gap-3 mt-4 text-[8px] tracking-[0.45em] uppercase text-accent"
+                >
+                  View
+                  <span className="w-5 h-px bg-accent/50" />
+                </a>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* View all */}
-      <div className="flex justify-center pt-8 pb-2">
+      <div className="flex justify-center mt-14">
         <button className="text-[9px] tracking-[0.45em] uppercase font-medium text-accent inline-flex items-center gap-4 group">
           View All Works
           <span className="w-7 h-px bg-accent/50 group-hover:w-11 transition-all duration-500" />
@@ -301,8 +273,8 @@ export default function ProjectGrid() {
           </button>
         </div>
 
-        {/* ════ Mobile: full-bleed scroll-snap lookbook ════ */}
-        <MobileLookbook />
+        {/* ════ Mobile: staggered editorial roll ════ */}
+        <MobileEditorialRoll />
       </div>
     </section>
   );
