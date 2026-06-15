@@ -54,7 +54,7 @@ export default function FeaturedProject() {
   const current = RESIDENCES[active];
 
   return (
-    <section ref={sectionRef} className="relative h-[350vh] luxe-canvas">
+    <section ref={sectionRef} className="relative h-[350vh] luxe-emerald">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
         <div
@@ -62,7 +62,7 @@ export default function FeaturedProject() {
           style={{
             top: "5%", left: "50%", transform: "translateX(-50%)",
             width: "60vw", height: "60vh",
-            background: "radial-gradient(ellipse at center, rgba(255,253,244,0.85) 0%, transparent 60%)",
+            background: "radial-gradient(ellipse at center, rgba(0,90,65,0.3) 0%, transparent 60%)",
           }}
         />
 
@@ -164,7 +164,7 @@ export default function FeaturedProject() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.45 }}
-                    className="block text-[8px] md:text-[9px] tracking-[0.4em] uppercase text-foreground/55 whitespace-nowrap"
+                    className="block text-[8px] md:text-[9px] tracking-[0.4em] uppercase text-[#1C2420]/60 whitespace-nowrap"
                   >
                     {current.location}
                   </motion.span>

@@ -47,13 +47,14 @@ export default function SocialProof() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-28 md:py-40 overflow-hidden luxe-canvas">
+    <section ref={sectionRef} className="relative py-28 md:py-40 overflow-hidden luxe-emerald">
       <div className="absolute inset-0 pointer-events-none luxe-grain" />
+
       <div
         className="absolute pointer-events-none"
         style={{
           top: "-18%", right: "-10%", width: "46vw", height: "46vw",
-          background: "radial-gradient(ellipse at center, rgba(214,189,148,0.3) 0%, transparent 60%)",
+          background: "radial-gradient(ellipse at center, rgba(0,100,72,0.25) 0%, transparent 60%)",
           animation: "luxe-float 16s ease-in-out infinite",
         }}
       />
@@ -112,7 +113,7 @@ export default function SocialProof() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-            className="relative max-w-4xl mx-auto bg-ivory px-8 py-12 md:px-20 md:py-16 text-center shadow-[0_50px_100px_-50px_rgba(28,36,32,0.35)]"
+            className="relative max-w-4xl mx-auto border border-foreground/10 bg-foreground/6 px-8 py-12 md:px-20 md:py-16 text-center"
           >
             {/* Gold corner ticks */}
             <div className="absolute top-4 left-4 w-5 h-5 border-t border-l border-accent/50" />

@@ -47,7 +47,7 @@ export default function Philosophy() {
   const eyebrowO  = useTransform(scrollYProgress, [0, 0.12], [0, 1]);
 
   return (
-    <section ref={sectionRef} className="relative h-[260vh] luxe-canvas">
+    <section ref={sectionRef} className="relative h-[120vh] md:h-[260vh] luxe-ivory">
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
 
         {/* Ambient washes */}

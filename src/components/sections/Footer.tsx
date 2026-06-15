@@ -7,11 +7,7 @@ import { motion } from "motion/react";
 export default function Footer() {
   return (
     <footer
-      className="relative w-full text-foreground pt-24 md:pt-36 pb-10 overflow-hidden"
-      style={{
-        background:
-          "radial-gradient(ellipse 70% 45% at 50% 0%, rgba(255,253,244,0.92) 0%, transparent 55%), linear-gradient(170deg, #F8EFD9 0%, #F0DFB9 55%, #E2C488 100%)",
-      }}
+      className="relative w-full text-foreground pt-24 md:pt-36 pb-10 overflow-hidden luxe-ivory"
     >
       {/* Top gold hairline */}
       <div className="absolute top-0 left-0 right-0 h-px luxe-rule" />

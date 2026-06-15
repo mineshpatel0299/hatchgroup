@@ -57,7 +57,7 @@ function MobileCarousel() {
   }, []);
 
   return (
-    <div className="md:hidden pt-16 pb-14 luxe-canvas-deep overflow-hidden">
+    <div className="md:hidden pt-16 pb-14 luxe-emerald overflow-hidden">
       <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
       {/* Header */}
@@ -167,17 +167,18 @@ export default function Services() {
   });
 
   return (
-    <section ref={sectionRef} className="relative md:h-[400vh] luxe-canvas-deep">
+    <section ref={sectionRef} className="relative md:h-[400vh] luxe-emerald">
 
       {/* ════ Desktop: the atelier doors ════ */}
       <div className="hidden md:flex sticky top-0 h-screen overflow-hidden flex-col justify-center">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
+
         <div
           className="absolute pointer-events-none"
           style={{
             top: "-20%", left: "50%", transform: "translateX(-50%)",
             width: "70vw", height: "50vh",
-            background: "radial-gradient(ellipse at center, rgba(255,253,244,0.8) 0%, transparent 60%)",
+            background: "radial-gradient(ellipse at center, rgba(0,90,65,0.35) 0%, transparent 60%)",
           }}
         />
 
@@ -246,7 +247,7 @@ export default function Services() {
                     className={`absolute inset-0 transition-opacity duration-700 ${
                       isActive ? "opacity-100" : "opacity-0"
                     }`}
-                    style={{ background: "linear-gradient(to top, rgba(255,253,244,0.92) 0%, transparent 38%)" }}
+                    style={{ background: "linear-gradient(to top, rgba(0,30,22,0.75) 0%, transparent 38%)" }}
                   />
 
                   {/* Closed door: vertical title */}

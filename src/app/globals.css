@@ -91,6 +91,30 @@ html.lenis, html.lenis body {
     linear-gradient(160deg, #F8EFD9 0%, #F0DFB9 55%, #E7CF9E 100%);
 }
 
+/* ── Brand palette sections ─────────────────────────────────────────────── */
+
+/* Deep emerald — dark tonal shades only, no white or ivory */
+.luxe-emerald {
+  --foreground: #F3E8DE;
+  --background: #004737;
+  background:
+    radial-gradient(ellipse 65% 55% at 10% 0%, #005A46 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 92% 105%, #002218 0%, transparent 55%),
+    radial-gradient(ellipse 75% 65% at 55% 50%, #003D2E 0%, transparent 65%),
+    linear-gradient(155deg, #004A3A 0%, #004737 50%, #002E22 100%);
+}
+
+/* Warm ivory — #F3E8DE with gold-dust highlights at corners */
+.luxe-ivory {
+  --foreground: #1C2420;
+  --background: #F3E8DE;
+  background:
+    radial-gradient(ellipse 65% 50% at 90% -5%, rgba(214,189,148,0.38) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 46% at 5% 108%, rgba(210,182,135,0.28) 0%, transparent 58%),
+    linear-gradient(165deg, #FAF5EF 0%, #F3E8DE 55%, #ECDDD0 100%);
+}
+
+
 /* Very subtle film grain for texture on light backgrounds */
 .luxe-grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
@@ -118,3 +142,4 @@ html.lenis, html.lenis body {
   width: max-content;
   animation: luxe-marquee 36s linear infinite;
 }
+

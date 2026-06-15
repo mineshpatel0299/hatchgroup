@@ -102,7 +102,7 @@ function VisionMissionSection() {
   const tab = TABS.find((t) => t.id === active)!;
 
   return (
-    <section className="relative py-24 md:py-36 bg-foreground overflow-hidden">
+    <section className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
       <div className="absolute inset-0 pointer-events-none luxe-grain opacity-40" />
       {/* Ambient gold glow */}
       <div
@@ -111,7 +111,7 @@ function VisionMissionSection() {
           top: "50%", left: "50%",
           transform: "translate(-50%, -50%)",
           width: "70vw", height: "70vw",
-          background: "radial-gradient(ellipse at center, rgba(169,140,95,0.09) 0%, transparent 65%)",
+          background: "radial-gradient(ellipse at center, rgba(169,140,95,0.12) 0%, transparent 65%)",
         }}
       />
 
@@ -124,9 +124,9 @@ function VisionMissionSection() {
         >
           <div
             className="h-px w-8"
-            style={{ background: "linear-gradient(to right, transparent, rgba(214,189,148,0.5))" }}
+            style={{ background: "linear-gradient(to right, transparent, rgba(169,140,95,0.6))" }}
           />
-          <span className="text-[#D6BD94]/60 text-[9px] tracking-[0.55em] uppercase font-sans font-medium">
+          <span className="text-accent/70 text-[9px] tracking-[0.55em] uppercase font-sans font-medium">
             Who We Are
           </span>
         </motion.div>
@@ -139,7 +139,7 @@ function VisionMissionSection() {
               onClick={() => setActive(t.id as "vision" | "mission")}
               data-cursor-interact
               className="relative px-8 py-3 text-[10px] tracking-[0.38em] uppercase font-sans font-medium transition-colors duration-300 focus:outline-none"
-              style={{ color: active === t.id ? "#D6BD94" : "rgba(255,253,244,0.3)" }}
+              style={{ color: active === t.id ? "var(--accent)" : "rgba(28,36,32,0.35)" }}
             >
               {t.label}
               {active === t.id && (
@@ -154,7 +154,7 @@ function VisionMissionSection() {
                 <motion.div
                   layoutId="vm-underline"
                   className="absolute bottom-0 left-1/2 -translate-x-1/2 h-px w-6"
-                  style={{ background: "rgba(214,189,148,0.8)" }}
+                  style={{ background: "rgba(169,140,95,0.8)" }}
                   transition={{ type: "spring", stiffness: 380, damping: 34 }}
                 />
               )}
@@ -178,7 +178,7 @@ function VisionMissionSection() {
                 className="font-display font-light select-none hidden md:block"
                 style={{
                   fontSize: "clamp(5rem, 8vw, 8rem)",
-                  color: "rgba(214,189,148,0.08)",
+                  color: "rgba(28,36,32,0.06)",
                   lineHeight: 1,
                   letterSpacing: "-0.03em",
                 }}
@@ -188,7 +188,7 @@ function VisionMissionSection() {
 
               <div>
                 <h3
-                  className="font-display font-light text-[#FFFDF4] leading-[1.2] mb-8"
+                  className="font-display font-light text-foreground leading-[1.2] mb-8"
                   style={{ fontSize: "clamp(1.9rem, 3.2vw, 3rem)", letterSpacing: "-0.01em" }}
                 >
                   {tab.headline}
@@ -200,7 +200,7 @@ function VisionMissionSection() {
                   style={{ background: "rgba(169,140,95,0.45)" }}
                 />
 
-                <p className="text-[#FFFDF4]/40 font-light leading-[1.95] text-[0.95rem] md:text-[1.05rem] max-w-xl">
+                <p className="text-foreground/50 font-light leading-[1.95] text-[0.95rem] md:text-[1.05rem] max-w-xl">
                   {tab.body}
                 </p>
               </div>
@@ -479,7 +479,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ── 2. OUR STORY ── */}
-      <section className="relative py-24 md:py-36 luxe-canvas-deep overflow-hidden">
+      <section className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
         {/* Ambient gold wash — bottom right */}
@@ -591,7 +591,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ── 3. STATS BAR ── */}
-      <section className="relative py-16 md:py-20 bg-foreground overflow-hidden">
+      <section className="relative py-16 md:py-20 luxe-emerald overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain opacity-30" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-0">
@@ -604,7 +604,7 @@ export default function AboutPageContent() {
                   delay: i * 0.1,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="flex flex-col items-center text-center md:border-r md:last:border-r-0 border-background/10 md:px-8"
+                className="flex flex-col items-center text-center md:border-r md:last:border-r-0 border-foreground/10 md:px-8"
               >
                 <span
                   className="font-display font-light luxe-gradient-text leading-none mb-3"
@@ -612,7 +612,7 @@ export default function AboutPageContent() {
                 >
                   {value}
                 </span>
-                <span className="text-background/50 text-[9px] tracking-[0.42em] uppercase font-sans">
+                <span className="text-foreground/50 text-[9px] tracking-[0.42em] uppercase font-sans">
                   {label}
                 </span>
               </motion.div>
@@ -624,7 +624,7 @@ export default function AboutPageContent() {
       {/* ── 4. LAYERED STORY IMAGE + COPY ── */}
       <section
         ref={storyRef}
-        className="relative py-24 md:py-36 luxe-canvas overflow-hidden"
+        className="relative py-24 md:py-36 luxe-ivory overflow-hidden"
       >
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-10 items-center">
@@ -715,7 +715,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ── 5. VALUES GRID ── */}
-      <section className="relative py-24 md:py-36 luxe-canvas-deep overflow-hidden">
+      <section className="relative py-24 md:py-36 luxe-emerald overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
         {/* Ghost background text */}
@@ -757,7 +757,7 @@ export default function AboutPageContent() {
                   delay: i * 0.1,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="bg-background/60 backdrop-blur-sm p-10 md:p-14 group hover:bg-ivory transition-colors duration-500"
+                className="bg-background/40 backdrop-blur-sm p-10 md:p-14 group hover:bg-background/70 transition-colors duration-500"
               >
                 <span className="block text-accent/40 text-[9px] tracking-[0.5em] uppercase font-sans mb-6">
                   {number}
