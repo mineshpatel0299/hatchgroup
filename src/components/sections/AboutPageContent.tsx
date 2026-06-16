@@ -381,7 +381,7 @@ function AboutHero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="font-display font-light text-foreground leading-[0.9] m-0 p-0 flex flex-col items-center"
-            style={{ fontSize: "clamp(4rem, 10vw, 11rem)", letterSpacing: "-0.02em" }}
+            style={{ fontSize: "clamp(2.2rem, 10vw, 11rem)", letterSpacing: "-0.02em" }}
           >
             <span className="block italic text-accent mr-[10%]" style={{ fontSize: "0.8em" }}>Authors of</span>
             <span className="block font-sans font-thin tracking-tighter uppercase ml-[5%]">Space</span>
@@ -441,22 +441,12 @@ function AboutHero() {
 }
 
 export default function AboutPageContent() {
-  const heroRef = useRef<HTMLElement>(null);
   const storyRef = useRef<HTMLElement>(null);
-
-  const { scrollYProgress: heroScroll } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
 
   const { scrollYProgress: storyScroll } = useScroll({
     target: storyRef,
     offset: ["start end", "end start"],
   });
-
-  // Hero parallax — content drifts up and fades as user scrolls off
-  const heroContentY       = useTransform(heroScroll, [0, 1], [0, 180]);
-  const heroContentOpacity = useTransform(heroScroll, [0, 0.6], [1, 0]);
 
   const yArch  = useTransform(storyScroll, [0, 1], [60, -60]);
   const ySmall = useTransform(storyScroll, [0, 1], [120, -120]);

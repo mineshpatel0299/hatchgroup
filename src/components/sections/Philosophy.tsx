@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 
 const MANIFESTO: { text: string; gold?: boolean }[] = [
@@ -47,8 +48,29 @@ export default function Philosophy() {
   const eyebrowO  = useTransform(scrollYProgress, [0, 0.12], [0, 1]);
 
   return (
-    <section ref={sectionRef} className="relative h-[120vh] md:h-[260vh] luxe-ivory">
+    <section ref={sectionRef} className="relative h-[120vh] md:h-[260vh]" style={{ "--foreground": "#1C2420", "--background": "#F3E8DE" } as React.CSSProperties}>
+
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+
+        {/* Background image — full cover */}
+        <Image
+          src="https://res.cloudinary.com/de4pazo51/image/upload/v1781607496/Screenshot_2026-06-16_at_4.27.57_PM_ydrrwu.png"
+          alt=""
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+
+        {/* Slight green tint + ivory gradient overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 65% 50% at 90% -5%, rgba(0,87,67,0.25) 0%, transparent 60%)," +
+              "radial-gradient(ellipse 55% 46% at 5% 108%, rgba(0,71,55,0.20) 0%, transparent 58%)," +
+              "linear-gradient(165deg, rgba(232,242,236,0.82) 0%, rgba(218,235,224,0.78) 55%, rgba(200,225,210,0.82) 100%)",
+          }}
+        />
 
         {/* Ambient washes */}
         <div

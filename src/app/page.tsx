@@ -6,6 +6,7 @@ import Services from "@/components/sections/Services";
 import FeaturedProject from "@/components/sections/FeaturedProject";
 import ProjectGrid from "@/components/sections/ProjectGrid";
 import Walkthrough from "@/components/sections/Walkthrough";
+// import Testimonials from "@/components/sections/Testimonials";
 import SocialProof from "@/components/sections/SocialProof";
 // import FooterCTA from "@/components/sections/FooterCTA";
 import Footer from "@/components/sections/Footer";
@@ -21,6 +22,7 @@ export default function Home() {
       <Walkthrough />
       <FeaturedProject />
       <ProjectGrid />
+      {/* <Testimonials /> */}
       <SocialProof />
       {/* <FooterCTA /> */}
       <Footer />
