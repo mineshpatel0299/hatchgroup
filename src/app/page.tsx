@@ -6,6 +6,7 @@ import Services from "@/components/sections/Services";
 import FeaturedProject from "@/components/sections/FeaturedProject";
 import ProjectGrid from "@/components/sections/ProjectGrid";
 import Walkthrough from "@/components/sections/Walkthrough";
+// import FloorPlan3D from "@/components/sections/FloorPlan3D";
 // import Testimonials from "@/components/sections/Testimonials";
 import SocialProof from "@/components/sections/SocialProof";
 // import FooterCTA from "@/components/sections/FooterCTA";
@@ -20,6 +21,7 @@ export default function Home() {
       <Philosophy />
       <Services />
       <Walkthrough />
+      {/* <FloorPlan3D /> */}
       <FeaturedProject />
       <ProjectGrid />
       {/* <Testimonials /> */}

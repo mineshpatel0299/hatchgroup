@@ -57,24 +57,25 @@ export default function Philosophy() {
           src="https://res.cloudinary.com/de4pazo51/image/upload/v1781607496/Screenshot_2026-06-16_at_4.27.57_PM_ydrrwu.png"
           alt=""
           fill
+          priority
           className="object-cover object-center"
           sizes="100vw"
         />
 
-        {/* Slight green tint + ivory gradient overlay */}
+        {/* Slight green tint + ivory gradient overlay — desktop only */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 pointer-events-none hidden md:block"
           style={{
             background:
               "radial-gradient(ellipse 65% 50% at 90% -5%, rgba(0,87,67,0.25) 0%, transparent 60%)," +
               "radial-gradient(ellipse 55% 46% at 5% 108%, rgba(0,71,55,0.20) 0%, transparent 58%)," +
-              "linear-gradient(165deg, rgba(232,242,236,0.82) 0%, rgba(218,235,224,0.78) 55%, rgba(200,225,210,0.82) 100%)",
+              "linear-gradient(165deg, rgba(232,242,236,0.97) 0%, rgba(218,235,224,0.96) 55%, rgba(200,225,210,0.97) 100%)",
           }}
         />
 
-        {/* Ambient washes */}
+        {/* Ambient washes — desktop only */}
         <div
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-none hidden md:block"
           style={{
             top: "-15%", right: "-10%", width: "48vw", height: "48vw",
             background: "radial-gradient(ellipse at center, rgba(214,189,148,0.3) 0%, transparent 62%)",
@@ -82,13 +83,13 @@ export default function Philosophy() {
           }}
         />
         <div
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-none hidden md:block"
           style={{
             bottom: "-20%", left: "-8%", width: "42vw", height: "42vw",
             background: "radial-gradient(ellipse at center, rgba(255,253,244,0.8) 0%, transparent 60%)",
           }}
         />
-        <div className="absolute inset-0 pointer-events-none luxe-grain" />
+        <div className="absolute inset-0 pointer-events-none luxe-grain hidden md:block" />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center">
           <motion.div style={{ opacity: eyebrowO }} className="flex flex-col items-center mb-10 md:mb-14">
