@@ -125,7 +125,7 @@ export default function Walkthrough() {
   const chapter = CHAPTERS[active];
 
   return (
-    <section ref={sectionRef} className="relative h-[500vh] luxe-ivory">
+    <section ref={sectionRef} className="relative h-[500vh] luxe-ivory blend-to-emerald">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
         <div

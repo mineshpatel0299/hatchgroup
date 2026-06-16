@@ -54,7 +54,7 @@ export default function FeaturedProject() {
   const current = RESIDENCES[active];
 
   return (
-    <section ref={sectionRef} className="relative h-[350vh] luxe-emerald">
+    <section ref={sectionRef} className="relative h-[350vh] luxe-emerald blend-to-ivory">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
         <div

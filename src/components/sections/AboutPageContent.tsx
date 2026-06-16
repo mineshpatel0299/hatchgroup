@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "motion/react";
 import Footer from "@/components/sections/Footer";
 
 const fadeUp = {
@@ -213,23 +213,240 @@ function VisionMissionSection() {
   );
 }
 
-export default function AboutPageContent() {
-  const heroRef = useRef<HTMLElement>(null);
-  const storyRef = useRef<HTMLElement>(null);
+function KineticSculpture() {
+  return (
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] pointer-events-none z-10 flex items-center justify-center opacity-40 mix-blend-multiply">
+      <motion.div
+        animate={{ rotateX: 360, rotateY: 180 }}
+        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        className="absolute w-full h-full border-[1px] border-accent/40 rounded-full"
+      />
+      <motion.div
+        animate={{ rotateY: 360, rotateZ: 180 }}
+        transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+        className="absolute w-[85%] h-[85%] border-[1px] border-accent/50 rounded-full"
+      />
+      <motion.div
+        animate={{ rotateZ: 360, rotateX: 180 }}
+        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+        className="absolute w-[70%] h-[70%] border-[1px] border-accent/60 rounded-full"
+      />
+      <motion.div
+        animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.4, 0.8, 0.4] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute w-[20%] h-[20%] bg-accent/20 blur-[15px] rounded-full"
+      />
+    </div>
+  );
+}
 
-  const { scrollYProgress: heroScroll } = useScroll({
-    target: heroRef,
+function AboutHero() {
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
     offset: ["start start", "end start"],
   });
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 40, stiffness: 150, mass: 1 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const { innerWidth, innerHeight } = window;
+      const x = (e.clientX / innerWidth) * 2 - 1;
+      const y = (e.clientY / innerHeight) * 2 - 1;
+      mouseX.set(x);
+      mouseY.set(y);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  const heroContentY = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  const heroContentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
+  // Floating image parallax (Mouse)
+  const move1X = useTransform(smoothX, [-1, 1], [-30, 30]);
+  const move1Y = useTransform(smoothY, [-1, 1], [-30, 30]);
+  
+  const move2X = useTransform(smoothX, [-1, 1], [20, -20]);
+  const move2Y = useTransform(smoothY, [-1, 1], [20, -20]);
+
+  const move3X = useTransform(smoothX, [-1, 1], [-50, 50]);
+  const move3Y = useTransform(smoothY, [-1, 1], [-50, 50]);
+
+  const move4X = useTransform(smoothX, [-1, 1], [40, -40]);
+  const move4Y = useTransform(smoothY, [-1, 1], [40, -40]);
+
+  // Floating image parallax (Scroll)
+  const scroll1Y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const scroll2Y = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const scroll3Y = useTransform(scrollYProgress, [0, 1], [0, -160]);
+  const scroll4Y = useTransform(scrollYProgress, [0, 1], [0, -40]);
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative overflow-hidden flex items-center justify-center luxe-ivory blend-to-emerald"
+      style={{ height: "100svh" }}
+    >
+      <div className="absolute inset-0 pointer-events-none luxe-grain opacity-60 z-30" />
+      
+      {/* Background radial highlight */}
+      <div className="absolute inset-0 z-10 pointer-events-none" style={{ background: "radial-gradient(circle at center, #FFFFFF 0%, transparent 70%)", opacity: 0.5 }} />
+
+      {/* Luxury Kinetic Sculpture */}
+      <KineticSculpture />
+
+      {/* Floating Images Container */}
+      <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
+        {/* Top Left - Residential */}
+        <motion.div 
+          className="absolute top-[8%] left-[5%] md:left-[12%] w-[40vw] md:w-[22vw] max-w-[280px] aspect-[4/5] shadow-[0_30px_60px_-15px_rgba(28,36,32,0.2)] bg-background/50 p-1 md:p-2"
+          style={{ x: move1X, y: move1Y, translateY: scroll1Y }}
+        >
+          <motion.div 
+            animate={{ y: [0, -15, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="relative w-full h-full overflow-hidden"
+          >
+            <Image src="/images/residential-thumb.png" alt="" fill className="object-cover" sizes="(max-width: 768px) 40vw, 22vw" />
+          </motion.div>
+        </motion.div>
+        
+        {/* Bottom Right - Hospitality */}
+        <motion.div 
+          className="absolute bottom-[10%] right-[5%] md:right-[15%] w-[50vw] md:w-[28vw] max-w-[360px] aspect-[16/10] shadow-[0_30px_60px_-15px_rgba(28,36,32,0.25)] bg-background/50 p-1 md:p-2"
+          style={{ x: move2X, y: move2Y, translateY: scroll2Y }}
+        >
+          <motion.div 
+            animate={{ y: [0, 12, 0] }}
+            transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
+            className="relative w-full h-full overflow-hidden"
+          >
+            <Image src="/images/hospitality-thumb.png" alt="" fill className="object-cover" sizes="(max-width: 768px) 50vw, 28vw" />
+          </motion.div>
+        </motion.div>
+
+        {/* Top Right - Commercial */}
+        <motion.div 
+          className="absolute top-[15%] right-[2%] md:right-[8%] w-[25vw] md:w-[15vw] max-w-[200px] aspect-square shadow-[0_20px_40px_-10px_rgba(28,36,32,0.15)] bg-background/50 p-1 md:p-2"
+          style={{ x: move3X, y: move3Y, translateY: scroll3Y }}
+        >
+          <motion.div 
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            className="relative w-full h-full overflow-hidden"
+          >
+            <Image src="/images/commercial-thumb.png" alt="" fill className="object-cover" sizes="(max-width: 768px) 25vw, 15vw" />
+          </motion.div>
+        </motion.div>
+
+        {/* Bottom Left - Luxury Bg */}
+        <motion.div 
+          className="absolute bottom-[5%] left-[2%] md:left-[8%] w-[35vw] md:w-[18vw] max-w-[240px] aspect-[3/4] shadow-[0_25px_50px_-12px_rgba(28,36,32,0.2)] bg-background/50 p-1 md:p-2"
+          style={{ x: move4X, y: move4Y, translateY: scroll4Y }}
+        >
+          <motion.div 
+            animate={{ y: [0, 15, 0] }}
+            transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
+            className="relative w-full h-full overflow-hidden"
+          >
+            <Image src="/images/luxury-bg.png" alt="" fill className="object-cover" sizes="(max-width: 768px) 35vw, 18vw" />
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Central Typography */}
+      <motion.div
+        style={{ y: heroContentY, opacity: heroContentOpacity }}
+        className="relative z-20 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
+      >
+        <motion.span
+          initial={{ opacity: 0, letterSpacing: "0.2em" }}
+          animate={{ opacity: 1, letterSpacing: "0.8em" }}
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          className="font-sans font-medium text-accent/80 text-[10px] md:text-[12px] uppercase mb-8 block"
+        >
+          The Studio · Est. 2014
+        </motion.span>
+
+        <div className="relative">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display font-light text-foreground leading-[0.9] m-0 p-0 flex flex-col items-center"
+            style={{ fontSize: "clamp(4rem, 10vw, 11rem)", letterSpacing: "-0.02em" }}
+          >
+            <span className="block italic text-accent mr-[10%]" style={{ fontSize: "0.8em" }}>Authors of</span>
+            <span className="block font-sans font-thin tracking-tighter uppercase ml-[5%]">Space</span>
+          </motion.h1>
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center"
+          >
+            <span className="font-display italic text-foreground/[0.04] text-[clamp(6rem,16vw,18rem)] leading-none select-none pointer-events-none">
+              vision
+            </span>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="w-16 h-px mt-16 mb-8 origin-center"
+          style={{ background: "rgba(169,140,95,0.4)" }}
+        />
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, delay: 0.8 }}
+          className="font-sans font-light text-foreground/60 text-[0.85rem] md:text-[0.95rem] tracking-[0.25em] uppercase max-w-xs md:max-w-md mx-auto leading-relaxed"
+        >
+          Redefining the language of modern luxury
+        </motion.p>
+      </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2, delay: 1 }}
+        style={{ opacity: heroContentOpacity }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 pointer-events-none"
+      >
+        <span className="text-accent/60 font-sans text-[8px] tracking-[0.6em] uppercase">
+          Explore
+        </span>
+        <div
+          className="w-px h-12"
+          style={{
+            background: "linear-gradient(to bottom, rgba(169,140,95,0.5), transparent)",
+            animation: "grow 2s ease-in-out infinite",
+          }}
+        />
+      </motion.div>
+    </section>
+  );
+}
+
+export default function AboutPageContent() {
+  const storyRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress: storyScroll } = useScroll({
     target: storyRef,
     offset: ["start end", "end start"],
   });
-
-  // Hero parallax — content drifts up and fades as user scrolls off
-  const heroContentY       = useTransform(heroScroll, [0, 1], [0, 180]);
-  const heroContentOpacity = useTransform(heroScroll, [0, 0.6], [1, 0]);
 
   const yArch  = useTransform(storyScroll, [0, 1], [60, -60]);
   const ySmall = useTransform(storyScroll, [0, 1], [120, -120]);
@@ -237,249 +454,49 @@ export default function AboutPageContent() {
 
   return (
     <>
-      {/* ── 1. HERO — imageless, typographic luxury ── */}
-      <section
-        ref={heroRef}
-        className="relative overflow-hidden"
-        style={{ height: "100svh", background: "#0E1511" }}
-      >
-        {/* ── Background: layered radial gold atmospheres ── */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 60% at 50% 55%, rgba(139,111,67,0.13) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top: "10%", left: "-10%", width: "55vw", height: "55vw",
-            background: "radial-gradient(ellipse at center, rgba(169,140,95,0.06) 0%, transparent 65%)",
-            animation: "luxe-float 18s ease-in-out infinite",
-          }}
-        />
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            bottom: "5%", right: "-8%", width: "45vw", height: "45vw",
-            background: "radial-gradient(ellipse at center, rgba(214,189,148,0.05) 0%, transparent 65%)",
-            animation: "luxe-float 22s ease-in-out infinite reverse",
-          }}
-        />
-        <div className="absolute inset-0 pointer-events-none luxe-grain opacity-50" />
+      <AboutHero />
 
-        {/* ── Corner bracket marks ── */}
-        {[
-          "top-[88px] left-10 md:left-14",
-          "top-[88px] right-10 md:right-14",
-          "bottom-12 left-10 md:left-14",
-          "bottom-12 right-10 md:right-14",
-        ].map((pos, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.8 + i * 0.06 }}
-            className={`absolute pointer-events-none hidden md:block ${pos}`}
-            aria-hidden="true"
-          >
-            <div
-              className="w-4 h-px"
-              style={{
-                background: "rgba(214,189,148,0.35)",
-                marginLeft: i % 2 === 1 ? "auto" : undefined,
-              }}
-            />
-            <div
-              className="w-px h-4"
-              style={{
-                background: "rgba(214,189,148,0.35)",
-                marginLeft: i % 2 === 1 ? "auto" : undefined,
-              }}
-            />
-          </motion.div>
-        ))}
-
-        {/* ── Rotating SVG ornament — centred behind text ── */}
-        <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
-          aria-hidden="true"
-        >
-          {/* Outer static ring */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.88 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <svg
-              width="min(72vw, 560px)"
-              height="min(72vw, 560px)"
-              viewBox="0 0 560 560"
-              fill="none"
-            >
-              {/* Outermost thin circle */}
-              <circle cx="280" cy="280" r="274" stroke="rgba(169,140,95,0.12)" strokeWidth="0.8" />
-              {/* Second circle */}
-              <circle cx="280" cy="280" r="258" stroke="rgba(169,140,95,0.08)" strokeWidth="0.5" />
-
-              {/* Slowly rotating dashed ring */}
-              <motion.circle
-                cx="280" cy="280" r="240"
-                stroke="rgba(169,140,95,0.18)"
-                strokeWidth="0.7"
-                strokeDasharray="4 14"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
-                style={{ originX: "280px", originY: "280px" }}
-              />
-
-              {/* Counter-rotating inner ring */}
-              <motion.circle
-                cx="280" cy="280" r="218"
-                stroke="rgba(214,189,148,0.1)"
-                strokeWidth="0.5"
-                strokeDasharray="1 8"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                style={{ originX: "280px", originY: "280px" }}
-              />
-
-              {/* Inner solid ring */}
-              <circle cx="280" cy="280" r="196" stroke="rgba(169,140,95,0.1)" strokeWidth="0.6" />
-
-              {/* Cardinal tick marks */}
-              {[0, 90, 180, 270].map((angle) => {
-                const rad = (angle * Math.PI) / 180;
-                const x1 = 280 + 268 * Math.cos(rad);
-                const y1 = 280 + 268 * Math.sin(rad);
-                const x2 = 280 + 280 * Math.cos(rad);
-                const y2 = 280 + 280 * Math.sin(rad);
-                return (
-                  <line
-                    key={angle}
-                    x1={x1} y1={y1} x2={x2} y2={y2}
-                    stroke="rgba(214,189,148,0.4)"
-                    strokeWidth="1"
-                  />
-                );
-              })}
-
-              {/* Centre diamond */}
-              <rect
-                x="276" y="276" width="8" height="8"
-                transform="rotate(45 280 280)"
-                fill="none"
-                stroke="rgba(169,140,95,0.45)"
-                strokeWidth="0.8"
-              />
-              <rect
-                x="278.5" y="278.5" width="3" height="3"
-                transform="rotate(45 280 280)"
-                fill="rgba(169,140,95,0.3)"
-              />
-            </svg>
-          </motion.div>
-        </div>
-
-        {/* ── Main text — centred, scroll parallax out ── */}
-        <motion.div
-          style={{ y: heroContentY, opacity: heroContentOpacity }}
-          className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-10"
-        >
-          {/* Eyebrow */}
-          <motion.span
-            initial={{ opacity: 0, letterSpacing: "0.2em" }}
-            animate={{ opacity: 1, letterSpacing: "0.6em" }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="font-sans font-medium text-[#D6BD94]/70 text-[8px] md:text-[9px] uppercase mb-10 block"
-          >
-            The Studio · Est. 2014
-          </motion.span>
-
-          {/* Headline — word stagger */}
-          <h1
-            className="font-display font-light text-[#FFFDF4] leading-[1.1] mb-8"
-            style={{ fontSize: "clamp(2rem, 4.2vw, 4.5rem)", letterSpacing: "-0.015em" }}
-          >
-            {[
-              { word: "Crafting", delay: 0.15 },
-              { word: "spaces,", delay: 0.25 },
-              { word: "writing", delay: 0.38 },
-            ].map(({ word, delay }) => (
-              <motion.span
-                key={word}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
-                className="inline-block mr-[0.22em]"
-              >
-                {word}
-              </motion.span>
-            ))}
-            <br />
-            <motion.span
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.52, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-block"
-              style={{
-                background:
-                  "linear-gradient(115deg, #C2A878 0%, #EFD99B 40%, #C2A878 70%, #EFD99B 100%)",
-                backgroundSize: "220% auto",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                color: "transparent",
-                animation: "luxe-shimmer 8s ease-in-out infinite",
-              }}
-            >
-              stories.
-            </motion.span>
-          </h1>
-
-          {/* Rule */}
-          <motion.div
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={{ scaleX: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.68, ease: [0.16, 1, 0.3, 1] }}
-            className="w-8 h-px mb-8 origin-center"
-            style={{ background: "rgba(214,189,148,0.45)" }}
-          />
-
-          {/* Descriptor */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.82 }}
-            className="font-sans font-light text-[#FFFDF4]/35 text-[0.75rem] tracking-[0.16em] uppercase"
-          >
-            India&apos;s premier luxury interior atelier
-          </motion.p>
-        </motion.div>
-
-        {/* ── Scroll indicator ── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.1 }}
-          style={{ opacity: heroContentOpacity }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 pointer-events-none"
-        >
-          <span className="text-[#D6BD94]/50 font-sans text-[7px] tracking-[0.55em] uppercase">
-            Scroll
-          </span>
-          <div
-            className="w-px h-10"
-            style={{
-              background: "linear-gradient(to bottom, rgba(214,189,148,0.6), transparent)",
-              animation: "grow 1.8s ease-in-out infinite",
-            }}
-          />
-        </motion.div>
-      </section>
+      {/* ── Service grid — sits directly below about hero ── */}
+      {(() => {
+        const GOLD = "rgba(169,140,95,0.55)";
+        const ITEMS = [
+          { label: "Residential\nDesign"    },
+          { label: "Commercial\nSpaces"     },
+          { label: "Hospitality\nInteriors" },
+          { label: "Turnkey\nExecution"     },
+          { label: "Project\nManagement"    },
+          { label: "Bespoke\nConsulting"    },
+        ];
+        return (
+          <div className="luxe-emerald relative overflow-hidden blend-to-ivory">
+            <div className="absolute left-0 right-0 pointer-events-none" style={{ top: "50%", height: "1px", background: `linear-gradient(to right, transparent 2%, ${GOLD} 15%, ${GOLD} 85%, transparent 98%)` }} />
+            <div className="absolute top-0 bottom-0 pointer-events-none" style={{ left: "33.333%", width: "1px", background: `linear-gradient(to bottom, transparent 2%, ${GOLD} 12%, ${GOLD} 88%, transparent 98%)` }} />
+            <div className="absolute top-0 bottom-0 pointer-events-none" style={{ left: "66.666%", width: "1px", background: `linear-gradient(to bottom, transparent 2%, ${GOLD} 12%, ${GOLD} 88%, transparent 98%)` }} />
+            <div className="grid grid-cols-3">
+              {ITEMS.map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.55, delay: i * 0.07, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="flex items-center justify-center px-6 py-24 md:py-36 text-center group cursor-default"
+                >
+                  <p
+                    className="font-sans font-medium text-[#D6BD94] uppercase tracking-[0.25em] leading-[1.6] transition-colors duration-300 group-hover:text-ivory"
+                    style={{ fontSize: "clamp(0.6rem, 1vw, 0.78rem)", whiteSpace: "pre-line" }}
+                  >
+                    {item.label}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* ── 2. OUR STORY ── */}
-      <section className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
+      <section className="relative py-24 md:py-36 luxe-ivory overflow-hidden blend-to-emerald">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
         {/* Ambient gold wash — bottom right */}
@@ -591,7 +608,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ── 3. STATS BAR ── */}
-      <section className="relative py-16 md:py-20 luxe-emerald overflow-hidden">
+      <section className="relative py-16 md:py-20 luxe-emerald overflow-hidden blend-to-ivory">
         <div className="absolute inset-0 pointer-events-none luxe-grain opacity-30" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-0">
@@ -624,7 +641,7 @@ export default function AboutPageContent() {
       {/* ── 4. LAYERED STORY IMAGE + COPY ── */}
       <section
         ref={storyRef}
-        className="relative py-24 md:py-36 luxe-ivory overflow-hidden"
+        className="relative py-24 md:py-36 luxe-ivory overflow-hidden blend-to-emerald"
       >
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-10 items-center">
@@ -715,7 +732,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ── 5. VALUES GRID ── */}
-      <section className="relative py-24 md:py-36 luxe-emerald overflow-hidden">
+      <section className="relative py-24 md:py-36 luxe-emerald overflow-hidden blend-to-ivory">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
         {/* Ghost background text */}

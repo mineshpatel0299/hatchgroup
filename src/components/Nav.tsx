@@ -23,8 +23,11 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Light treatment on dark-background pages (e.g. /about hero) until the user scrolls
-  const light = pathname === "/about" && !scrolled;
+  // Determine if the initial hero background is dark (meaning we need light text)
+  // Add other dark-background pages to this array if needed
+  const isDarkHero = ["/"].includes(pathname);
+  const light = isDarkHero && !scrolled;
+  const useDarkText = scrolled || !light;
 
   return (
     <>
@@ -44,7 +47,10 @@ export default function Nav() {
               src="https://res.cloudinary.com/de4pazo51/image/upload/c_crop,g_north_west,h_1055,w_6125,x_908,y_1653/HATCH_LOGO_GOLD-02_1_arrhel.png"
               alt="Hatch Group"
               fill
-              className="object-contain object-left transition-all duration-500"
+              className={clsx(
+                "object-contain object-left transition-all duration-500",
+                useDarkText && "brightness-0"
+              )}
               priority
               unoptimized
             />
@@ -66,8 +72,8 @@ export default function Nav() {
                     data-cursor-interact
                     className={clsx(
                       "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300",
-                      scrolled ? "text-foreground/70 hover:text-foreground" : "text-white/80 hover:text-white",
-                      isActive && (scrolled ? "text-foreground" : "text-white")
+                      useDarkText ? "text-foreground/70 hover:text-foreground" : "text-white/80 hover:text-white",
+                      isActive && (useDarkText ? "text-foreground" : "text-white")
                     )}
                   >
                     {label}
@@ -75,7 +81,7 @@ export default function Nav() {
                       className={clsx(
                         "absolute -bottom-0.5 left-0 h-px transition-all duration-500 ease-in-out",
                         isActive ? "w-full" : "w-0 group-hover:w-full",
-                        scrolled ? "bg-accent" : "bg-white/60"
+                        useDarkText ? "bg-accent" : "bg-white/60"
                       )}
                     />
                   </Link>
@@ -90,7 +96,7 @@ export default function Nav() {
             data-cursor-interact
             className={clsx(
               "hidden md:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-medium px-5 py-2.5 border transition-all duration-500",
-              scrolled
+              useDarkText
                 ? "border-foreground/25 text-foreground hover:bg-foreground hover:text-background"
                 : "border-white/30 text-white hover:bg-white hover:text-foreground"
             )}
@@ -105,7 +111,7 @@ export default function Nav() {
             aria-label="Toggle menu"
             className={clsx(
               "md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 transition-colors duration-300",
-              light ? "text-white" : "text-foreground"
+              useDarkText ? "text-foreground" : "text-white"
             )}
           >
             <span
