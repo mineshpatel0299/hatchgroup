@@ -213,32 +213,6 @@ function VisionMissionSection() {
   );
 }
 
-function KineticSculpture() {
-  return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] pointer-events-none z-10 flex items-center justify-center opacity-40 mix-blend-multiply">
-      <motion.div
-        animate={{ rotateX: 360, rotateY: 180 }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        className="absolute w-full h-full border-[1px] border-accent/40 rounded-full"
-      />
-      <motion.div
-        animate={{ rotateY: 360, rotateZ: 180 }}
-        transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-        className="absolute w-[85%] h-[85%] border-[1px] border-accent/50 rounded-full"
-      />
-      <motion.div
-        animate={{ rotateZ: 360, rotateX: 180 }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-        className="absolute w-[70%] h-[70%] border-[1px] border-accent/60 rounded-full"
-      />
-      <motion.div
-        animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.4, 0.8, 0.4] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute w-[20%] h-[20%] bg-accent/20 blur-[15px] rounded-full"
-      />
-    </div>
-  );
-}
 
 function AboutHero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -298,9 +272,6 @@ function AboutHero() {
       
       {/* Background radial highlight */}
       <div className="absolute inset-0 z-10 pointer-events-none" style={{ background: "radial-gradient(circle at center, #FFFFFF 0%, transparent 70%)", opacity: 0.5 }} />
-
-      {/* Luxury Kinetic Sculpture */}
-      <KineticSculpture />
 
       {/* Floating Images Container */}
       <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
@@ -381,22 +352,12 @@ function AboutHero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="font-display font-light text-foreground leading-[0.9] m-0 p-0 flex flex-col items-center"
-            style={{ fontSize: "clamp(2.2rem, 10vw, 11rem)", letterSpacing: "-0.02em" }}
+            style={{ fontSize: "clamp(2rem, 6vw, 6.5rem)", letterSpacing: "-0.02em" }}
           >
             <span className="block italic text-accent mr-[10%]" style={{ fontSize: "0.8em" }}>Authors of</span>
             <span className="block font-sans font-thin tracking-tighter uppercase ml-[5%]">Space</span>
           </motion.h1>
           
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center"
-          >
-            <span className="font-display italic text-foreground/[0.04] text-[clamp(6rem,16vw,18rem)] leading-none select-none pointer-events-none">
-              vision
-            </span>
-          </motion.div>
         </div>
 
         <motion.div
