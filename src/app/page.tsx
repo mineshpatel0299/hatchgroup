@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <main className="relative bg-background w-full min-h-screen">
       <Hero />
-      <AboutUs />
+<AboutUs />
       {/* <VisionMissionParallax /> */}
       <Philosophy />
       <Services />

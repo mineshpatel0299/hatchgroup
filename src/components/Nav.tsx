@@ -66,8 +66,8 @@ export default function Nav() {
                     data-cursor-interact
                     className={clsx(
                       "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300",
-                      light ? "text-white/80 hover:text-white" : "text-foreground/70 hover:text-foreground",
-                      isActive && (light ? "text-white" : "text-foreground")
+                      scrolled ? "text-foreground/70 hover:text-foreground" : "text-white/80 hover:text-white",
+                      isActive && (scrolled ? "text-foreground" : "text-white")
                     )}
                   >
                     {label}
@@ -75,7 +75,7 @@ export default function Nav() {
                       className={clsx(
                         "absolute -bottom-0.5 left-0 h-px transition-all duration-500 ease-in-out",
                         isActive ? "w-full" : "w-0 group-hover:w-full",
-                        light ? "bg-white/60" : "bg-accent"
+                        scrolled ? "bg-accent" : "bg-white/60"
                       )}
                     />
                   </Link>
@@ -90,9 +90,9 @@ export default function Nav() {
             data-cursor-interact
             className={clsx(
               "hidden md:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-medium px-5 py-2.5 border transition-all duration-500",
-              light
-                ? "border-white/30 text-white hover:bg-white hover:text-foreground"
-                : "border-foreground/25 text-foreground hover:bg-foreground hover:text-background"
+              scrolled
+                ? "border-foreground/25 text-foreground hover:bg-foreground hover:text-background"
+                : "border-white/30 text-white hover:bg-white hover:text-foreground"
             )}
           >
             Enquire

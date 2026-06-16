@@ -1,54 +1,18 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 
-// ─── Scroll-timed text overlay ──────────────────────────────────────────────
-// Each overlay fades up in, holds, then drifts up out — all driven by scroll.
-function Overlay({
-  progress,
-  inStart, inEnd, outStart, outEnd,
-  children,
-  className = "",
-}: {
-  progress: MotionValue<number>;
-  inStart: number; inEnd: number;
-  outStart: number; outEnd: number;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const opacity = useTransform(
-    progress,
-    [inStart, inEnd, outStart, outEnd],
-    [0, 1, 1, 0]
-  );
-  const y = useTransform(
-    progress,
-    [inStart, inEnd, outStart, outEnd],
-    [28, 0, 0, -22]
-  );
-  return (
-    <motion.div
-      style={{ opacity, y }}
-      className={`absolute pointer-events-none ${className}`}
-    >
-      {children}
-    </motion.div>
-  );
-}
+const GOLD = "rgba(169,140,95,0.55)";
 
-// ─── Gold hairline rule ──────────────────────────────────────────────────────
-function GoldRule({ className = "" }: { className?: string }) {
-  return (
-    <div
-      className={`h-px ${className}`}
-      style={{
-        background:
-          "linear-gradient(to right, transparent, rgba(169,140,95,0.7) 30%, rgba(214,189,148,0.9) 50%, rgba(169,140,95,0.7) 70%, transparent)",
-      }}
-    />
-  );
-}
+const ITEMS = [
+  { label: "Residential\nDesign"    },
+  { label: "Commercial\nSpaces"     },
+  { label: "Hospitality\nInteriors" },
+  { label: "Turnkey\nExecution"     },
+  { label: "Project\nManagement"    },
+  { label: "Bespoke\nConsulting"    },
+];
 
 export default function Hero() {
   const sectionRef  = useRef<HTMLElement>(null);
@@ -62,10 +26,19 @@ export default function Hero() {
     offset: ["start start", "end end"],
   });
 
-  const videoWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  // ── Phase 1 (0 → 0.35): text fades, video expands ──────────────────────────
+  const textOpacity = useTransform(scrollYProgress, [0, 0.06], [1, 0]);
+  const textY       = useTransform(scrollYProgress, [0, 0.06], [0, -36]);
 
-  // iOS Safari blocks currentTime until play() has been called once.
-  // On loadedmetadata, silently play→pause to unlock seeking.
+  // Video stays still while text fades, then expands from 0.08 → 0.42
+  const vTop    = useTransform(scrollYProgress, [0.08, 0.42], ["28%", "0%"]);
+  const vLeft   = useTransform(scrollYProgress, [0.08, 0.42], ["6%",  "0%"]);
+  const vRight  = useTransform(scrollYProgress, [0.08, 0.42], ["6%",  "0%"]);
+  const vBottom = useTransform(scrollYProgress, [0.08, 0.42], ["1%",  "0%"]);
+  const vRadius = useTransform(scrollYProgress, [0.08, 0.40], ["14px", "0px"]);
+
+  // ── Phase 2 (0.35 → 1.0): scrub video ──────────────────────────────────────
+  // iOS Safari needs one play→pause before seeking is allowed
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -76,7 +49,6 @@ export default function Hero() {
         .catch(() => {});
     };
     video.addEventListener("loadedmetadata", unlock, { once: true });
-    // Fallback: unlock on first user touch as well
     const onTouch = () => { unlock(); document.removeEventListener("touchstart", onTouch); };
     document.addEventListener("touchstart", onTouch, { passive: true });
     return () => {
@@ -85,19 +57,21 @@ export default function Hero() {
     };
   }, []);
 
-  // Scrub video — throttled to one seek per animation frame
   useEffect(() => {
     const unsub = scrollYProgress.on("change", (latest) => {
       const video = videoRef.current;
       if (!video || !video.duration) return;
-      targetRef.current = latest * video.duration;
+      // Map scroll 0.42–1.0 to video 0–duration
+      const t = Math.max(0, (latest - 0.42) / 0.58) * video.duration;
+      targetRef.current = t;
       if (rafRef.current !== null) return;
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = null;
         const v = videoRef.current;
         if (!v) return;
-        if (Math.abs(v.currentTime - targetRef.current) < 0.016) return;
-        v.currentTime = targetRef.current;
+        if (Math.abs(v.currentTime - targetRef.current) > 0.016) {
+          v.currentTime = targetRef.current;
+        }
       });
     });
     return () => {
@@ -107,200 +81,131 @@ export default function Hero() {
   }, [scrollYProgress]);
 
   return (
-    // Use svh so iOS address bar doesn't overflow the sticky viewport
-    <section ref={sectionRef} className="relative" style={{ height: "400svh" }}>
-      <div className="sticky top-0 overflow-hidden bg-black" style={{ height: "100svh" }}>
+    <>
+    <section ref={sectionRef} className="relative" style={{ height: "500svh" }}>
+      <div className="sticky top-0 bg-emerald" style={{ height: "100svh", overflow: "hidden" }}>
 
-        {/* ── Video ── */}
-        <video
-          ref={videoRef}
-          src="/vids/jj-scrub.mp4"
-          className="w-full h-full object-cover"
-          preload="auto"
-          muted
-          playsInline
-          {...{ "webkit-playsinline": "true" }}
-          style={{ filter: "contrast(1.08) saturate(1.12) brightness(1.04)" }}
-        />
-
-        {/* Bottom scrim — thin, just enough to ground the text */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
-          style={{
-            background: "linear-gradient(to top, rgba(14,20,16,0.22) 0%, transparent 100%)",
-          }}
-        />
-        {/* Top scrim — barely visible */}
-        <div
-          className="absolute inset-x-0 top-0 h-16 pointer-events-none"
-          style={{
-            background: "linear-gradient(to bottom, rgba(14,20,16,0.12) 0%, transparent 100%)",
-          }}
-        />
-
-        {/* ══════════════════════════════════════════════════════════════════
-            TEXT OVERLAYS — timed to scroll progress
-        ══════════════════════════════════════════════════════════════════ */}
-
-        {/* ── 1. Opening statement (scroll 0 → 0.22) ── */}
-        <Overlay
-          progress={scrollYProgress}
-          inStart={0} inEnd={0.07} outStart={0.16} outEnd={0.22}
-          className="inset-0 flex flex-col items-center justify-center px-6 text-center z-10"
+        {/* ── Text block (label + headline + sub + scroll hint) ── */}
+        <motion.div
+          style={{ opacity: textOpacity, y: textY }}
+          className="absolute inset-x-0 top-0 z-5 flex flex-col items-center px-6 text-center pointer-events-none"
         >
-          {/* Small label with gold rules */}
-          <div className="flex items-center gap-5 mb-8">
-            <GoldRule className="w-12 md:w-20" />
-            <span
-              className="text-[#D6BD94] text-[9px] md:text-[11px] font-sans font-medium tracking-[0.55em] uppercase"
+          <div style={{ paddingTop: "clamp(6rem, 10svh, 7.5rem)" }} className="flex flex-col items-center">
+            {/* Label */}
+            <div className="flex items-center gap-4 mb-5">
+              <div
+                className="h-px w-10 md:w-16"
+                style={{ background: "linear-gradient(to right, transparent, rgba(169,140,95,0.7))" }}
+              />
+              <span className="text-[#D6BD94] text-[8px] md:text-[10px] font-sans font-medium tracking-[0.55em] uppercase">
+                Interior Atelier · Est. 2014
+              </span>
+              <div
+                className="h-px w-10 md:w-16"
+                style={{ background: "linear-gradient(to left, transparent, rgba(169,140,95,0.7))" }}
+              />
+            </div>
+
+            {/* Headline */}
+            <h1
+              className="font-display font-light text-ivory leading-[1.06] mb-4 whitespace-nowrap"
+              style={{
+                fontSize: "clamp(1.8rem, 4vw, 4.5rem)",
+                letterSpacing: "-0.02em",
+                textShadow: "0 4px 40px rgba(0,0,0,0.45)",
+              }}
             >
-              Interior Atelier · Est. 2014
-            </span>
-            <GoldRule className="w-12 md:w-20" />
+              The Art of{" "}
+              <span
+                style={{
+                  background:
+                    "linear-gradient(115deg, #C2A878 0%, #EFD99B 35%, #C2A878 65%, #EFD99B 100%)",
+                  backgroundSize: "220% auto",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                  animation: "luxe-shimmer 8s ease-in-out infinite",
+                }}
+              >
+                Believable Luxury
+              </span>
+            </h1>
+
           </div>
+        </motion.div>
 
-          {/* Hero headline */}
-          <h1
-            className="font-display font-light text-ivory leading-[1.05] mb-7"
-            style={{
-              fontSize: "clamp(2.8rem, 8.5vw, 8rem)",
-              letterSpacing: "-0.02em",
-              textShadow: "0 4px 40px rgba(0,0,0,0.5)",
-            }}
-          >
-            The Art of
-            <br />
-            <span
-              style={{
-                background:
-                  "linear-gradient(115deg, #C2A878 0%, #EFD99B 35%, #C2A878 65%, #EFD99B 100%)",
-                backgroundSize: "220% auto",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                color: "transparent",
-                animation: "luxe-shimmer 8s ease-in-out infinite",
-              }}
-            >
-              Believable Luxury
-            </span>
-          </h1>
-
-          <p
-            className="text-ivory/55 font-sans font-light text-[0.9rem] md:text-lg max-w-md leading-[1.85]"
-            style={{ textShadow: "0 2px 12px rgba(0,0,0,0.4)" }}
-          >
-            Cinematic aesthetics. Uncompromising material quality.
-          </p>
-
-          {/* Scroll nudge */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-            <span className="text-[#D6BD94]/70 text-[8px] tracking-[0.45em] uppercase font-sans">
-              Scroll
-            </span>
-            <div
-              className="w-px h-10"
-              style={{
-                background: "linear-gradient(to bottom, rgba(214,189,148,0.7), transparent)",
-                animation: "grow 1.8s ease-in-out infinite",
-              }}
-            />
-          </div>
-        </Overlay>
-
-        {/* ── 2. Chapter I — Craft (scroll 0.26 → 0.52) ── */}
-        <Overlay
-          progress={scrollYProgress}
-          inStart={0.26} inEnd={0.33} outStart={0.46} outEnd={0.52}
-          className="left-8 md:left-16 bottom-16 md:bottom-20 z-10"
+        {/* ── Video (expands from inset → full cover) ── */}
+        <motion.div
+          className="absolute overflow-hidden z-10"
+          style={{
+            top: vTop,
+            left: vLeft,
+            right: vRight,
+            bottom: vBottom,
+            borderRadius: vRadius,
+          }}
         >
-          <GoldRule className="w-10 mb-5" />
-          <p
-            className="font-display font-light text-ivory leading-[1.2]"
-            style={{
-              fontSize: "clamp(1.6rem, 3.5vw, 3rem)",
-              textShadow: "0 4px 30px rgba(0,0,0,0.6)",
-              maxWidth: "14ch",
-            }}
-          >
-            Spaces crafted
-            <br />
-            <span className="text-[#D6BD94]">to transcend.</span>
-          </p>
-        </Overlay>
+          <video
+            ref={videoRef}
+            src="/vids/jj-scrub.mp4"
+            className="w-full h-full object-cover"
+            preload="auto"
+            muted
+            playsInline
+            {...{ "webkit-playsinline": "true" }}
+            style={{ filter: "contrast(1.08) saturate(1.12) brightness(1.04)" }}
+          />
 
-        {/* ── 3. Chapter II — Material (scroll 0.54 → 0.80) ── */}
-        <Overlay
-          progress={scrollYProgress}
-          inStart={0.54} inEnd={0.61} outStart={0.74} outEnd={0.80}
-          className="right-8 md:right-16 top-1/2 -translate-y-1/2 text-right z-10"
-        >
-          <GoldRule className="w-10 ml-auto mb-5" />
-          <p
-            className="font-display font-light text-ivory leading-[1.2]"
-            style={{
-              fontSize: "clamp(1.6rem, 3.5vw, 3rem)",
-              textShadow: "0 4px 30px rgba(0,0,0,0.6)",
-              maxWidth: "13ch",
-            }}
-          >
-            Uncompromising
-            <br />
-            <span className="text-[#D6BD94]">in every detail.</span>
-          </p>
-        </Overlay>
+          {/* Subtle dark scrim so text reads on top of video */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.22) 100%)" }}
+          />
+        </motion.div>
 
-        {/* ── 4. Closing — brand statement (scroll 0.83 → 1.0) ── */}
-        <Overlay
-          progress={scrollYProgress}
-          inStart={0.83} inEnd={0.90} outStart={0.97} outEnd={1.0}
-          className="inset-0 flex flex-col items-center justify-center text-center z-10"
-        >
-          <GoldRule className="w-16 mx-auto mb-8" />
-          <p
-            className="font-sans text-[#D6BD94] text-[9px] md:text-[11px] tracking-[0.55em] uppercase mb-6"
-          >
-            Hatch Group
-          </p>
-          <h2
-            className="font-display font-light text-ivory leading-[1.05] mb-8"
-            style={{
-              fontSize: "clamp(2rem, 5.5vw, 5rem)",
-              letterSpacing: "-0.015em",
-              textShadow: "0 4px 40px rgba(0,0,0,0.5)",
-            }}
-          >
-            Every project,
-            <br />
-            <span
-              style={{
-                background:
-                  "linear-gradient(115deg, #C2A878 0%, #EFD99B 35%, #C2A878 65%, #EFD99B 100%)",
-                backgroundSize: "220% auto",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                color: "transparent",
-                animation: "luxe-shimmer 8s ease-in-out infinite",
-              }}
-            >
-              a masterwork.
-            </span>
-          </h2>
-          <GoldRule className="w-16 mx-auto mb-8" />
-          <span className="font-sans text-ivory/40 text-[8px] tracking-[0.45em] uppercase">
-            Mumbai · New Delhi · Dubai
-          </span>
-        </Overlay>
 
         {/* ── Gold progress bar ── */}
         <motion.div
-          className="absolute bottom-0 left-0 h-0.5 z-20"
-          style={{
-            width: videoWidth,
-            background: "linear-gradient(90deg, #A98C5F, #D6BD94, #A98C5F)",
-          }}
+         
         />
 
       </div>
     </section>
+
+    {/* ── Service grid — renders after the 500svh video scroll ends ── */}
+    <div className="luxe-emerald relative overflow-hidden">
+      <div
+        className="absolute left-0 right-0 pointer-events-none"
+        style={{ top: "50%", height: "1px", background: `linear-gradient(to right, transparent 2%, ${GOLD} 15%, ${GOLD} 85%, transparent 98%)` }}
+      />
+      <div
+        className="absolute top-0 bottom-0 pointer-events-none"
+        style={{ left: "33.333%", width: "1px", background: `linear-gradient(to bottom, transparent 2%, ${GOLD} 12%, ${GOLD} 88%, transparent 98%)` }}
+      />
+      <div
+        className="absolute top-0 bottom-0 pointer-events-none"
+        style={{ left: "66.666%", width: "1px", background: `linear-gradient(to bottom, transparent 2%, ${GOLD} 12%, ${GOLD} 88%, transparent 98%)` }}
+      />
+      <div className="grid grid-cols-3">
+        {ITEMS.map((item, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, delay: i * 0.07, ease: [0.25, 0.1, 0.25, 1] }}
+            className="flex items-center justify-center px-6 py-24 md:py-36 text-center group cursor-default"
+          >
+            <p
+              className="font-sans font-medium text-[#D6BD94] uppercase tracking-[0.25em] leading-[1.6] transition-colors duration-300 group-hover:text-ivory"
+              style={{ fontSize: "clamp(0.6rem, 1vw, 0.78rem)", whiteSpace: "pre-line" }}
+            >
+              {item.label}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+    </>
   );
 }
