@@ -25,7 +25,7 @@ export default function AboutUs() {
   const yGhost   = useTransform(scrollYProgress, [0, 1], [40, -120]);
 
   return (
-    <section ref={sectionRef} className="relative py-20 md:py-28 overflow-hidden luxe-emerald blend-to-ivory">
+    <section ref={sectionRef} className="relative py-20 md:py-28 overflow-hidden luxe-emerald">
       <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
       {/* Ghost vertical wordmark drifting on its own speed */}

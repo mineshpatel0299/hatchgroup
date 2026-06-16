@@ -167,7 +167,7 @@ export default function Services() {
   });
 
   return (
-    <section ref={sectionRef} className="relative md:h-[400vh] luxe-emerald blend-to-ivory">
+    <section ref={sectionRef} className="relative md:h-[400vh] luxe-emerald">
 
       {/* ════ Desktop: the atelier doors ════ */}
       <div className="hidden md:flex sticky top-0 h-screen overflow-hidden flex-col justify-center">

@@ -291,7 +291,7 @@ function AboutHero() {
   return (
     <section
       ref={containerRef}
-      className="relative overflow-hidden flex items-center justify-center luxe-ivory blend-to-emerald"
+      className="relative overflow-hidden flex items-center justify-center luxe-ivory"
       style={{ height: "100svh" }}
     >
       <div className="absolute inset-0 pointer-events-none luxe-grain opacity-60 z-30" />
@@ -441,12 +441,22 @@ function AboutHero() {
 }
 
 export default function AboutPageContent() {
+  const heroRef = useRef<HTMLElement>(null);
   const storyRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
 
   const { scrollYProgress: storyScroll } = useScroll({
     target: storyRef,
     offset: ["start end", "end start"],
   });
+
+  // Hero parallax — content drifts up and fades as user scrolls off
+  const heroContentY       = useTransform(heroScroll, [0, 1], [0, 180]);
+  const heroContentOpacity = useTransform(heroScroll, [0, 0.6], [1, 0]);
 
   const yArch  = useTransform(storyScroll, [0, 1], [60, -60]);
   const ySmall = useTransform(storyScroll, [0, 1], [120, -120]);
@@ -468,7 +478,7 @@ export default function AboutPageContent() {
           { label: "Bespoke\nConsulting"    },
         ];
         return (
-          <div className="luxe-emerald relative overflow-hidden blend-to-ivory">
+          <div className="luxe-emerald relative overflow-hidden">
             <div className="absolute left-0 right-0 pointer-events-none" style={{ top: "50%", height: "1px", background: `linear-gradient(to right, transparent 2%, ${GOLD} 15%, ${GOLD} 85%, transparent 98%)` }} />
             <div className="absolute top-0 bottom-0 pointer-events-none" style={{ left: "33.333%", width: "1px", background: `linear-gradient(to bottom, transparent 2%, ${GOLD} 12%, ${GOLD} 88%, transparent 98%)` }} />
             <div className="absolute top-0 bottom-0 pointer-events-none" style={{ left: "66.666%", width: "1px", background: `linear-gradient(to bottom, transparent 2%, ${GOLD} 12%, ${GOLD} 88%, transparent 98%)` }} />
@@ -496,7 +506,7 @@ export default function AboutPageContent() {
       })()}
 
       {/* ── 2. OUR STORY ── */}
-      <section className="relative py-24 md:py-36 luxe-ivory overflow-hidden blend-to-emerald">
+      <section className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
         {/* Ambient gold wash — bottom right */}
@@ -608,7 +618,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ── 3. STATS BAR ── */}
-      <section className="relative py-16 md:py-20 luxe-emerald overflow-hidden blend-to-ivory">
+      <section className="relative py-16 md:py-20 luxe-emerald overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain opacity-30" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-0">
@@ -641,7 +651,7 @@ export default function AboutPageContent() {
       {/* ── 4. LAYERED STORY IMAGE + COPY ── */}
       <section
         ref={storyRef}
-        className="relative py-24 md:py-36 luxe-ivory overflow-hidden blend-to-emerald"
+        className="relative py-24 md:py-36 luxe-ivory overflow-hidden"
       >
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-10 items-center">
@@ -732,7 +742,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ── 5. VALUES GRID ── */}
-      <section className="relative py-24 md:py-36 luxe-emerald overflow-hidden blend-to-ivory">
+      <section className="relative py-24 md:py-36 luxe-emerald overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
         {/* Ghost background text */}
