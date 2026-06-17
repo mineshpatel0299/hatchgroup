@@ -1,20 +1,14 @@
 import type { Metadata } from "next";
-import { Marcellus, Jost } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
 import CustomCursor from "@/components/CustomCursor";
 import Nav from "@/components/Nav";
 
-const marcellus = Marcellus({
-  weight: "400",
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-marcellus",
-});
-
-const jost = Jost({
-  weight: ["300", "400", "500", "600"],
-  subsets: ["latin"],
-  variable: "--font-jost",
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${marcellus.variable} ${jost.variable}`}>
+    <html lang="en" className={poppins.variable}>
       {/* suppressHydrationWarning: browser extensions (e.g. Grammarly) inject
           attributes into <body> before hydration, causing false mismatches */}
       <body suppressHydrationWarning className="antialiased font-sans text-foreground bg-background cursor-none">

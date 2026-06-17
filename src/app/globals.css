@@ -4,7 +4,7 @@
   --background: #F7F2E9;   /* warm porcelain */
   --foreground: #1C2420;   /* deep ink emerald */
   --accent: #A98C5F;       /* antique gold */
-  --emerald: #0E3B2E;
+  --emerald: #00251f;
   --ivory: #FFFDF4;        /* true ivory — used sparingly */
   --champagne: #EFE3CC;
 }
@@ -16,8 +16,8 @@
   --color-emerald: var(--emerald);
   --color-ivory: var(--ivory);
   --color-champagne: var(--champagne);
-  --font-display: var(--font-marcellus);
-  --font-sans: var(--font-jost);
+  --font-display: var(--font-poppins);
+  --font-sans: var(--font-poppins);
 }
 
 body {
@@ -96,12 +96,12 @@ html.lenis, html.lenis body {
 /* Deep emerald — dark tonal shades only, no white or ivory */
 .luxe-emerald {
   --foreground: #F3E8DE;
-  --background: #004737;
+  --background: #00251f;
   background:
-    radial-gradient(ellipse 65% 55% at 10% 0%, #005A46 0%, transparent 55%),
-    radial-gradient(ellipse 55% 50% at 92% 105%, #002218 0%, transparent 55%),
-    radial-gradient(ellipse 75% 65% at 55% 50%, #003D2E 0%, transparent 65%),
-    linear-gradient(155deg, #004A3A 0%, #004737 50%, #002E22 100%);
+    radial-gradient(ellipse 65% 55% at 10% 0%, #003D2E 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 92% 105%, #001510 0%, transparent 55%),
+    radial-gradient(ellipse 75% 65% at 55% 50%, #00251f 0%, transparent 65%),
+    linear-gradient(155deg, #002E22 0%, #00251f 50%, #001A14 100%);
 }
 
 /* Warm ivory — #F3E8DE with gold-dust highlights at corners */

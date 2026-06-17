@@ -4,11 +4,12 @@ import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 
-const MANIFESTO: { text: string; gold?: boolean }[] = [
+const MANIFESTO: { text: string; gold?: boolean; lineBreak?: boolean }[] = [
   { text: "True" }, { text: "luxury", gold: true }, { text: "is" }, { text: "not" },
-  { text: "what" }, { text: "you" }, { text: "see" }, { text: "—" },
+  { text: "what" }, { text: "you" }, { text: "see", lineBreak: true },
   { text: "it" }, { text: "is" }, { text: "what" }, { text: "you" },
-  { text: "feel", gold: true }, { text: "when" }, { text: "a" }, { text: "space" },
+  { text: "feel", gold: true }, { text: "when", lineBreak: true },
+  { text: "a" }, { text: "space" },
   { text: "understands", gold: true }, { text: "you." },
 ];
 
@@ -106,15 +107,18 @@ export default function Philosophy() {
           {/* Word-by-word manifesto — each word wakes as you scroll */}
           <p
             className="font-display font-light leading-[1.3]"
-            style={{ fontSize: "clamp(1.9rem, 5.2vw, 4.6rem)", letterSpacing: "-0.01em" }}
+            style={{ fontSize: "clamp(1.6rem, 4vw, 3.6rem)", letterSpacing: "-0.01em" }}
           >
             {MANIFESTO.map((w, i) => {
               const start = 0.08 + (i / MANIFESTO.length) * 0.72;
               const end = start + 0.72 / MANIFESTO.length;
               return (
-                <Word key={i} progress={scrollYProgress} range={[start, end]} gold={w.gold}>
-                  {w.text}
-                </Word>
+                <span key={i}>
+                  <Word progress={scrollYProgress} range={[start, end]} gold={w.gold}>
+                    {w.text}
+                  </Word>
+                  {w.lineBreak && <br />}
+                </span>
               );
             })}
           </p>

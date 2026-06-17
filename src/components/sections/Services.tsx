@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 
 const SERVICES = [
   {
@@ -156,21 +156,13 @@ function MobileCarousel() {
 }
 
 export default function Services() {
-  const sectionRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
 
-  const { scrollYProgress } = useScroll({ target: sectionRef });
-
-  useMotionValueEvent(scrollYProgress, "change", (p) => {
-    const idx = Math.min(SERVICES.length - 1, Math.max(0, Math.floor(p * SERVICES.length)));
-    setActive(idx);
-  });
-
   return (
-    <section ref={sectionRef} className="relative md:h-[400vh] luxe-emerald">
+    <section className="relative luxe-emerald">
 
       {/* ════ Desktop: the atelier doors ════ */}
-      <div className="hidden md:flex sticky top-0 h-screen overflow-hidden flex-col justify-center">
+      <div className="hidden md:flex h-screen overflow-hidden flex-col justify-center">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
         <div

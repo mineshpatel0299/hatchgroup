@@ -3,9 +3,10 @@ import AboutUs from "@/components/sections/AboutUs";
 // import VisionMissionParallax from "@/components/sections/VisionMissionParallax";
 import Philosophy from "@/components/sections/Philosophy";
 import Services from "@/components/sections/Services";
-import FeaturedProject from "@/components/sections/FeaturedProject";
+import ShowcaseSlider from "@/components/sections/ShowcaseSlider";
+// import FeaturedProject from "@/components/sections/FeaturedProject";
 import ProjectGrid from "@/components/sections/ProjectGrid";
-import Walkthrough from "@/components/sections/Walkthrough";
+// import Walkthrough from "@/components/sections/Walkthrough";
 // import FloorPlan3D from "@/components/sections/FloorPlan3D";
 // import Testimonials from "@/components/sections/Testimonials";
 import SocialProof from "@/components/sections/SocialProof";
@@ -20,9 +21,10 @@ export default function Home() {
       {/* <VisionMissionParallax /> */}
       <Philosophy />
       <Services />
-      <Walkthrough />
+      <ShowcaseSlider />
+      {/* <Walkthrough /> */}
       {/* <FloorPlan3D /> */}
-      <FeaturedProject />
+      {/* <FeaturedProject /> */}
       <ProjectGrid />
       {/* <Testimonials /> */}
       <SocialProof />

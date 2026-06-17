@@ -288,11 +288,11 @@ export default function FloorPlan3D() {
               </div>
 
               {/* Viewer window */}
-              <div className="relative aspect-4/3 overflow-hidden rounded-2xl bg-[#003D2E]">
+              <div className="relative aspect-4/3 overflow-hidden rounded-2xl bg-emerald">
 
                 {/* Loading state */}
                 {!loaded && (
-                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-5 bg-[#003D2E]">
+                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-5 bg-emerald">
                     <div className="relative w-12 h-12">
                       <motion.div
                         animate={{ rotate: 360 }}
@@ -363,7 +363,7 @@ export default function FloorPlan3D() {
             className="absolute right-3 xl:right-5 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-2"
           >
             <div className="w-px h-14 bg-accent/25" />
-            <div className="border border-accent/30 bg-[#004737]/90 px-3 py-2.5">
+            <div className="border border-accent/30 bg-emerald/90 px-3 py-2.5">
               <div className="text-[7px] tracking-[0.5em] uppercase text-accent/55 mb-1">Width</div>
               <div className="font-display text-foreground/70 text-sm">18.6 m</div>
             </div>
@@ -378,7 +378,7 @@ export default function FloorPlan3D() {
             className="absolute bottom-3 left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-2"
           >
             <div className="h-px w-10 bg-accent/25" />
-            <div className="border border-accent/30 bg-[#004737]/90 px-5 py-2.5 flex gap-5">
+            <div className="border border-accent/30 bg-emerald/90 px-5 py-2.5 flex gap-5">
               <div>
                 <div className="text-[7px] tracking-[0.5em] uppercase text-accent/55 mb-1">Depth</div>
                 <div className="font-display text-foreground/70 text-sm">22.4 m</div>
