@@ -159,7 +159,7 @@ export default function Services() {
   const [active, setActive] = useState(0);
 
   return (
-    <section className="relative luxe-emerald">
+    <section className="relative z-20 luxe-emerald">
 
       {/* ════ Desktop: the atelier doors ════ */}
       <div className="hidden md:flex h-screen overflow-hidden flex-col justify-center">

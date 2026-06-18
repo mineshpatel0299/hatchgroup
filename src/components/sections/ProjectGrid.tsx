@@ -142,7 +142,7 @@ export default function ProjectGrid() {
     <section
       ref={sectionRef}
       onMouseMove={onMouseMove}
-      className="relative py-24 md:py-36 overflow-hidden luxe-ivory"
+      className="relative z-20 py-24 md:py-36 overflow-hidden luxe-ivory"
     >
       <div className="absolute inset-0 pointer-events-none luxe-grain" />
 

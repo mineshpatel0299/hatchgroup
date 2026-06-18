@@ -65,7 +65,7 @@ export default function ShowcaseSlider() {
   };
 
   return (
-    <section className="relative luxe-ivory overflow-hidden">
+    <section className="relative z-20 luxe-ivory overflow-hidden">
       <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
       <div className="relative w-full" style={{ height: "clamp(50vh, 75vw, 90vh)" }}>

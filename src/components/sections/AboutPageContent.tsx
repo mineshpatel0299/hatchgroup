@@ -102,7 +102,7 @@ function VisionMissionSection() {
   const tab = TABS.find((t) => t.id === active)!;
 
   return (
-    <section className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
+    <section id="vision-mission" className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
       <div className="absolute inset-0 pointer-events-none luxe-grain opacity-40" />
       {/* Ambient gold glow */}
       <div
@@ -457,7 +457,7 @@ export default function AboutPageContent() {
       })()}
 
       {/* ── 2. OUR STORY ── */}
-      <section className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
+      <section id="our-story" className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
         {/* Ambient gold wash — bottom right */}
@@ -601,6 +601,7 @@ export default function AboutPageContent() {
 
       {/* ── 4. LAYERED STORY IMAGE + COPY ── */}
       <section
+        id="the-approach"
         ref={storyRef}
         className="relative py-24 md:py-36 luxe-ivory overflow-hidden"
       >
@@ -693,7 +694,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ── 5. VALUES GRID ── */}
-      <section className="relative py-24 md:py-36 luxe-emerald overflow-hidden">
+      <section id="values" className="relative py-24 md:py-36 luxe-emerald overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
         {/* Ghost background text */}
@@ -758,7 +759,150 @@ export default function AboutPageContent() {
       {/* ── 6. VISION / MISSION ── */}
       <VisionMissionSection />
 
-      {/* ── 7. CTA BANNER ── */}
+      {/* ── 7. OUR TEAM ── */}
+      <section id="our-team" className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none luxe-grain opacity-40" />
+
+        {/* Ambient gold wash */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: "20%", left: "50%", transform: "translateX(-50%)",
+            width: "80vw", height: "60vw",
+            background: "radial-gradient(ellipse at center, rgba(169,140,95,0.08) 0%, transparent 65%)",
+          }}
+        />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12">
+
+          {/* Section header */}
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center text-center mb-20 md:mb-28"
+          >
+            <span className="text-accent text-[9px] md:text-[11px] tracking-[0.55em] uppercase font-medium mb-5">
+              The Principals
+            </span>
+            <div className="flex items-center gap-3 w-28 mb-10">
+              <div className="flex-1 h-px luxe-rule" />
+              <div className="w-1.5 h-1.5 rotate-45 border border-accent/60" />
+              <div className="flex-1 h-px luxe-rule" />
+            </div>
+            <h2
+              className="font-display font-light text-foreground leading-[1.1]"
+              style={{ fontSize: "clamp(2rem, 3.8vw, 3.4rem)", letterSpacing: "-0.01em" }}
+            >
+              The minds behind{" "}
+              <span className="luxe-gradient-text">the maison</span>
+            </h2>
+          </motion.div>
+
+          {/* Team members */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
+
+            {/* Member 1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="group"
+            >
+              <div className="relative mb-8">
+                {/* Decorative gold frame offset */}
+                <div className="absolute -top-3 -left-3 w-full h-full border border-accent/25 pointer-events-none" />
+                <div className="relative aspect-[3/4] overflow-hidden bg-champagne">
+                  <Image
+                    src="/images/residential-thumb.png"
+                    alt="Founder"
+                    fill
+                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                    sizes="(min-width: 768px) 45vw, 90vw"
+                  />
+                  {/* Bottom gradient */}
+                  <div
+                    className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
+                    style={{ background: "linear-gradient(to top, rgba(28,36,32,0.4) 0%, transparent 100%)" }}
+                  />
+                </div>
+              </div>
+
+              {/* Info */}
+              <div>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="h-px w-8 luxe-rule" />
+                  <span className="text-accent/60 text-[9px] tracking-[0.5em] uppercase font-sans">
+                    Co-Founder
+                  </span>
+                </div>
+                <h3
+                  className="font-display font-light text-foreground mb-3"
+                  style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)" }}
+                >
+                  Kareena Gambhir
+                </h3>
+                <div className="w-10 h-px mb-5" style={{ background: "rgba(169,140,95,0.35)" }} />
+                <p className="text-foreground/50 font-light leading-[1.9] text-[0.92rem] md:text-[0.98rem] max-w-md">
+                  With over a decade of shaping India&apos;s most discerning interiors,
+                  they bring an architect&apos;s rigour and an artist&apos;s intuition to
+                  every project — finding beauty in precision and soul in restraint.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Member 2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="group md:mt-16"
+            >
+              <div className="relative mb-8">
+                <div className="absolute -top-3 -right-3 w-full h-full border border-accent/25 pointer-events-none" />
+                <div className="relative aspect-[3/4] overflow-hidden bg-champagne">
+                  <Image
+                    src="/images/commercial-thumb.png"
+                    alt="Co-Founder"
+                    fill
+                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                    sizes="(min-width: 768px) 45vw, 90vw"
+                  />
+                  <div
+                    className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
+                    style={{ background: "linear-gradient(to top, rgba(28,36,32,0.4) 0%, transparent 100%)" }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="h-px w-8 luxe-rule" />
+                  <span className="text-accent/60 text-[9px] tracking-[0.5em] uppercase font-sans">
+                    Co-Founder 
+                  </span>
+                </div>
+                <h3
+                  className="font-display font-light text-foreground mb-3"
+                  style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)" }}
+                >
+                  Sumit Verma
+                </h3>
+                <div className="w-10 h-px mb-5" style={{ background: "rgba(169,140,95,0.35)" }} />
+                <p className="text-foreground/50 font-light leading-[1.9] text-[0.92rem] md:text-[0.98rem] max-w-md">
+                  A master of material narratives, they curate palettes that feel
+                  both inevitable and surprising — championing Indian craft
+                  traditions while speaking fluently in global design language.
+                </p>
+              </div>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. CTA BANNER ── */}
       {/* <section className="relative py-24 md:py-32 bg-foreground overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain opacity-30" />
         <div

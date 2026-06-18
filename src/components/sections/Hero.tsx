@@ -71,7 +71,7 @@ export default function Hero() {
 
   return (
     <>
-    <section ref={sectionRef} className="relative" style={{ height: "500svh" }}>
+    <section ref={sectionRef} className="relative z-0" style={{ height: "500svh" }}>
       <div className="sticky top-0 bg-emerald" style={{ height: "100svh", overflow: "hidden" }}>
 
         {/* ── Text block (label + headline + sub + scroll hint) ── */}

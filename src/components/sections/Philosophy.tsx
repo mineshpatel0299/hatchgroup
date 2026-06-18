@@ -49,7 +49,7 @@ export default function Philosophy() {
   const eyebrowO  = useTransform(scrollYProgress, [0, 0.12], [0, 1]);
 
   return (
-    <section ref={sectionRef} className="relative h-[120vh] md:h-[260vh]" style={{ "--foreground": "#1C2420", "--background": "#F3E8DE" } as React.CSSProperties}>
+    <section ref={sectionRef} className="relative z-10 h-[120vh] md:h-[260vh]" style={{ "--foreground": "#1C2420", "--background": "#F3E8DE" } as React.CSSProperties}>
 
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
 

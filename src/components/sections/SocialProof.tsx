@@ -47,7 +47,7 @@ export default function SocialProof() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-28 md:py-40 overflow-hidden luxe-emerald">
+    <section ref={sectionRef} className="relative z-20 py-28 md:py-40 overflow-hidden luxe-emerald">
       <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
       <div
