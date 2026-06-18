@@ -34,7 +34,7 @@ export default function ProjectScrollSection() {
         {/* Background elements (logo, navigation labels) */}
 
         {/* Right side / Top side on mobile: Image sequence */}
-        <div className="absolute left-1/2 md:left-auto md:right-[5vw] top-[20%] md:top-1/2 -translate-x-1/2 md:-translate-x-0 -translate-y-0 md:-translate-y-1/2 w-[85vw] md:w-[55vw] h-[45vh] md:h-[60vh] overflow-hidden z-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-foreground/5">
+        <div className="absolute left-1/2 md:left-auto md:right-[5vw] top-[20%] md:top-1/2 -translate-x-1/2 md:-translate-x-0 -translate-y-0 md:-translate-y-1/2 w-[85vw] md:w-[48vw] h-[45vh] md:h-[60vh] overflow-hidden z-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-foreground/5">
           <motion.div style={{ y: yTransform }} className="flex flex-col w-full h-[900%]">
             {projects.map((project, index) => (
               <div key={project.id} className="w-full h-[11.111%] shrink-0 relative">
@@ -50,7 +50,7 @@ export default function ProjectScrollSection() {
         </div>
 
         {/* Left side / Bottom side on mobile: Scrolling Text */}
-        <div className="absolute left-[5vw] md:left-[15vw] top-[60%] md:top-1/2 -translate-y-0 md:-translate-y-1/2 w-full h-[40vh] md:h-[100vh] pointer-events-none z-20">
+        <div className="absolute left-[5vw] md:left-[8vw] top-[60%] md:top-1/2 -translate-y-0 md:-translate-y-1/2 w-full h-[40vh] md:h-[100vh] pointer-events-none z-20">
           <motion.div style={{ y: yTransform }} className="flex flex-col w-full h-[900%]">
             {projects.map((project, i) => {
               // Calculate the active state for each item.
@@ -115,7 +115,7 @@ export default function ProjectScrollSection() {
                 <div key={project.id} className="h-[11.111%] flex items-center">
                   <Link 
                     href={`/project/${project.id}`}
-                    className="pointer-events-auto inline-block hover:scale-[1.02] transition-transform duration-300 origin-left"
+                    className="group pointer-events-auto inline-block hover:scale-[1.02] transition-transform duration-300 origin-left"
                   >
                     <TextItem title={project.title} progress={isFilled} opacity={opacity} />
                   </Link>
@@ -137,26 +137,41 @@ function TextItem({ title, progress, opacity }: { title: string, progress: any, 
 
   return (
     <motion.div
-      className="relative text-[12vw] md:text-[6vw] leading-[0.85] tracking-tighter font-black uppercase whitespace-nowrap"
+      className="relative flex flex-col items-start gap-1 md:gap-2"
       style={{ opacity }}
     >
-      {/* Stroke outline */}
-      <span
-        className="absolute inset-0"
-        style={{
-          color: "transparent",
-          WebkitTextStroke: "2px rgba(243, 232, 222, 0.15)"
-        }}
-      >
-        {title}
-      </span>
-      {/* Filled text */}
-      <motion.span
-        className="relative text-[var(--accent)]"
+      <div className="relative text-[12vw] md:text-[5.5vw] leading-[0.85] tracking-tighter font-black uppercase whitespace-normal break-words max-w-[90vw] md:max-w-[38vw]">
+        {/* Stroke outline */}
+        <span
+          className="absolute inset-0"
+          style={{
+            color: "transparent",
+            WebkitTextStroke: "2px rgba(243, 232, 222, 0.15)"
+          }}
+        >
+          {title}
+        </span>
+        {/* Filled text */}
+        <motion.span
+          className="relative text-[var(--accent)] inline-block"
+          style={{ opacity: progress }}
+        >
+          {title}
+        </motion.span>
+      </div>
+
+      {/* Clickable Indicator Arrow - fades in with the fill progress */}
+      <motion.div 
+        className="hidden md:flex items-center gap-4 ml-1"
         style={{ opacity: progress }}
       >
-        {title}
-      </motion.span>
+        <span className="text-[10px] tracking-[0.4em] uppercase font-bold text-accent">Explore</span>
+        <div className="w-8 h-px bg-accent group-hover:w-16 transition-all duration-500 origin-left" />
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" className="group-hover:translate-x-2 transition-transform duration-500">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </motion.div>
+
     </motion.div>
   );
 }

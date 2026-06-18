@@ -35,8 +35,8 @@ export default function Footer() {
             <br />
             <span className="luxe-gradient-text">extraordinary.</span>
           </h2>
-          <a
-            href="mailto:contact@hatchgroup.com"
+          <Link
+            href="/enquire"
             data-cursor-interact
             className="relative overflow-hidden group inline-flex px-10 py-4 md:px-14 md:py-5 uppercase tracking-[0.3em] text-[10px] md:text-[11px] font-medium bg-foreground text-ivory transition-colors duration-500"
           >
@@ -47,7 +47,7 @@ export default function Footer() {
               className="absolute inset-0 transform scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-in-out"
               style={{ background: "linear-gradient(115deg, #D6BD94 0%, #C2A878 60%, #A98C5F 100%)" }}
             />
-          </a>
+          </Link>
         </motion.div>
 
         {/* ── Divider ── */}

@@ -152,82 +152,7 @@ export default function Nav() {
   
   const isProjectDetail = pathname.startsWith("/project/") && pathname !== "/project";
 
-  const renderMenuDrawer = () => (
-    <div
-      className={clsx(
-        "fixed inset-0 z-40 flex flex-col justify-center items-center bg-background transition-all duration-500 md:hidden overflow-hidden",
-        menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-      )}
-    >
-      {/* Subtle warm gradient wash */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 60% 30%, rgba(223,155,77,0.07) 0%, transparent 65%)" }} />
 
-      {/* Gold horizontal rule top */}
-      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-8 h-px bg-accent/40" />
-
-      <button 
-        onClick={() => setMenuOpen(false)}
-        className="absolute top-8 right-8 text-foreground hover:text-accent p-2 z-50"
-      >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-
-      <nav className="flex flex-col items-center gap-8">
-        {links.map(({ label, href, children }, i) => (
-          <div key={label} className="flex flex-col items-center">
-            <Link
-              href={href}
-              onClick={() => setMenuOpen(false)}
-              className="relative group flex flex-col items-center"
-            >
-              <span className="font-display text-[2.8rem] text-foreground group-hover:text-accent transition-colors duration-300 leading-none">
-                {label}
-              </span>
-              <span className="mt-1.5 block text-[8px] tracking-[0.55em] uppercase text-accent/40 font-sans">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-            </Link>
-            {children && (
-              <div className="mt-4 flex flex-col items-center gap-2">
-                {children.map((child) => (
-                  <Link
-                    key={child.href}
-                    href={child.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2 text-[9px] tracking-[0.35em] uppercase text-accent/50 hover:text-accent transition-colors duration-300"
-                  >
-                    <span className="w-3 h-px bg-accent/30" />
-                    {child.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </nav>
-
-      {/* Gold divider */}
-      <div className="my-10 flex items-center gap-4 w-28">
-        <div className="flex-1 h-px bg-accent/20" />
-        <div className="w-1 h-1 rounded-full bg-accent/40" />
-        <div className="flex-1 h-px bg-accent/20" />
-      </div>
-
-      <Link
-        href="/enquire"
-        onClick={() => setMenuOpen(false)}
-        className="text-[9px] tracking-[0.38em] uppercase border border-foreground/20 px-10 py-3.5 text-foreground hover:bg-foreground hover:text-background transition-all duration-300 font-sans"
-      >
-        Enquire
-      </Link>
-
-      {/* Bottom signature */}
-      <div className="absolute bottom-10 flex flex-col items-center gap-1.5">
-        <div className="w-5 h-px bg-accent/30" />
-        <span className="text-[8px] tracking-[0.5em] uppercase text-foreground/25 font-sans mt-1">Hatch Group</span>
-      </div>
-    </div>
-  );
 
   if (isProjectDetail) {
     return (
@@ -390,7 +315,7 @@ export default function Nav() {
         <div className="absolute top-20 left-1/2 -translate-x-1/2 w-8 h-px bg-accent/40" />
 
         <nav className="flex flex-col items-center gap-8">
-          {links.map(({ label, href, children }, i) => (
+          {links.map(({ label, href }, i) => (
             <div key={label} className="flex flex-col items-center">
               <Link
                 href={href}
@@ -404,21 +329,6 @@ export default function Nav() {
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </Link>
-              {children && (
-                <div className="mt-4 flex flex-col items-center gap-2">
-                  {children.map((child) => (
-                    <Link
-                      key={child.href}
-                      href={child.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-2 text-[9px] tracking-[0.35em] uppercase text-accent/50 hover:text-accent transition-colors duration-300"
-                    >
-                      <span className="w-3 h-px bg-accent/30" />
-                      {child.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
             </div>
           ))}
         </nav>
@@ -431,7 +341,7 @@ export default function Nav() {
         </div>
 
         <Link
-          href="/#contact"
+          href="/enquire"
           onClick={() => setMenuOpen(false)}
           className="text-[9px] tracking-[0.38em] uppercase border border-foreground/20 px-10 py-3.5 text-foreground hover:bg-foreground hover:text-background transition-all duration-300 font-sans"
         >
