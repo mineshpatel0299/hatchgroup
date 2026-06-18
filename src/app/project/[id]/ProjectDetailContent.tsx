@@ -53,7 +53,7 @@ export default function ProjectDetailContent({ id, project, nextProjectId, nextP
       scale: 0.98,
       opacity: 0.5,
       transition: {
-        duration: 1, ease: [0.76, 0, 0.24, 1]
+        duration: 1, ease: [0.76, 0, 0.24, 1] as const
       }
     }
   };
