@@ -19,6 +19,23 @@ const STATS = [
   { value: "6", label: "Cities Across India" },
 ];
 
+const TEAM = [
+  {
+    number: "01",
+    name: "Kareena Gambhir",
+    role: "Co-Founder & Principal Designer",
+    bio: "With over a decade of shaping India's most discerning interiors, she brings an architect's rigour and an artist's intuition to every project — finding beauty in precision and soul in restraint.",
+    image: "/images/residential-thumb.png",
+  },
+  {
+    number: "02",
+    name: "Sumit Verma",
+    role: "Co-Founder & Creative Director",
+    bio: "A master of material narratives, he curates palettes that feel both inevitable and surprising — championing Indian craft traditions while speaking fluently in global design language.",
+    image: "/images/commercial-thumb.png",
+  },
+];
+
 const VALUES = [
   {
     number: "01",
@@ -401,6 +418,247 @@ function AboutHero() {
   );
 }
 
+const textVariants = {
+  enter: (dir: number) => ({ x: dir > 0 ? 50 : -50, opacity: 0 }),
+  center: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.75,
+      ease: [0.16, 1, 0.3, 1] as const,
+      staggerChildren: 0.09,
+      delayChildren: 0.18,
+    },
+  },
+  exit: (dir: number) => ({
+    x: dir > 0 ? -50 : 50,
+    opacity: 0,
+    transition: { duration: 0.35, ease: [0.4, 0, 1, 1] as const },
+  }),
+};
+
+const itemVariants = {
+  enter: { opacity: 0, y: 22 },
+  center: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] as const } },
+  exit: { opacity: 0, y: -8, transition: { duration: 0.2 } },
+};
+
+const imgVariants = {
+  enter: (dir: number) => ({ x: dir > 0 ? 80 : -80, opacity: 0, scale: 1.05 }),
+  center: { x: 0, opacity: 1, scale: 1, transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] as const } },
+  exit: (dir: number) => ({ x: dir > 0 ? -80 : 80, opacity: 0, scale: 1.03, transition: { duration: 0.4, ease: [0.4, 0, 1, 1] as const } }),
+};
+
+function TeamSlider() {
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
+
+  const goTo = (idx: number, dir: number) => {
+    setDirection(dir);
+    setCurrent(idx);
+  };
+  const prev = () => goTo((current - 1 + TEAM.length) % TEAM.length, -1);
+  const next = () => goTo((current + 1) % TEAM.length, 1);
+
+  const member = TEAM[current];
+
+  return (
+    <section id="our-team" className="relative luxe-ivory overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none luxe-grain opacity-40" />
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "20%", left: "50%", transform: "translateX(-50%)",
+          width: "80vw", height: "60vw",
+          background: "radial-gradient(ellipse at center, rgba(169,140,95,0.08) 0%, transparent 65%)",
+        }}
+      />
+
+      {/* Section header */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 pt-20 md:pt-28">
+        <motion.div
+          {...fadeUp}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center text-center mb-16 md:mb-24"
+        >
+          <span className="text-accent text-[9px] md:text-[11px] tracking-[0.55em] uppercase font-medium mb-5">
+            The Principals
+          </span>
+          <div className="flex items-center gap-3 w-28 mb-10">
+            <div className="flex-1 h-px luxe-rule" />
+            <div className="w-1.5 h-1.5 rotate-45 border border-accent/60" />
+            <div className="flex-1 h-px luxe-rule" />
+          </div>
+          <h2
+            className="font-display font-light text-foreground leading-[1.1]"
+            style={{ fontSize: "clamp(2rem, 3.8vw, 3.4rem)", letterSpacing: "-0.01em" }}
+          >
+            The minds behind{" "}
+            <span className="luxe-gradient-text">the maison</span>
+          </h2>
+        </motion.div>
+      </div>
+
+      {/* Slider grid */}
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: "65vh" }}>
+
+        {/* LEFT: Text panel */}
+        <div className="relative flex flex-col justify-center px-8 md:px-16 lg:px-20 xl:px-28 py-16 lg:py-24 overflow-hidden order-2 lg:order-1">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={current}
+              custom={direction}
+              variants={textVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="flex flex-col"
+            >
+              {/* Ghost number */}
+              <motion.span
+                variants={itemVariants}
+                className="font-display font-light select-none leading-none mb-4"
+                style={{
+                  fontSize: "clamp(6rem, 10vw, 10rem)",
+                  color: "rgba(28,36,32,0.05)",
+                  letterSpacing: "-0.03em",
+                }}
+              >
+                {member.number}
+              </motion.span>
+
+              {/* Role eyebrow */}
+              <motion.div variants={itemVariants} className="flex items-center gap-4 mb-5 -mt-8 lg:-mt-14">
+                <div className="h-px w-8 luxe-rule shrink-0" />
+                <span className="text-accent/70 text-[9px] tracking-[0.5em] uppercase font-sans font-medium">
+                  {member.role}
+                </span>
+              </motion.div>
+
+              {/* Name */}
+              <motion.h3
+                variants={itemVariants}
+                className="font-display font-light text-foreground mb-5"
+                style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", letterSpacing: "-0.01em" }}
+              >
+                {member.name}
+              </motion.h3>
+
+              {/* Gold rule */}
+              <motion.div variants={itemVariants} className="w-12 h-px mb-7" style={{ background: "rgba(169,140,95,0.4)" }} />
+
+              {/* Bio */}
+              <motion.p variants={itemVariants} className="text-foreground/50 font-light leading-[1.95] text-[0.95rem] md:text-[1.05rem] max-w-md">
+                {member.bio}
+              </motion.p>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Arrow navigation */}
+          <div className="flex items-center gap-8 mt-14">
+            <button
+              onClick={prev}
+              data-cursor-interact
+              aria-label="Previous member"
+              className="group flex items-center text-foreground/35 hover:text-accent transition-colors duration-300 focus:outline-none"
+            >
+              <svg
+                width="40" height="14" viewBox="0 0 40 14" fill="none"
+                className="transition-transform duration-300 group-hover:-translate-x-1.5"
+              >
+                <line x1="40" y1="7" x2="0" y2="7" stroke="currentColor" strokeWidth="0.8" />
+                <polyline points="9,1 0.5,7 9,13" stroke="currentColor" strokeWidth="0.8" fill="none" />
+              </svg>
+            </button>
+
+            <span className="text-foreground/30 text-[9px] tracking-[0.5em] uppercase font-sans select-none">
+              {String(current + 1).padStart(2, "0")} &mdash; {String(TEAM.length).padStart(2, "0")}
+            </span>
+
+            <button
+              onClick={next}
+              data-cursor-interact
+              aria-label="Next member"
+              className="group flex items-center text-foreground/35 hover:text-accent transition-colors duration-300 focus:outline-none"
+            >
+              <svg
+                width="40" height="14" viewBox="0 0 40 14" fill="none"
+                className="transition-transform duration-300 group-hover:translate-x-1.5"
+              >
+                <line x1="0" y1="7" x2="40" y2="7" stroke="currentColor" strokeWidth="0.8" />
+                <polyline points="31,1 39.5,7 31,13" stroke="currentColor" strokeWidth="0.8" fill="none" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Progress lines */}
+          <div className="flex items-center gap-3 mt-6">
+            {TEAM.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i, i > current ? 1 : -1)}
+                data-cursor-interact
+                aria-label={`Go to team member ${i + 1}`}
+                className="focus:outline-none py-1"
+              >
+                <div
+                  className="h-px transition-all duration-500"
+                  style={{
+                    width: i === current ? "28px" : "12px",
+                    background: i === current ? "rgba(169,140,95,0.75)" : "rgba(28,36,32,0.18)",
+                  }}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* RIGHT: Image panel */}
+        <div
+          className="relative overflow-hidden order-1 lg:order-2"
+          style={{ minHeight: "45vw", maxHeight: "70vh" }}
+        >
+          {/* Inset gold frame */}
+          <div className="absolute inset-4 border border-accent/20 pointer-events-none z-10" />
+
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={current}
+              custom={direction}
+              variants={imgVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="absolute inset-0"
+            >
+              <Image
+                src={member.image}
+                alt={member.name}
+                fill
+                className="object-cover object-top"
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                priority
+              />
+              {/* Bottom fade to ivory */}
+              <div
+                className="absolute inset-x-0 bottom-0 h-2/5 pointer-events-none"
+                style={{ background: "linear-gradient(to top, rgba(243,232,222,0.55) 0%, transparent 100%)" }}
+              />
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Counter overlay */}
+          <div className="absolute top-8 right-10 z-20 hidden lg:block">
+            <span className="text-foreground/25 font-sans text-[9px] tracking-[0.5em] uppercase">
+              {String(current + 1).padStart(2, "0")} / {String(TEAM.length).padStart(2, "0")}
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function AboutPageContent() {
   const storyRef = useRef<HTMLElement>(null);
 
@@ -760,147 +1018,7 @@ export default function AboutPageContent() {
       <VisionMissionSection />
 
       {/* ── 7. OUR TEAM ── */}
-      <section id="our-team" className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none luxe-grain opacity-40" />
-
-        {/* Ambient gold wash */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top: "20%", left: "50%", transform: "translateX(-50%)",
-            width: "80vw", height: "60vw",
-            background: "radial-gradient(ellipse at center, rgba(169,140,95,0.08) 0%, transparent 65%)",
-          }}
-        />
-
-        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12">
-
-          {/* Section header */}
-          <motion.div
-            {...fadeUp}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center text-center mb-20 md:mb-28"
-          >
-            <span className="text-accent text-[9px] md:text-[11px] tracking-[0.55em] uppercase font-medium mb-5">
-              The Principals
-            </span>
-            <div className="flex items-center gap-3 w-28 mb-10">
-              <div className="flex-1 h-px luxe-rule" />
-              <div className="w-1.5 h-1.5 rotate-45 border border-accent/60" />
-              <div className="flex-1 h-px luxe-rule" />
-            </div>
-            <h2
-              className="font-display font-light text-foreground leading-[1.1]"
-              style={{ fontSize: "clamp(2rem, 3.8vw, 3.4rem)", letterSpacing: "-0.01em" }}
-            >
-              The minds behind{" "}
-              <span className="luxe-gradient-text">the maison</span>
-            </h2>
-          </motion.div>
-
-          {/* Team members */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
-
-            {/* Member 1 */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="group"
-            >
-              <div className="relative mb-8">
-                {/* Decorative gold frame offset */}
-                <div className="absolute -top-3 -left-3 w-full h-full border border-accent/25 pointer-events-none" />
-                <div className="relative aspect-[3/4] overflow-hidden bg-champagne">
-                  <Image
-                    src="/images/residential-thumb.png"
-                    alt="Founder"
-                    fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
-                    sizes="(min-width: 768px) 45vw, 90vw"
-                  />
-                  {/* Bottom gradient */}
-                  <div
-                    className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
-                    style={{ background: "linear-gradient(to top, rgba(28,36,32,0.4) 0%, transparent 100%)" }}
-                  />
-                </div>
-              </div>
-
-              {/* Info */}
-              <div>
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="h-px w-8 luxe-rule" />
-                  <span className="text-accent/60 text-[9px] tracking-[0.5em] uppercase font-sans">
-                    Co-Founder
-                  </span>
-                </div>
-                <h3
-                  className="font-display font-light text-foreground mb-3"
-                  style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)" }}
-                >
-                  Kareena Gambhir
-                </h3>
-                <div className="w-10 h-px mb-5" style={{ background: "rgba(169,140,95,0.35)" }} />
-                <p className="text-foreground/50 font-light leading-[1.9] text-[0.92rem] md:text-[0.98rem] max-w-md">
-                  With over a decade of shaping India&apos;s most discerning interiors,
-                  they bring an architect&apos;s rigour and an artist&apos;s intuition to
-                  every project — finding beauty in precision and soul in restraint.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Member 2 */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="group md:mt-16"
-            >
-              <div className="relative mb-8">
-                <div className="absolute -top-3 -right-3 w-full h-full border border-accent/25 pointer-events-none" />
-                <div className="relative aspect-[3/4] overflow-hidden bg-champagne">
-                  <Image
-                    src="/images/commercial-thumb.png"
-                    alt="Co-Founder"
-                    fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
-                    sizes="(min-width: 768px) 45vw, 90vw"
-                  />
-                  <div
-                    className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
-                    style={{ background: "linear-gradient(to top, rgba(28,36,32,0.4) 0%, transparent 100%)" }}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="h-px w-8 luxe-rule" />
-                  <span className="text-accent/60 text-[9px] tracking-[0.5em] uppercase font-sans">
-                    Co-Founder 
-                  </span>
-                </div>
-                <h3
-                  className="font-display font-light text-foreground mb-3"
-                  style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)" }}
-                >
-                  Sumit Verma
-                </h3>
-                <div className="w-10 h-px mb-5" style={{ background: "rgba(169,140,95,0.35)" }} />
-                <p className="text-foreground/50 font-light leading-[1.9] text-[0.92rem] md:text-[0.98rem] max-w-md">
-                  A master of material narratives, they curate palettes that feel
-                  both inevitable and surprising — championing Indian craft
-                  traditions while speaking fluently in global design language.
-                </p>
-              </div>
-            </motion.div>
-
-          </div>
-        </div>
-      </section>
+      <TeamSlider />
 
       {/* ── 8. CTA BANNER ── */}
       {/* <section className="relative py-24 md:py-32 bg-foreground overflow-hidden">
