@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "motion/react";
@@ -23,17 +23,17 @@ const TEAM = [
   {
     number: "01",
     name: "Kareena Gambhir",
-    role: "Co-Founder & Principal Designer",
+    role: "Co-Founder & Partner",
     bio: "With over a decade of shaping India's most discerning interiors, she brings an architect's rigour and an artist's intuition to every project — finding beauty in precision and soul in restraint.",
     image: "/images/residential-thumb.png",
   },
-  {
-    number: "02",
-    name: "Sumit Verma",
-    role: "Co-Founder & Creative Director",
-    bio: "A master of material narratives, he curates palettes that feel both inevitable and surprising — championing Indian craft traditions while speaking fluently in global design language.",
-    image: "/images/commercial-thumb.png",
-  },
+  // {
+  //   number: "02",
+  //   name: "Sumit Verma",
+  //   role: "Co-Founder & Creative Director",
+  //   bio: "A master of material narratives, he curates palettes that feel both inevitable and surprising — championing Indian craft traditions while speaking fluently in global design language.",
+  //   image: "/images/commercial-thumb.png",
+  // },
 ];
 
 const VALUES = [
@@ -63,166 +63,156 @@ const VALUES = [
   },
 ];
 
-const TABS = [
-  {
-    id: "vision",
-    label: "Vision",
-    number: "01",
-    headline: (
-      <>
-        To be the defining voice<br />
-        of luxury design in{" "}
-        <span
-          style={{
-            background: "linear-gradient(115deg, #8C6F3F 0%, #C2A878 40%, #8C6F3F 70%, #C2A878 100%)",
-            backgroundSize: "220% auto",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            color: "transparent",
-            animation: "luxe-shimmer 8s ease-in-out infinite",
-          }}
-        >
-          contemporary India.
-        </span>
-      </>
-    ),
-    body: "We see a future where Indian interiors carry the same global cultural authority as their counterparts in Milan or Paris — rooted in craft, fluent in modernity, unmistakably Indian.",
-  },
-  {
-    id: "mission",
-    label: "Mission",
-    number: "02",
-    headline: (
-      <>
-        To design spaces that are{" "}
-        <span
-          style={{
-            background: "linear-gradient(115deg, #8C6F3F 0%, #C2A878 40%, #8C6F3F 70%, #C2A878 100%)",
-            backgroundSize: "220% auto",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            color: "transparent",
-            animation: "luxe-shimmer 8s ease-in-out infinite",
-          }}
-        >
-          deeply personal
-        </span>
-        <br />and timelessly made.
-      </>
-    ),
-    body: "Every project is a collaboration — between client and studio, between tradition and innovation, between the visible and the felt. We exist to make that collaboration extraordinary.",
-  },
-];
-
 function VisionMissionSection() {
-  const [active, setActive] = useState<"vision" | "mission">("vision");
-  const tab = TABS.find((t) => t.id === active)!;
-
   return (
-    <section id="vision-mission" className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
+    <section id="vision-mission" className="relative py-28 md:py-40 luxe-ivory overflow-hidden">
       <div className="absolute inset-0 pointer-events-none luxe-grain opacity-40" />
-      {/* Ambient gold glow */}
       <div
         className="absolute pointer-events-none"
         style={{
           top: "50%", left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "70vw", height: "70vw",
-          background: "radial-gradient(ellipse at center, rgba(169,140,95,0.12) 0%, transparent 65%)",
+          width: "80vw", height: "80vw",
+          background: "radial-gradient(ellipse at center, rgba(169,140,95,0.10) 0%, transparent 60%)",
         }}
       />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
 
-        {/* Section eyebrow */}
+        {/* Section header — centered */}
         <motion.div
           {...fadeUp}
-          className="flex items-center gap-4 mb-16"
+          className="flex flex-col items-center text-center mb-20 md:mb-28"
         >
-          <div
-            className="h-px w-8"
-            style={{ background: "linear-gradient(to right, transparent, rgba(169,140,95,0.6))" }}
-          />
-          <span className="text-accent/70 text-[9px] tracking-[0.55em] uppercase font-sans font-medium">
+          <span className="text-accent text-[9px] md:text-[11px] tracking-[0.55em] uppercase font-medium mb-5">
             Who We Are
           </span>
+          <div className="flex items-center gap-3 w-28">
+            <div className="flex-1 h-px luxe-rule" />
+            <div className="w-1.5 h-1.5 rotate-45 border border-accent/60" />
+            <div className="flex-1 h-px luxe-rule" />
+          </div>
         </motion.div>
 
-        {/* Tab switcher */}
-        <div className="flex items-center gap-1 mb-16 w-fit">
-          {TABS.map((t) => (
-            <button
-              key={t.id}
-              onClick={() => setActive(t.id as "vision" | "mission")}
-              data-cursor-interact
-              className="relative px-8 py-3 text-[10px] tracking-[0.38em] uppercase font-sans font-medium transition-colors duration-300 focus:outline-none"
-              style={{ color: active === t.id ? "var(--accent)" : "rgba(28,36,32,0.35)" }}
-            >
-              {t.label}
-              {active === t.id && (
-                <motion.div
-                  layoutId="vm-pill"
-                  className="absolute inset-0 border pointer-events-none"
-                  style={{ borderColor: "rgba(169,140,95,0.4)" }}
-                  transition={{ type: "spring", stiffness: 380, damping: 34 }}
-                />
-              )}
-              {active === t.id && (
-                <motion.div
-                  layoutId="vm-underline"
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 h-px w-6"
-                  style={{ background: "rgba(169,140,95,0.8)" }}
-                  transition={{ type: "spring", stiffness: 380, damping: 34 }}
-                />
-              )}
-            </button>
-          ))}
-        </div>
+        {/* Side by side with center divider */}
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-12 md:gap-0 items-start">
 
-        {/* Content — crossfade on tab change */}
-        <div className="relative min-h-80 md:min-h-70">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={{ opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -14 }}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-10 md:gap-20 items-start"
+          {/* Vision */}
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="md:pr-14 lg:pr-20"
+          >
+            {/* Ghost number */}
+            <span
+              className="font-display font-light select-none block leading-none mb-4"
+              style={{
+                fontSize: "clamp(4rem, 7vw, 6.5rem)",
+                color: "rgba(28,36,32,0.05)",
+                letterSpacing: "-0.03em",
+              }}
             >
-              {/* Number folio */}
+              01
+            </span>
+
+            {/* Label */}
+            <div className="flex items-center gap-4 -mt-6 mb-8">
+              <div
+                className="h-px w-8"
+                style={{ background: "rgba(169,140,95,0.6)" }}
+              />
               <span
-                className="font-display font-light select-none hidden md:block"
-                style={{
-                  fontSize: "clamp(5rem, 8vw, 8rem)",
-                  color: "rgba(28,36,32,0.06)",
-                  lineHeight: 1,
-                  letterSpacing: "-0.03em",
-                }}
+                className="font-sans font-medium text-accent tracking-[0.4em] uppercase"
+                style={{ fontSize: "clamp(0.6rem, 0.9vw, 0.75rem)" }}
               >
-                {tab.number}
+                Vision
               </span>
+            </div>
 
-              <div>
-                <h3
-                  className="font-display font-light text-foreground leading-[1.2] mb-8"
-                  style={{ fontSize: "clamp(1.9rem, 3.2vw, 3rem)", letterSpacing: "-0.01em" }}
-                >
-                  {tab.headline}
-                </h3>
+            <h3
+              className="font-display font-light text-foreground leading-[1.22] mb-7"
+              style={{ fontSize: "clamp(1.5rem, 2.4vw, 2.2rem)", letterSpacing: "-0.01em" }}
+            >
+              The defining voice of luxury design in{" "}
+              <span className="luxe-gradient-text">contemporary India.</span>
+            </h3>
 
-                {/* Gold rule */}
-                <div
-                  className="w-10 h-px mb-8"
-                  style={{ background: "rgba(169,140,95,0.45)" }}
-                />
+            <p className="text-foreground/45 font-light leading-[1.95] text-[0.9rem] md:text-[0.95rem]">
+              Indian interiors that carry global cultural authority — rooted in craft, fluent in modernity, unmistakably Indian.
+            </p>
+          </motion.div>
 
-                <p className="text-foreground/50 font-light leading-[1.95] text-[0.95rem] md:text-[1.05rem] max-w-xl">
-                  {tab.body}
-                </p>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+          {/* Center divider — vertical gold line with diamond */}
+          <motion.div
+            initial={{ scaleY: 0, opacity: 0 }}
+            whileInView={{ scaleY: 1, opacity: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="hidden md:flex flex-col items-center self-stretch origin-top mx-6 lg:mx-10"
+          >
+            <div
+              className="flex-1 w-px"
+              style={{ background: "linear-gradient(to bottom, transparent, rgba(169,140,95,0.4) 20%, rgba(169,140,95,0.4) 80%, transparent)" }}
+            />
+            <div className="w-2 h-2 rotate-45 border border-accent/50 my-3 shrink-0" />
+            <div
+              className="flex-1 w-px"
+              style={{ background: "linear-gradient(to bottom, transparent, rgba(169,140,95,0.4) 20%, rgba(169,140,95,0.4) 80%, transparent)" }}
+            />
+          </motion.div>
+
+          {/* Mobile horizontal divider */}
+          <div className="md:hidden flex items-center gap-3 justify-center">
+            <div className="flex-1 h-px luxe-rule max-w-24" />
+            <div className="w-1.5 h-1.5 rotate-45 border border-accent/50" />
+            <div className="flex-1 h-px luxe-rule max-w-24" />
+          </div>
+
+          {/* Mission */}
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="md:pl-14 lg:pl-20"
+          >
+            {/* Ghost number */}
+            <span
+              className="font-display font-light select-none block leading-none mb-4"
+              style={{
+                fontSize: "clamp(4rem, 7vw, 6.5rem)",
+                color: "rgba(28,36,32,0.05)",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              02
+            </span>
+
+            {/* Label */}
+            <div className="flex items-center gap-4 -mt-6 mb-8">
+              <div
+                className="h-px w-8"
+                style={{ background: "rgba(169,140,95,0.6)" }}
+              />
+              <span
+                className="font-sans font-medium text-accent tracking-[0.4em] uppercase"
+                style={{ fontSize: "clamp(0.6rem, 0.9vw, 0.75rem)" }}
+              >
+                Mission
+              </span>
+            </div>
+
+            <h3
+              className="font-display font-light text-foreground leading-[1.22] mb-7"
+              style={{ fontSize: "clamp(1.5rem, 2.4vw, 2.2rem)", letterSpacing: "-0.01em" }}
+            >
+              Spaces that are{" "}
+              <span className="luxe-gradient-text">deeply personal</span> and timelessly made.
+            </h3>
+
+            <p className="text-foreground/45 font-light leading-[1.95] text-[0.9rem] md:text-[0.95rem]">
+              A collaboration between client and studio, tradition and innovation — making every project extraordinary.
+            </p>
+          </motion.div>
+
         </div>
 
       </div>
@@ -450,16 +440,8 @@ const imgVariants = {
 };
 
 function TeamSlider() {
-  const [current, setCurrent] = useState(0);
-  const [direction, setDirection] = useState(1);
-
-  const goTo = (idx: number, dir: number) => {
-    setDirection(dir);
-    setCurrent(idx);
-  };
-  const prev = () => goTo((current - 1 + TEAM.length) % TEAM.length, -1);
-  const next = () => goTo((current + 1) % TEAM.length, 1);
-
+  const current = 0;
+  const direction = 1;
   const member = TEAM[current];
 
   return (
@@ -554,63 +536,6 @@ function TeamSlider() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Arrow navigation */}
-          <div className="flex items-center gap-8 mt-14">
-            <button
-              onClick={prev}
-              data-cursor-interact
-              aria-label="Previous member"
-              className="group flex items-center text-foreground/35 hover:text-accent transition-colors duration-300 focus:outline-none"
-            >
-              <svg
-                width="40" height="14" viewBox="0 0 40 14" fill="none"
-                className="transition-transform duration-300 group-hover:-translate-x-1.5"
-              >
-                <line x1="40" y1="7" x2="0" y2="7" stroke="currentColor" strokeWidth="0.8" />
-                <polyline points="9,1 0.5,7 9,13" stroke="currentColor" strokeWidth="0.8" fill="none" />
-              </svg>
-            </button>
-
-            <span className="text-foreground/30 text-[9px] tracking-[0.5em] uppercase font-sans select-none">
-              {String(current + 1).padStart(2, "0")} &mdash; {String(TEAM.length).padStart(2, "0")}
-            </span>
-
-            <button
-              onClick={next}
-              data-cursor-interact
-              aria-label="Next member"
-              className="group flex items-center text-foreground/35 hover:text-accent transition-colors duration-300 focus:outline-none"
-            >
-              <svg
-                width="40" height="14" viewBox="0 0 40 14" fill="none"
-                className="transition-transform duration-300 group-hover:translate-x-1.5"
-              >
-                <line x1="0" y1="7" x2="40" y2="7" stroke="currentColor" strokeWidth="0.8" />
-                <polyline points="31,1 39.5,7 31,13" stroke="currentColor" strokeWidth="0.8" fill="none" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Progress lines */}
-          <div className="flex items-center gap-3 mt-6">
-            {TEAM.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goTo(i, i > current ? 1 : -1)}
-                data-cursor-interact
-                aria-label={`Go to team member ${i + 1}`}
-                className="focus:outline-none py-1"
-              >
-                <div
-                  className="h-px transition-all duration-500"
-                  style={{
-                    width: i === current ? "28px" : "12px",
-                    background: i === current ? "rgba(169,140,95,0.75)" : "rgba(28,36,32,0.18)",
-                  }}
-                />
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* RIGHT: Image panel */}
@@ -647,12 +572,6 @@ function TeamSlider() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Counter overlay */}
-          <div className="absolute top-8 right-10 z-20 hidden lg:block">
-            <span className="text-foreground/25 font-sans text-[9px] tracking-[0.5em] uppercase">
-              {String(current + 1).padStart(2, "0")} / {String(TEAM.length).padStart(2, "0")}
-            </span>
-          </div>
         </div>
       </div>
     </section>
@@ -673,9 +592,105 @@ export default function AboutPageContent() {
 
   return (
     <>
-      <AboutHero />
+      {/* ── 1. OUR STORY — Hero ── */}
+      <section id="our-story" className="relative pt-44 md:pt-56 pb-28 md:pb-40 luxe-ivory overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none luxe-grain opacity-50" />
 
-      {/* ── Service grid — sits directly below about hero ── */}
+        {/* Ambient gold wash — top left */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: "-15%", left: "-8%",
+            width: "55vw", height: "55vw",
+            background: "radial-gradient(ellipse at center, rgba(169,140,95,0.10) 0%, transparent 60%)",
+          }}
+        />
+        {/* Ambient gold wash — bottom right */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            bottom: "-10%", right: "-6%",
+            width: "50vw", height: "50vw",
+            background: "radial-gradient(ellipse at center, rgba(214,189,148,0.14) 0%, transparent 65%)",
+          }}
+        />
+
+        {/* Ghost watermark */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"
+          aria-hidden="true"
+        >
+          <span
+            className="font-display italic font-light whitespace-nowrap"
+            style={{
+              fontSize: "clamp(6rem, 18vw, 16rem)",
+              color: "rgba(169,140,95,0.04)",
+              lineHeight: 1,
+              letterSpacing: "-0.03em",
+            }}
+          >
+            Hatch Group
+          </span>
+        </div>
+
+        <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-16 lg:px-24">
+
+          {/* Centered eyebrow */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center text-center mb-14 md:mb-20"
+          >
+            <span className="text-accent text-[10px] md:text-[12px] tracking-[0.6em] uppercase font-medium mb-5">
+              Our Story
+            </span>
+            <div className="flex items-center gap-3 w-28">
+              <div className="flex-1 h-px luxe-rule" />
+              <div className="w-1.5 h-1.5 rotate-45 border border-accent/60" />
+              <div className="flex-1 h-px luxe-rule" />
+            </div>
+          </motion.div>
+
+          {/* Main copy with drop cap */}
+          <div className="max-w-3xl mx-auto">
+            <motion.p
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="font-display font-light text-foreground/80 leading-[1.85] text-center md:text-left"
+              style={{ fontSize: "clamp(1.25rem, 2.2vw, 1.7rem)" }}
+            >
+              <motion.span
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="font-display text-accent float-left leading-[0.82] mr-4 mt-1.5 select-none"
+                style={{ fontSize: "clamp(3.8rem, 5.5vw, 5.5rem)" }}
+              >
+                S
+              </motion.span>
+              ince 2014, Hatch Group has quietly redefined the language of luxury
+              interiors across India. Founded on the belief that a space should
+              speak before its occupant does, we have shaped residences,
+              hospitality suites, corporate sanctuaries, and cultural
+              institutions — each a singular act of authorship.
+            </motion.p>
+
+            {/* Gold rule centered */}
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="w-20 h-px mt-12 mx-auto md:mx-0 origin-left"
+              style={{ background: "linear-gradient(to right, rgba(169,140,95,0.6), rgba(169,140,95,0.15))" }}
+            />
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── Service grid ── */}
       {(() => {
         const GOLD = "rgba(169,140,95,0.55)";
         const ITEMS = [
@@ -714,120 +729,8 @@ export default function AboutPageContent() {
         );
       })()}
 
-      {/* ── 2. OUR STORY ── */}
-      <section id="our-story" className="relative py-24 md:py-36 luxe-ivory overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none luxe-grain" />
-
-        {/* Ambient gold wash — bottom right */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            bottom: "-10%", right: "-6%",
-            width: "50vw", height: "50vw",
-            background: "radial-gradient(ellipse at center, rgba(214,189,148,0.12) 0%, transparent 65%)",
-          }}
-        />
-
-        <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-16 lg:px-24">
-
-          {/* Eyebrow row */}
-          <motion.div
-            initial={{ opacity: 0, x: -16 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center gap-4 mb-12"
-          >
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="h-px w-10 origin-left luxe-rule"
-            />
-            <span className="text-accent text-[9px] tracking-[0.55em] uppercase font-medium">
-              Our Story
-            </span>
-            <span className="ml-auto text-foreground/20 font-sans text-[9px] tracking-[0.4em] hidden sm:block">
-              N°01
-            </span>
-          </motion.div>
-
-          {/* Left rail + body copy */}
-          <div className="flex gap-8 md:gap-14 items-start">
-
-            {/* Animated vertical gold rail */}
-            <motion.div
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 1.1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="hidden md:block shrink-0 w-px self-stretch origin-top"
-              style={{
-                background: "linear-gradient(to bottom, rgba(169,140,95,0.6), rgba(169,140,95,0.1))",
-              }}
-            />
-
-            <div className="flex-1">
-              {/* Drop cap + main paragraph */}
-              <div className="overflow-hidden mb-1">
-                <motion.p
-                  initial={{ opacity: 0, y: 32 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-display font-light text-foreground/80 leading-[1.8] mb-2"
-                  style={{ fontSize: "clamp(1.15rem, 2vw, 1.55rem)" }}
-                >
-                  <motion.span
-                    initial={{ opacity: 0, scale: 0.7 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    className="font-display text-accent float-left leading-[0.82] mr-3 mt-1 select-none"
-                    style={{ fontSize: "clamp(3.2rem, 5vw, 5rem)" }}
-                  >
-                    S
-                  </motion.span>
-                  ince 2014, Hatch Group has quietly redefined the language of luxury
-                  interiors across India. Founded on the belief that a space should
-                  speak before its occupant does, we have shaped residences,
-                  hospitality suites, corporate sanctuaries, and cultural
-                  institutions — each a singular act of authorship.
-                </motion.p>
-              </div>
-
-              {/* Thin separator */}
-              <motion.div
-                initial={{ scaleX: 0, opacity: 0 }}
-                whileInView={{ scaleX: 1, opacity: 1 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="w-16 h-px my-8 origin-left"
-                style={{ background: "rgba(169,140,95,0.35)" }}
-              />
-
-              {/* Second paragraph */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="text-foreground/50 font-light leading-loose text-[0.95rem] md:text-[1.05rem] max-w-2xl"
-              >
-                Our practice draws from architecture, editorial art direction,
-                and the quiet traditions of Indian craft. We collaborate with
-                the country&apos;s finest artisans, fabric houses, and material
-                ateliers — not to reference heritage, but to extend it into the
-                present tense.
-              </motion.p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 3. STATS BAR ── */}
-      <section className="relative py-16 md:py-20 luxe-emerald overflow-hidden">
+      {/* ── STATS BAR ── */}
+      <section className="relative py-16 md:py-20 luxe-ivory overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain opacity-30" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-0">
