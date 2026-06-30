@@ -1,19 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import ProjectCarousel from "@/components/ui/ProjectCarousel";
 
 interface ProjectDetailContentProps {
   id: string;
   project: {
     title: string;
+    subtitle: string;
     category: string;
     year: string;
     client: string;
+    description: string;
+    details: string;
     images: string[];
     image2: string;
   };
@@ -28,6 +31,32 @@ export default function ProjectDetailContent({ id, project, nextProjectId, nextP
   const searchParams = useSearchParams();
   const isSlideMode = searchParams.get("slide") === "true";
   const [isExiting, setIsExiting] = useState(false);
+  const [showBrochureModal, setShowBrochureModal] = useState(false);
+  const [brochureForm, setBrochureForm] = useState({ name: "", email: "", phone: "" });
+  const [brochureStatus, setBrochureStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const nameInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (showBrochureModal) {
+      setTimeout(() => nameInputRef.current?.focus(), 300);
+    }
+  }, [showBrochureModal]);
+
+  const handleBrochureSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBrochureStatus("sending");
+    try {
+      const res = await fetch("/api/brochure", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...brochureForm, project: project.title }),
+      });
+      if (!res.ok) throw new Error();
+      setBrochureStatus("sent");
+    } catch {
+      setBrochureStatus("error");
+    }
+  };
 
   React.useEffect(() => {
     // Reset exiting state when the route changes so the exit curtain snaps back down
@@ -130,11 +159,11 @@ export default function ProjectDetailContent({ id, project, nextProjectId, nextP
           </motion.div>
           
           <motion.h1 variants={itemVariants} className="text-5xl md:text-6xl lg:text-7xl font-black font-display tracking-tighter leading-[1.05] mb-8">
-            {project.title} <br/> Collection
+            {project.title} <br/> {project.subtitle}
           </motion.h1>
-          
+
           <motion.p variants={itemVariants} className="text-sm md:text-base leading-relaxed text-foreground/80 max-w-sm">
-            '{project.title}' is an extensive collection of everyday architectural spaces and design concepts for the {project.client} portfolio, blending modern aesthetics with functional luxury.
+            {project.description}
           </motion.p>
         </div>
 
@@ -200,14 +229,34 @@ export default function ProjectDetailContent({ id, project, nextProjectId, nextP
             </div>
           </motion.div>
 
-          {/* Bottom Right - Text Block (Previously Image) */}
-          <motion.div variants={itemVariants} className="w-full md:w-[55%] h-[40vh] md:h-full relative overflow-hidden luxe-ivory p-8 md:p-12 flex flex-col justify-center border-t md:border-t-0 md:border-l border-foreground/10">
-            <h3 className="text-xl md:text-2xl font-display font-medium tracking-tight mb-4">
-              Project Details
-            </h3>
-            <p className="text-sm md:text-base text-foreground/70 leading-relaxed max-w-lg">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            </p>
+          {/* Bottom Right - Download Brochure */}
+          <motion.div variants={itemVariants} className="w-full md:w-[55%] h-[40vh] md:h-full relative overflow-hidden luxe-ivory p-8 md:p-12 flex flex-col justify-center items-center border-t md:border-t-0 md:border-l border-foreground/10">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 mb-5 flex items-center justify-center rounded-full border border-foreground/15">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-foreground/70">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </div>
+              <h3 className="text-xl md:text-2xl font-display font-medium tracking-tight mb-2">
+                Download Brochure
+              </h3>
+              <p className="text-xs md:text-sm text-foreground/50 mb-6 max-w-xs">
+                Get the full project details, floor plans and pricing delivered to your inbox.
+              </p>
+              <button
+                onClick={() => setShowBrochureModal(true)}
+                className="group flex items-center gap-3 px-8 py-3.5 bg-foreground text-background text-[11px] md:text-xs uppercase tracking-[0.25em] font-bold hover:bg-accent transition-colors duration-300"
+              >
+                <span>Get Brochure</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-y-0.5 transition-transform">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </button>
+            </div>
           </motion.div>
 
         </div>
@@ -215,6 +264,143 @@ export default function ProjectDetailContent({ id, project, nextProjectId, nextP
       </div>
 
     </motion.main>
+
+      {/* --- BROCHURE MODAL --- */}
+      <AnimatePresence>
+        {showBrochureModal && (
+          <motion.div
+            className="fixed inset-0 z-[90] flex items-center justify-center px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => { setShowBrochureModal(false); setBrochureStatus("idle"); }} />
+
+            {/* Modal */}
+            <motion.div
+              className="relative w-full max-w-md luxe-ivory p-8 md:p-10 shadow-2xl rounded-2xl"
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {/* Close */}
+              <button
+                onClick={() => { setShowBrochureModal(false); setBrochureStatus("idle"); }}
+                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-foreground/40 hover:text-foreground transition-colors"
+                aria-label="Close"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+
+              {brochureStatus === "sent" ? (
+                <div className="flex flex-col items-center text-center py-6">
+                  <div className="w-14 h-14 rounded-full bg-accent/15 flex items-center justify-center mb-5">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-display font-medium tracking-tight mb-2 text-foreground">
+                    Brochure Sent!
+                  </h3>
+                  <p className="text-sm text-foreground/60 max-w-xs">
+                    The {project.title} brochure has been sent to <span className="font-medium text-foreground/80">{brochureForm.email}</span>. Please check your inbox.
+                  </p>
+                  <button
+                    onClick={() => { setShowBrochureModal(false); setBrochureStatus("idle"); }}
+                    className="mt-6 px-6 py-2.5 bg-foreground text-background text-[11px] uppercase tracking-[0.2em] font-bold hover:bg-accent transition-colors"
+                  >
+                    Done
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="mb-6">
+                    <h3 className="text-xl md:text-2xl font-display font-medium tracking-tight mb-1 text-foreground">
+                      Get the Brochure
+                    </h3>
+                    <p className="text-xs text-foreground/50">
+                      {project.title} — delivered straight to your inbox.
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleBrochureSubmit} className="flex flex-col gap-4">
+                    <div>
+                      <label htmlFor="brochure-name" className="text-[10px] uppercase tracking-[0.2em] font-bold text-foreground/50 mb-1.5 block">
+                        Full Name
+                      </label>
+                      <input
+                        ref={nameInputRef}
+                        id="brochure-name"
+                        type="text"
+                        required
+                        value={brochureForm.name}
+                        onChange={(e) => setBrochureForm({ ...brochureForm, name: e.target.value })}
+                        placeholder="John Doe"
+                        className="w-full bg-transparent border-b border-foreground/15 focus:border-foreground py-2.5 text-sm outline-none placeholder-foreground/25 transition-colors text-foreground"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="brochure-email" className="text-[10px] uppercase tracking-[0.2em] font-bold text-foreground/50 mb-1.5 block">
+                        Email Address
+                      </label>
+                      <input
+                        id="brochure-email"
+                        type="email"
+                        required
+                        value={brochureForm.email}
+                        onChange={(e) => setBrochureForm({ ...brochureForm, email: e.target.value })}
+                        placeholder="you@example.com"
+                        className="w-full bg-transparent border-b border-foreground/15 focus:border-foreground py-2.5 text-sm outline-none placeholder-foreground/25 transition-colors text-foreground"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="brochure-phone" className="text-[10px] uppercase tracking-[0.2em] font-bold text-foreground/50 mb-1.5 block">
+                        Phone Number
+                      </label>
+                      <input
+                        id="brochure-phone"
+                        type="tel"
+                        required
+                        value={brochureForm.phone}
+                        onChange={(e) => setBrochureForm({ ...brochureForm, phone: e.target.value })}
+                        placeholder="+91 98765 43210"
+                        className="w-full bg-transparent border-b border-foreground/15 focus:border-foreground py-2.5 text-sm outline-none placeholder-foreground/25 transition-colors text-foreground"
+                      />
+                    </div>
+
+                    {brochureStatus === "error" && (
+                      <p className="text-xs text-red-600">Something went wrong. Please try again.</p>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={brochureStatus === "sending"}
+                      className="mt-2 w-full py-3.5 bg-foreground text-background text-[11px] uppercase tracking-[0.25em] font-bold hover:bg-accent transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {brochureStatus === "sending" ? (
+                        <>
+                          <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-25" />
+                            <path d="M4 12a8 8 0 018-8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                          </svg>
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <span>Send Brochure</span>
+                      )}
+                    </button>
+                  </form>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* --- CINEMATIC CURTAIN WIPE EFFECTS --- */}
       

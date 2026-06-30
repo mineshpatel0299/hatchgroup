@@ -6,15 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 const projects = [
-  { id: 1, title: "Over O",          category: "Commercial",  image: "/images/commercial-thumb.png" },
-  { id: 2, title: "River View",      category: "Residential", image: "/images/residential-thumb.png" },
-  { id: 3, title: "Skylin",          category: "Hospitality", image: "/images/hospitality-thumb.png" },
-  { id: 4, title: "Apparta",         category: "Turnkey",     image: "/images/turnkey-thumb.png" },
-  { id: 5, title: "The Moonway",     category: "Residential", image: "/images/featured-project.png" },
-  { id: 6, title: "True",            category: "Luxury",      image: "/images/luxury-bg.png" },
-  { id: 7, title: "Apparta II",      category: "Turnkey",     image: "/images/materials-bg.png" },
-  { id: 8, title: "Pechersk School", category: "Commercial",  image: "/images/philosophy-bg.png" },
-  { id: 9, title: "International",   category: "Hospitality", image: "/images/hero.png" },
+  { id: 1, title: "Rajyog Groups",      category: "Commercial", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png" },
+  { id: 2, title: "Loomba Residences",   category: "Commercial", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png" },
+  { id: 3, title: "Projects in Raipur",  category: "Commercial",  image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799365/ChatGPT_Image_Jun_30_2026_at_01_10_56_AM_rfz3wg.png" },
+  { id: 4, title: "Delhi Residences",    category: "Commercial", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png" },
+  { id: 5, title: "The Meridian",        category: "Commercial", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png" },
 ];
 
 function cardRanges(index: number, n: number) {
@@ -101,8 +97,11 @@ function StackingCard({
 
   const num = String(index + 1).padStart(2, "0");
 
+  const isVisible = useTransform(irisRaw, (t) => (isFirst || t > 0.1) ? "auto" : "none");
+
   return (
-    <motion.div className="absolute inset-0" style={{ scale, y, clipPath: clipPath as MotionValue<string> }}>
+    <motion.div className="absolute inset-0" style={{ scale, y, clipPath: clipPath as MotionValue<string>, zIndex: index + 1, pointerEvents: isVisible as MotionValue<string> }}>
+      <Link href={`/project/${project.id}`} className="absolute inset-0 block">
 
       {/* ── Image ── */}
       <motion.div className="absolute inset-0" style={{ scale: imageScale }}>
@@ -219,6 +218,7 @@ function StackingCard({
           background: "linear-gradient(to right, rgba(169,140,95,0.6) 0%, rgba(169,140,95,0.3) 50%, transparent 100%)",
         }}
       />
+      </Link>
     </motion.div>
   );
 }
@@ -232,31 +232,22 @@ export default function ProjectScrollSection() {
 
   const n = projects.length;
 
-  const yTransform = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", `-${((n - 1) / n) * 100}%`]
-  );
+  // Build piecewise yTransform so text centers on each card's active range
+  // Card i is active during [i/n, (i+1)/n], midpoint at (i+0.5)/n
+  const yScrollInputs = [0, ...projects.map((_, i) => (i + 0.5) / n), 1];
+  const yScrollOutputs = [
+    "0%",
+    ...projects.map((_, i) => `${-((i / n) * 100)}%`),
+    `${-(((n - 1) / n) * 100)}%`,
+  ];
+  const yTransform = useTransform(scrollYProgress, yScrollInputs, yScrollOutputs);
 
-  const clipFunction = (inputs: number[], outputs: number[]) => {
-    const getVal = (x: number) => {
-      if (x <= inputs[0]) return outputs[0];
-      if (x >= inputs[inputs.length - 1]) return outputs[outputs.length - 1];
-      for (let j = 0; j < inputs.length - 1; j++) {
-        if (x >= inputs[j] && x <= inputs[j + 1]) {
-          const t = (x - inputs[j]) / (inputs[j + 1] - inputs[j]);
-          return outputs[j] + t * (outputs[j + 1] - outputs[j]);
-        }
-      }
-      return outputs[0];
-    };
-    const finalInputs  = [0, ...inputs.filter((v) => v > 0 && v < 1), 1];
-    const finalOutputs = finalInputs.map(getVal);
-    return { finalInputs, finalOutputs };
-  };
+  const sectionHeight = `${n * 200}vh`;
+  const innerHeight   = `${n * 100}%`;
+  const itemHeight    = `${(100 / n).toFixed(3)}%`;
 
   return (
-    <section ref={containerRef} className="relative h-[900vh]">
+    <section ref={containerRef} className="relative" style={{ height: sectionHeight }}>
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
 
         {/* ── Right: stacking cards ── */}
@@ -275,19 +266,13 @@ export default function ProjectScrollSection() {
           }}
         >
           {projects.map((project, i) => (
-            <Link
+            <StackingCard
               key={project.id}
-              href={`/project/${project.id}`}
-              className="absolute inset-0 block"
-              style={{ zIndex: i + 1 }}
-            >
-              <StackingCard
-                project={project}
-                index={i}
-                total={n}
-                scrollYProgress={scrollYProgress}
-              />
-            </Link>
+              project={project}
+              index={i}
+              total={n}
+              scrollYProgress={scrollYProgress}
+            />
           ))}
         </div>
 
@@ -296,22 +281,47 @@ export default function ProjectScrollSection() {
           className="absolute left-[5vw] md:left-[7vw] top-[68%] md:top-1/2 translate-y-0 md:-translate-y-1/2
                      w-full h-[38vh] md:h-screen pointer-events-none z-20"
         >
-          <motion.div style={{ y: yTransform }} className="flex flex-col w-full h-[900%]">
+          <motion.div style={{ y: yTransform, height: innerHeight }} className="flex flex-col w-full">
             {projects.map((project, i) => {
-              const start = (i - 0.5) / (n - 1);
-              const end   = (i + 0.5) / (n - 1);
+              const isFirstItem = i === 0;
+              const isLastItem  = i === n - 1;
+              const cardStart = i / n;
+              const cardEnd   = (i + 1) / n;
+              const cardMid   = (i + 0.5) / n;
+              const margin    = 0.5 / n;
 
-              const op = clipFunction(
-                [start - 0.1, start, end, end + 0.1],
-                [0.05, 1, 1, 0.05]
-              );
-              const opacity = useTransform(scrollYProgress, op.finalInputs, op.finalOutputs);
+              let opInputs: number[];
+              let opOutputs: number[];
+              if (isFirstItem) {
+                opInputs  = [0, cardEnd, cardEnd + margin];
+                opOutputs = [1, 1, 0.05];
+              } else if (isLastItem) {
+                opInputs  = [cardStart - margin, cardStart, 1];
+                opOutputs = [0.05, 1, 1];
+              } else {
+                opInputs  = [cardStart - margin, cardStart, cardEnd, cardEnd + margin];
+                opOutputs = [0.05, 1, 1, 0.05];
+              }
+              const clampedOpInputs = opInputs.map(v => Math.max(0, Math.min(1, v)));
+              const opacity = useTransform(scrollYProgress, clampedOpInputs, opOutputs);
 
-              const fl = clipFunction([start, i / (n - 1), end], [0, 1, 0]);
-              const isFilled = useTransform(scrollYProgress, fl.finalInputs, fl.finalOutputs);
+              let flInputs: number[];
+              let flOutputs: number[];
+              if (isFirstItem) {
+                flInputs  = [0, cardMid, cardEnd];
+                flOutputs = [1, 1, 0];
+              } else if (isLastItem) {
+                flInputs  = [cardStart, cardMid, 1];
+                flOutputs = [0, 1, 1];
+              } else {
+                flInputs  = [cardStart, cardMid, cardEnd];
+                flOutputs = [0, 1, 0];
+              }
+              const clampedFlInputs = flInputs.map(v => Math.max(0, Math.min(1, v)));
+              const isFilled = useTransform(scrollYProgress, clampedFlInputs, flOutputs);
 
               return (
-                <div key={project.id} className="h-[11.111%] flex items-center">
+                <div key={project.id} className="flex items-center" style={{ height: itemHeight }}>
                   <Link
                     href={`/project/${project.id}`}
                     className="group pointer-events-auto inline-block hover:scale-[1.015] transition-transform duration-500 origin-left"

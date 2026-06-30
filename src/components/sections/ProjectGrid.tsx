@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   AnimatePresence,
   motion,
@@ -10,12 +11,11 @@ import {
 } from "motion/react";
 
 const PROJECTS = [
-  { id: "01", title: "Minimalist Living",  category: "Residential", year: "2024", image: "/images/featured-project.png",    description: "A study in restraint — where every surface breathes and light becomes the primary material." },
-  { id: "02", title: "Bespoke Kitchen",    category: "Residential", year: "2024", image: "/images/residential-thumb.png",   description: "Crafted joinery, honed stone, and considered proportion define this culinary atelier." },
-  { id: "03", title: "Luxury Suite",       category: "Hospitality", year: "2023", image: "/images/hospitality-thumb.png",   description: "Cinematic layering of texture and tone — a suite that transcends the expected." },
-  { id: "04", title: "Corporate Lobby",    category: "Commercial",  year: "2023", image: "/images/commercial-thumb.png",    description: "Brand identity expressed through space — arrival as impression, architecture as identity." },
-  { id: "05", title: "Formal Dining",      category: "Residential", year: "2022", image: "/images/materials-bg.png",        description: "Ritual elevated — a dining room conceived for ceremony, conversation, and candlelight." },
-  { id: "06", title: "Penthouse Terrace",  category: "Residential", year: "2022", image: "/images/turnkey-thumb.png",       description: "Sky, stone, and copper — an outdoor living room thirty floors above the city." },
+  { id: "01", href: "/project/1", title: "Rajyog Groups",       category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png", description: "A premium residential development designed to elevate everyday living through thoughtful architecture and refined interiors." },
+  { id: "02", href: "/project/2", title: "Loomba Residences",    category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png", description: "Meticulously designed spaces that balance sophistication with warmth — where every detail speaks of quality craftsmanship." },
+  { id: "03", href: "/project/3", title: "Projects in Raipur",   category: "Commercial",  year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799365/ChatGPT_Image_Jun_30_2026_at_01_10_56_AM_rfz3wg.png", description: "Upcoming commercial and mixed-use developments designed to shape the city's evolving skyline." },
+  { id: "04", href: "/project/4", title: "Delhi Residences",     category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png", description: "A landmark residential development in the capital, merging contemporary elegance with the cultural richness of New Delhi." },
+  { id: "05", href: "/project/5", title: "The Meridian",         category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png", description: "A defining statement in luxury residential architecture — a landmark address conceived for those who demand the finest in design." },
 ];
 
 function MobileEditorialRoll() {
@@ -33,7 +33,6 @@ function MobileEditorialRoll() {
               transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
               className="relative"
             >
-              {/* Ghost index number — bleeds behind the image */}
               <span
                 aria-hidden
                 className="absolute -top-6 font-display font-light text-foreground/[0.06] leading-none select-none pointer-events-none"
@@ -46,7 +45,6 @@ function MobileEditorialRoll() {
                 {p.id}
               </span>
 
-              {/* Image — offset left or right to create stagger rhythm */}
               <div
                 className={`relative overflow-hidden rounded-t-[2rem] rounded-b-xl shadow-[0_28px_60px_-24px_rgba(140,111,63,0.42)] ${
                   isRight ? "ml-6" : "mr-6"
@@ -60,7 +58,6 @@ function MobileEditorialRoll() {
                   className="object-cover"
                   sizes="90vw"
                 />
-                {/* Ivory gradient at base */}
                 <div
                   className="absolute inset-x-0 bottom-0 h-20 pointer-events-none"
                   style={{
@@ -68,13 +65,11 @@ function MobileEditorialRoll() {
                       "linear-gradient(to top, rgba(248,239,217,0.7) 0%, transparent 100%)",
                   }}
                 />
-                {/* Year */}
                 <span className="absolute bottom-3 right-4 font-sans text-[8px] tracking-[0.4em] uppercase text-foreground/45">
                   {p.year}
                 </span>
               </div>
 
-              {/* Text block — opposite side to image offset */}
               <div className={`mt-5 ${isRight ? "pr-6" : "pl-2"}`}>
                 <div className="flex items-center gap-3 mb-2">
                   <span className="font-sans text-[8px] tracking-[0.5em] uppercase text-accent">
@@ -97,25 +92,17 @@ function MobileEditorialRoll() {
                 <p className="text-foreground/45 font-light text-[0.8rem] leading-[1.85]">
                   {p.description}
                 </p>
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-3 mt-4 text-[8px] tracking-[0.45em] uppercase text-accent"
+                <Link
+                  href={p.href}
+                  className="inline-flex items-center gap-3 mt-4 text-[8px] tracking-[0.45em] uppercase text-accent hover:text-foreground transition-colors"
                 >
-                  View
+                  View Project
                   <span className="w-5 h-px bg-accent/50" />
-                </a>
+                </Link>
               </div>
             </motion.div>
           );
         })}
-      </div>
-
-      {/* View all */}
-      <div className="flex justify-center mt-14">
-        <button className="text-[9px] tracking-[0.45em] uppercase font-medium text-accent inline-flex items-center gap-4 group">
-          View All Works
-          <span className="w-7 h-px bg-accent/50 group-hover:w-11 transition-all duration-500" />
-        </button>
       </div>
     </div>
   );
@@ -125,7 +112,6 @@ export default function ProjectGrid() {
   const sectionRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState<number | null>(null);
 
-  // Cursor-following preview frame — sprung for a silky drift
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const px = useSpring(mx, { stiffness: 120, damping: 22, mass: 0.6 });
@@ -175,19 +161,18 @@ export default function ProjectGrid() {
           </span>
         </div>
 
-        {/* ════ Desktop: the index list ════ */}
+        {/* Desktop: the index list */}
         <div className="hidden md:block border-t border-foreground/10" onMouseLeave={() => setActive(null)}>
           {PROJECTS.map((p, i) => {
             const isActive = active === i;
             return (
-              <a
+              <Link
                 key={p.id}
-                href="#"
+                href={p.href}
                 onMouseEnter={() => setActive(i)}
                 data-cursor-interact
-                className="group relative grid grid-cols-12 items-center gap-6 py-7 lg:py-8 border-b border-foreground/10 transition-colors duration-500"
+                className="group relative grid grid-cols-12 items-center gap-6 py-7 lg:py-8 border-b border-foreground/10 transition-colors duration-500 w-full text-left"
               >
-                {/* Gold wash sweeps in behind the active row */}
                 <div
                   className={`absolute inset-0 -mx-6 transition-opacity duration-500 pointer-events-none ${
                     isActive ? "opacity-100" : "opacity-0"
@@ -204,15 +189,15 @@ export default function ProjectGrid() {
                 </span>
 
                 <h3
-                  className={`relative col-span-6 font-display font-light leading-none transition-all duration-500 ${
+                  className={`relative col-span-5 font-display font-light leading-none whitespace-nowrap transition-all duration-500 ${
                     isActive ? "translate-x-4 text-foreground" : "translate-x-0 text-foreground/75"
                   }`}
-                  style={{ fontSize: "clamp(1.8rem, 3.2vw, 2.8rem)" }}
+                  style={{ fontSize: "clamp(1.5rem, 2.4vw, 2.2rem)" }}
                 >
                   {p.title}
                 </h3>
 
-                <span className="relative col-span-3 text-[9px] tracking-[0.4em] uppercase text-foreground/40">
+                <span className="relative col-span-2 text-[9px] tracking-[0.4em] uppercase text-foreground/40">
                   {p.category}
                 </span>
 
@@ -221,17 +206,20 @@ export default function ProjectGrid() {
                 </span>
 
                 <span
-                  className={`relative col-span-1 justify-self-end text-accent text-lg transition-all duration-500 ${
-                    isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-3"
+                  className={`relative col-span-3 justify-self-end flex items-center gap-2 text-[9px] tracking-[0.3em] uppercase transition-all duration-500 ${
+                    isActive ? "opacity-100 translate-x-0 text-accent" : "opacity-0 -translate-x-3 text-accent"
                   }`}
                 >
-                  →
+                  View Project
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
                 </span>
-              </a>
+              </Link>
             );
           })}
 
-          {/* Cursor-following preview — ivory-matted arch frame */}
+          {/* Cursor-following preview */}
           <motion.div
             style={{ x: px, y: py }}
             className="absolute top-0 left-0 z-20 pointer-events-none"
@@ -263,18 +251,7 @@ export default function ProjectGrid() {
           </motion.div>
         </div>
 
-        {/* View all */}
-        <div className="hidden md:flex justify-center mt-14">
-          <button
-            className="text-[10px] tracking-[0.4em] uppercase font-medium text-accent hover:text-foreground transition-colors duration-300 inline-flex items-center gap-4 group"
-            data-cursor-interact
-          >
-            View All Works
-            <span className="w-8 h-px bg-accent/50 group-hover:w-12 group-hover:bg-foreground/50 transition-all duration-500" />
-          </button>
-        </div>
-
-        {/* ════ Mobile: staggered editorial roll ════ */}
+        {/* Mobile: staggered editorial roll */}
         <MobileEditorialRoll />
       </div>
     </section>

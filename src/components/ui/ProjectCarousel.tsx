@@ -69,7 +69,7 @@ export default function ProjectCarousel({ projectId, client, images }: ProjectCa
 
       {/* Overlays on Top Image */}
       <div className="absolute top-4 left-4 md:top-8 md:left-8 text-white font-bold text-xl md:text-2xl drop-shadow-md z-10 pointer-events-none">
-        0{projectId} <span className="text-white/50 font-normal text-lg md:text-xl">/ {String(images.length).padStart(2, "0")}</span>
+        {String(currentIndex + 1).padStart(2, "0")} <span className="text-white/50 font-normal text-lg md:text-xl">/ {String(images.length).padStart(2, "0")}</span>
       </div>
 
       <div className="absolute right-4 top-8 md:right-8 md:top-16 [writing-mode:vertical-rl] text-[8px] md:text-[10px] tracking-widest uppercase text-white/80 drop-shadow-md z-10 pointer-events-none">
