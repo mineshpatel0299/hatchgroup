@@ -6,34 +6,44 @@ import { motion, AnimatePresence } from "motion/react";
 
 const SLIDES = [
   {
-    src: "/images/residential-thumb.png",
-    title: "Residential Interior",
-    description:
-      "Bespoke luxury homes designed for unparalleled living — every space curated to reflect personal elegance.",
+    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png",
+    title: "Rajyog Groups",
+    description: "A premium residential development designed to elevate everyday living through thoughtful architecture and refined interiors.",
   },
   {
-    src: "/images/commercial-thumb.png",
-    title: "Commercial Space",
-    description:
-      "Premium workspaces that inspire and elevate brand identity, fostering productivity and lasting impressions.",
+    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png",
+    title: "Loomba Residences",
+    description: "Meticulously designed spaces that balance sophistication with warmth — where every detail speaks of quality craftsmanship.",
   },
   {
-    src: "/images/hospitality-thumb.png",
-    title: "Hospitality Design",
-    description:
-      "Cinematic environments for 5-star hotels and resorts — immersive experiences that define the essence of luxury.",
+    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799365/ChatGPT_Image_Jun_30_2026_at_01_10_56_AM_rfz3wg.png",
+    title: "Projects in Raipur",
+    description: "Upcoming commercial and mixed-use developments designed to shape the city's evolving skyline with bold architecture.",
   },
   {
-    src: "/images/turnkey-thumb.png",
-    title: "Turnkey Project",
-    description:
-      "End-to-end execution with uncompromising material quality — from concept to completion, seamlessly.",
+    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799749/ChatGPT_Image_Jun_30_2026_at_01_04_55_AM_xnwlvw.png",
+    title: "Delhi Residences",
+    description: "A landmark residential development in the capital, merging contemporary elegance with the cultural richness of New Delhi.",
   },
   {
-    src: "/images/featured-project.png",
-    title: "Featured Project",
-    description:
-      "A showcase of our finest work — where vision meets craftsmanship in every detail.",
+    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png",
+    title: "The Meridian",
+    description: "A defining statement in luxury residential architecture — a landmark address conceived for those who demand the finest.",
+  },
+  {
+    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731449/ChatGPT_Image_Jun_29_2026_at_04_17_12_PM_rget7w.png",
+    title: "Rajyog Groups",
+    description: "Contemporary design principles meet timeless elegance — every unit crafted to maximise light, ventilation, and spatial flow.",
+  },
+  {
+    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799849/ChatGPT_Image_Jun_30_2026_at_01_35_58_AM_u8onhf.png",
+    title: "The Meridian",
+    description: "Rising with quiet authority — bold architectural form and restrained interior elegance in perfect harmony.",
+  },
+  {
+    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png",
+    title: "Delhi Residences",
+    description: "Meticulously planned residences with premium finishes and thoughtful spatial design — redefining capital living.",
   },
 ];
 
