@@ -11,18 +11,23 @@ import {
 } from "motion/react";
 
 const PROJECTS = [
-  { id: "01", href: "/project/1", title: "Rajyog Groups",       category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png", description: "A premium residential development designed to elevate everyday living through thoughtful architecture and refined interiors." },
-  { id: "02", href: "/project/2", title: "Loomba Residences",    category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png", description: "Meticulously designed spaces that balance sophistication with warmth — where every detail speaks of quality craftsmanship." },
-  { id: "03", href: "/project/3", title: "Projects in Raipur",   category: "Commercial",  year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799365/ChatGPT_Image_Jun_30_2026_at_01_10_56_AM_rfz3wg.png", description: "Upcoming commercial and mixed-use developments designed to shape the city's evolving skyline." },
-  { id: "04", href: "/project/4", title: "Delhi Residences",     category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png", description: "A landmark residential development in the capital, merging contemporary elegance with the cultural richness of New Delhi." },
-  { id: "05", href: "/project/5", title: "The Meridian",         category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png", description: "A defining statement in luxury residential architecture — a landmark address conceived for those who demand the finest in design." },
+  { id: "01", href: "/project/1", title: "Rajyog Commercial",       category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png", description: "A premium residential development designed to elevate everyday living through thoughtful architecture and refined interiors." },
+  { id: "02", href: "/project/2", title: "Loomba Corporate",    category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png", description: "Meticulously designed spaces that balance sophistication with warmth — where every detail speaks of quality craftsmanship." },
+  { id: "03", href: "/project/3", title: "Raipur Hub",   category: "Commercial",  year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799365/ChatGPT_Image_Jun_30_2026_at_01_10_56_AM_rfz3wg.png", description: "Upcoming commercial and mixed-use developments designed to shape the city's evolving skyline." },
+  { id: "04", href: "/project/4", title: "Delhi Business",     category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png", description: "A landmark residential development in the capital, merging contemporary elegance with the cultural richness of New Delhi." },
+  { id: "05", href: "/project/5", title: "Meridian Tower",         category: "Commercial", year: "2025", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png", description: "A defining statement in luxury residential architecture — a landmark address conceived for those who demand the finest in design." },
+  { id: "06", href: "/project/6", title: "Aurora Residences",     category: "Residential", year: "2026", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_15_56_PM_1_sntyol.png", description: "An exquisite new residential project offering unparalleled luxury and comfort for modern living." },
+  { id: "07", href: "/project/7", title: "Celestia Residences",   category: "Residential", year: "2026", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_11_09_PM_mcuxi0.png", description: "Celestia Residences redefines the standard of premium living, merging breathtaking architectural vision with serene interiors." },
+  { id: "08", href: "/project/8", title: "Lumina Residences",     category: "Residential", year: "2026", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_22_20_PM_fgdd8g.png", description: "A brilliant synthesis of refined architecture and warm, inviting living spaces in the heart of the city." },
 ];
+
+const PREVIEW_COUNT = 5;
 
 function MobileEditorialRoll() {
   return (
     <div className="md:hidden px-5 pt-2 pb-16">
       <div className="flex flex-col gap-20">
-        {PROJECTS.map((p, i) => {
+        {PROJECTS.slice(0, PREVIEW_COUNT).map((p, i) => {
           const isRight = i % 2 === 1;
           return (
             <motion.div
@@ -104,6 +109,18 @@ function MobileEditorialRoll() {
           );
         })}
       </div>
+
+      <div className="flex justify-center mt-14">
+        <Link
+          href="/project"
+          className="inline-flex items-center gap-3 px-8 py-3.5 border border-accent/40 text-[9px] tracking-[0.45em] uppercase text-accent hover:bg-accent hover:text-ivory transition-all duration-300"
+        >
+          View All Projects
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </Link>
+      </div>
     </div>
   );
 }
@@ -163,7 +180,7 @@ export default function ProjectGrid() {
 
         {/* Desktop: the index list */}
         <div className="hidden md:block border-t border-foreground/10" onMouseLeave={() => setActive(null)}>
-          {PROJECTS.map((p, i) => {
+          {PROJECTS.slice(0, PREVIEW_COUNT).map((p, i) => {
             const isActive = active === i;
             return (
               <Link
@@ -218,6 +235,19 @@ export default function ProjectGrid() {
               </Link>
             );
           })}
+
+          {/* View All button */}
+          <div className="flex justify-center mt-14">
+            <Link
+              href="/project"
+              className="inline-flex items-center gap-3 px-8 py-3.5 border border-accent/40 text-[9px] tracking-[0.45em] uppercase text-accent hover:bg-accent hover:text-ivory transition-all duration-300"
+            >
+              View All Projects
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
 
           {/* Cursor-following preview */}
           <motion.div

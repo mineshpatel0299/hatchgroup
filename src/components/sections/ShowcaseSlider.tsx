@@ -7,43 +7,58 @@ import { motion, AnimatePresence } from "motion/react";
 const SLIDES = [
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png",
-    title: "Rajyog Groups",
+    title: "Rajyog Commercial",
     description: "A premium residential development designed to elevate everyday living through thoughtful architecture and refined interiors.",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png",
-    title: "Loomba Residences",
+    title: "Loomba Corporate",
     description: "Meticulously designed spaces that balance sophistication with warmth — where every detail speaks of quality craftsmanship.",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799365/ChatGPT_Image_Jun_30_2026_at_01_10_56_AM_rfz3wg.png",
-    title: "Projects in Raipur",
+    title: "Raipur Hub",
     description: "Upcoming commercial and mixed-use developments designed to shape the city's evolving skyline with bold architecture.",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799749/ChatGPT_Image_Jun_30_2026_at_01_04_55_AM_xnwlvw.png",
-    title: "Delhi Residences",
+    title: "Delhi Business",
     description: "A landmark residential development in the capital, merging contemporary elegance with the cultural richness of New Delhi.",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png",
-    title: "The Meridian",
+    title: "Meridian Tower",
     description: "A defining statement in luxury residential architecture — a landmark address conceived for those who demand the finest.",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731449/ChatGPT_Image_Jun_29_2026_at_04_17_12_PM_rget7w.png",
-    title: "Rajyog Groups",
+    title: "Rajyog Commercial",
     description: "Contemporary design principles meet timeless elegance — every unit crafted to maximise light, ventilation, and spatial flow.",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799849/ChatGPT_Image_Jun_30_2026_at_01_35_58_AM_u8onhf.png",
-    title: "The Meridian",
+    title: "Meridian Tower",
     description: "Rising with quiet authority — bold architectural form and restrained interior elegance in perfect harmony.",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png",
-    title: "Delhi Residences",
+    title: "Delhi Business",
     description: "Meticulously planned residences with premium finishes and thoughtful spatial design — redefining capital living.",
+  },
+  {
+    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_15_56_PM_1_sntyol.png",
+    title: "Aurora Residences",
+    description: "An exquisite new residential project offering unparalleled luxury and comfort for modern living.",
+  },
+  {
+    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_11_09_PM_mcuxi0.png",
+    title: "Celestia Residences",
+    description: "Redefining the standard of premium living, merging breathtaking architectural vision with serene interiors.",
+  },
+  {
+    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_22_20_PM_fgdd8g.png",
+    title: "Lumina Residences",
+    description: "A brilliant synthesis of refined architecture and warm, inviting living spaces in the heart of the city.",
   },
 ];
 

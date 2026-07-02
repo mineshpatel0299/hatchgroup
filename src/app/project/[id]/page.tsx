@@ -6,7 +6,7 @@ import ProjectCarousel from '@/components/ui/ProjectCarousel';
 // Mock data to match the project theme
 const projectsData = {
   "1": {
-    title: "RAJYOG GROUPS",
+    title: "RAJYOG COMMERCIAL",
     subtitle: "",
     category: "Commercial",
     year: "2025",
@@ -23,7 +23,7 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731449/ChatGPT_Image_Jun_29_2026_at_04_18_55_PM_swccj8.png",
   },
   "2": {
-    title: "LOOMBA RESIDENCES",
+    title: "LOOMBA CORPORATE",
     subtitle: "",
     category: "Commercial",
     year: "2025",
@@ -40,7 +40,7 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png",
   },
   "5": {
-    title: "THE MERIDIAN",
+    title: "MERIDIAN TOWER",
     subtitle: "",
     category: "Commercial",
     year: "2025",
@@ -56,7 +56,7 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png",
   },
   "4": {
-    title: "DELHI RESIDENCES",
+    title: "DELHI BUSINESS",
     subtitle: "",
     category: "Commercial",
     year: "2025",
@@ -73,7 +73,7 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png",
   },
   "3": {
-    title: "PROJECTS IN RAIPUR",
+    title: "RAIPUR HUB",
     subtitle: "",
     category: "Commercial",
     year: "2025",
@@ -89,6 +89,54 @@ const projectsData = {
     ],
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799365/ChatGPT_Image_Jun_30_2026_at_01_10_56_AM_rfz3wg.png",
   },
+  "6": {
+    title: "AURORA RESIDENCES",
+    subtitle: "",
+    category: "Residential",
+    year: "2026",
+    client: "Hatch Group",
+    description: "Aurora Residences is an exquisite new residential project offering unparalleled luxury and comfort. Designed for modern living, it features state-of-the-art amenities and elegant architecture.",
+    details: "Nestled in a serene environment, Aurora Residences provides a perfect blend of nature and urban convenience. The residences are crafted with premium materials and thoughtful layouts to ensure a vibrant and fulfilling lifestyle for all its residents.",
+    images: [
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_15_56_PM_1_sntyol.png",
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_14_16_PM_1_jrgplw.png",
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_17_17_PM_qtpdcq.png",
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971825/ChatGPT_Image_Jul_1_2026_at_05_10_48_PM_1_ps8ute.png",
+    ],
+    image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_15_56_PM_1_sntyol.png",
+  },
+  "7": {
+    title: "CELESTIA RESIDENCES",
+    subtitle: "",
+    category: "Residential",
+    year: "2026",
+    client: "Hatch Group",
+    description: "Celestia Residences redefines the standard of premium living, merging breathtaking architectural vision with serene, beautifully crafted interiors.",
+    details: "Designed as an urban sanctuary, Celestia Residences offers panoramic views, open-concept layouts, and exclusive amenities that elevate the everyday experience. Every corner reflects an uncompromising commitment to quality and elegance.",
+    images: [
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_11_09_PM_mcuxi0.png",
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_12_22_PM_fo1is9.png",
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_09_55_PM_sxk4vi.png",
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971887/ChatGPT_Image_Jul_1_2026_at_06_08_38_PM_wlpirl.png",
+    ],
+    image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_11_09_PM_mcuxi0.png",
+  },
+  "8": {
+    title: "LUMINA RESIDENCES",
+    subtitle: "",
+    category: "Residential",
+    year: "2026",
+    client: "Hatch Group",
+    description: "Lumina Residences offers a brilliant synthesis of refined architecture and warm, inviting living spaces, creating a haven of tranquility in the heart of the city.",
+    details: "Meticulously designed to capture abundant natural light, Lumina Residences features expansive windows, premium materials, and lushly landscaped terraces. It is the epitome of sophisticated modern living crafted for discerning individuals.",
+    images: [
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_22_20_PM_fgdd8g.png",
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_20_32_PM_rufoen.png",
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_19_18_PM_wjtady.png",
+      "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_18_13_PM_imradj.png",
+    ],
+    image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_22_20_PM_fgdd8g.png",
+  },
 };
 
 type Params = Promise<{ id: string }>;
@@ -102,7 +150,8 @@ export default async function ProjectDetailPage(props: { params: Params }) {
   const project = projectsData[projectId] || projectsData["1"];
   
   const parsedId = parseInt(params.id);
-  const nextProjectId = !isNaN(parsedId) ? String((parsedId % 5) + 1) as keyof typeof projectsData : "1";
+  const totalProjects = Object.keys(projectsData).length;
+  const nextProjectId = !isNaN(parsedId) ? String((parsedId % totalProjects) + 1) as keyof typeof projectsData : "1";
   const nextProject = projectsData[nextProjectId] || projectsData["1"];
 
   return (
