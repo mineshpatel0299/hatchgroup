@@ -4,6 +4,7 @@ import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
 import CustomCursor from "@/components/CustomCursor";
 import Nav from "@/components/Nav";
+import Preloader from "@/components/Preloader";
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
@@ -26,6 +27,7 @@ export default function RootLayout({
       {/* suppressHydrationWarning: browser extensions (e.g. Grammarly) inject
           attributes into <body> before hydration, causing false mismatches */}
       <body suppressHydrationWarning className="antialiased font-sans text-foreground bg-background cursor-none">
+        <Preloader />
         <LenisProvider>
           <CustomCursor />
           <Nav />

@@ -4,17 +4,14 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { PROJECTS } from "@/data/projects";
 
-const projects = [
-  { id: 1, title: "Rajyog Commercial",   category: "Commercial", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png" },
-  { id: 2, title: "Loomba Corporate",    category: "Commercial", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png" },
-  { id: 3, title: "Raipur Hub",          category: "Commercial", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799365/ChatGPT_Image_Jun_30_2026_at_01_10_56_AM_rfz3wg.png" },
-  { id: 4, title: "Delhi Business",      category: "Commercial", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png" },
-  { id: 5, title: "Meridian Tower",      category: "Commercial", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png" },
-  { id: 6, title: "Aurora Residences",   category: "Residential", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_15_56_PM_1_sntyol.png" },
-  { id: 7, title: "Celestia Residences", category: "Residential", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_11_09_PM_mcuxi0.png" },
-  { id: 8, title: "Lumina Residences",   category: "Residential", image: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_22_20_PM_fgdd8g.png" },
-];
+const projects = PROJECTS.map((p) => ({
+  id: parseInt(p.id, 10),
+  title: p.title,
+  category: p.category,
+  image: p.image,
+}));
 
 function cardRanges(index: number, n: number) {
   const enterAt   = index === 0 ? 0 : index / n;

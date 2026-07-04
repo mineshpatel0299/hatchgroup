@@ -2,7 +2,10 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
+import { findProjectByCategory } from "@/data/projects";
 
 const SERVICES = [
   {
@@ -29,7 +32,10 @@ const SERVICES = [
     description: "End-to-end execution with uncompromising material quality — from concept to completion, seamlessly.",
     image: "/images/turnkey-thumb.png",
   },
-];
+].map((s) => ({
+  ...s,
+  href: findProjectByCategory(s.title)?.href ?? "/project",
+}));
 
 function MobileCarousel() {
   const trackRef  = useRef<HTMLDivElement>(null);
@@ -94,45 +100,47 @@ function MobileCarousel() {
             transition={{ duration: 0.9, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
             className="flex-none w-[78vw] snap-center"
           >
-            {/* Arch image */}
-            <div className="relative w-full aspect-3/4 overflow-hidden rounded-t-full shadow-[0_28px_55px_-20px_rgba(140,111,63,0.45)]">
-              <Image
-                src={s.image}
-                alt={s.title}
-                fill
-                className="object-cover"
-                sizes="80vw"
-              />
-              {/* Ivory gradient at bottom */}
-              <div
-                className="absolute inset-x-0 bottom-0 h-28"
-                style={{ background: "linear-gradient(to top, rgba(248,239,217,0.9) 0%, transparent 100%)" }}
-              />
-              {/* Number badge */}
-              <span className="absolute bottom-4 left-1/2 -translate-x-1/2 font-display text-accent text-sm tracking-[0.35em]">
-                {s.id}
-              </span>
-            </div>
+            <Link href={s.href} className="block" data-cursor-interact>
+              {/* Arch image */}
+              <div className="relative w-full aspect-3/4 overflow-hidden rounded-t-full shadow-[0_28px_55px_-20px_rgba(140,111,63,0.45)]">
+                <Image
+                  src={s.image}
+                  alt={s.title}
+                  fill
+                  className="object-cover"
+                  sizes="80vw"
+                />
+                {/* Ivory gradient at bottom */}
+                <div
+                  className="absolute inset-x-0 bottom-0 h-28"
+                  style={{ background: "linear-gradient(to top, rgba(248,239,217,0.9) 0%, transparent 100%)" }}
+                />
+                {/* Number badge */}
+                <span className="absolute bottom-4 left-1/2 -translate-x-1/2 font-display text-accent text-sm tracking-[0.35em]">
+                  {s.id}
+                </span>
+              </div>
 
-            {/* Text */}
-            <div className="pt-5 px-1">
-              <h3
-                className="font-display font-light text-foreground mb-2"
-                style={{ fontSize: "clamp(1.5rem, 6vw, 2rem)" }}
-              >
-                {s.title}
-              </h3>
-              <div
-                className="h-px mb-3"
-                style={{
-                  background:
-                    "linear-gradient(to right, rgba(169,140,95,0.6), transparent)",
-                }}
-              />
-              <p className="text-foreground/50 font-light text-[0.85rem] leading-[1.85]">
-                {s.description}
-              </p>
-            </div>
+              {/* Text */}
+              <div className="pt-5 px-1">
+                <h3
+                  className="font-display font-light text-foreground mb-2"
+                  style={{ fontSize: "clamp(1.5rem, 6vw, 2rem)" }}
+                >
+                  {s.title}
+                </h3>
+                <div
+                  className="h-px mb-3"
+                  style={{
+                    background:
+                      "linear-gradient(to right, rgba(169,140,95,0.6), transparent)",
+                  }}
+                />
+                <p className="text-foreground/50 font-light text-[0.85rem] leading-[1.85]">
+                  {s.description}
+                </p>
+              </div>
+            </Link>
           </motion.div>
         ))}
       </div>
@@ -157,6 +165,7 @@ function MobileCarousel() {
 
 export default function Services() {
   const [active, setActive] = useState(0);
+  const router = useRouter();
 
   return (
     <section className="relative z-20 luxe-emerald">
@@ -212,9 +221,15 @@ export default function Services() {
                 <motion.div
                   key={s.id}
                   onMouseEnter={() => setActive(i)}
+                  onClick={() => router.push(s.href)}
                   animate={{ flexGrow: isActive ? 4.2 : 1 }}
                   transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                   className="relative basis-0 min-w-0 overflow-hidden rounded-t-full cursor-pointer group"
+                  role="link"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") router.push(s.href);
+                  }}
                   data-cursor-interact
                 >
                   {/* Image */}
