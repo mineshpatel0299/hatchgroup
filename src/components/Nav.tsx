@@ -192,13 +192,14 @@ export default function Nav() {
           {/* Logo */}
           <a href="/" className="relative flex-shrink-0 w-40 md:w-55 h-12 md:h-14" data-cursor-interact>
             <Image
-              src="https://res.cloudinary.com/de4pazo51/image/upload/c_crop,g_north_west,h_1055,w_6125,x_908,y_1653/HATCH_LOGO_GOLD-02_1_arrhel.png"
+              src={
+                useDarkText
+                  ? "https://res.cloudinary.com/de4pazo51/image/upload/c_crop,g_north_west,h_1055,w_6023,x_988,y_1660/HATCH_DARK_LOGO-02_oi3nyq.png"
+                  : "https://res.cloudinary.com/de4pazo51/image/upload/c_crop,g_north_west,h_1055,w_6125,x_908,y_1653/HATCH_LOGO_GOLD-02_1_arrhel.png"
+              }
               alt="Hatch Group"
               fill
-              className={clsx(
-                "object-contain object-left transition-all duration-500",
-                useDarkText && "brightness-0"
-              )}
+              className="object-contain object-left transition-all duration-500"
               priority
               unoptimized
             />
