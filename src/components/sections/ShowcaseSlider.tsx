@@ -2,63 +2,75 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 
 const SLIDES = [
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png",
-    title: "Rajyog Commercial",
+    title: "Zenith Commercial",
     description: "A premium residential development designed to elevate everyday living through thoughtful architecture and refined interiors.",
+    href: "/project/1",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png",
-    title: "Loomba Corporate",
+    title: "Solstice Corporate",
     description: "Meticulously designed spaces that balance sophistication with warmth — where every detail speaks of quality craftsmanship.",
+    href: "/project/2",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799365/ChatGPT_Image_Jun_30_2026_at_01_10_56_AM_rfz3wg.png",
     title: "Raipur Hub",
     description: "Upcoming commercial and mixed-use developments designed to shape the city's evolving skyline with bold architecture.",
+    href: "/project/3",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799749/ChatGPT_Image_Jun_30_2026_at_01_04_55_AM_xnwlvw.png",
     title: "Delhi Business",
     description: "A landmark residential development in the capital, merging contemporary elegance with the cultural richness of New Delhi.",
+    href: "/project/4",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png",
     title: "Meridian Tower",
     description: "A defining statement in luxury residential architecture — a landmark address conceived for those who demand the finest.",
+    href: "/project/5",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731449/ChatGPT_Image_Jun_29_2026_at_04_17_12_PM_rget7w.png",
-    title: "Rajyog Commercial",
+    title: "Zenith Commercial",
     description: "Contemporary design principles meet timeless elegance — every unit crafted to maximise light, ventilation, and spatial flow.",
+    href: "/project/1",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799849/ChatGPT_Image_Jun_30_2026_at_01_35_58_AM_u8onhf.png",
     title: "Meridian Tower",
     description: "Rising with quiet authority — bold architectural form and restrained interior elegance in perfect harmony.",
+    href: "/project/5",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png",
     title: "Delhi Business",
     description: "Meticulously planned residences with premium finishes and thoughtful spatial design — redefining capital living.",
+    href: "/project/4",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_15_56_PM_1_sntyol.png",
     title: "Aurora Residences",
     description: "An exquisite new residential project offering unparalleled luxury and comfort for modern living.",
+    href: "/project/6",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_11_09_PM_mcuxi0.png",
     title: "Celestia Residences",
     description: "Redefining the standard of premium living, merging breathtaking architectural vision with serene interiors.",
+    href: "/project/7",
   },
   {
     src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_22_20_PM_fgdd8g.png",
     title: "Lumina Residences",
     description: "A brilliant synthesis of refined architecture and warm, inviting living spaces in the heart of the city.",
+    href: "/project/8",
   },
 ];
 
@@ -94,57 +106,63 @@ export default function ShowcaseSlider() {
       <div className="absolute inset-0 pointer-events-none luxe-grain" />
 
       <div className="relative w-full" style={{ height: "clamp(50vh, 75vw, 90vh)" }}>
-        <AnimatePresence initial={false} custom={direction} mode="popLayout">
-          <motion.div
-            key={current}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-0"
-          >
-            <Image
-              src={SLIDES[current].src}
-              alt={SLIDES[current].title}
-              fill
-              className="object-cover"
-              sizes="100vw"
-              priority={current === 0}
-            />
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Dark gradient for text legibility */}
-        <div
-          className="absolute inset-x-0 bottom-0 z-1 pointer-events-none"
-          style={{
-            height: "55%",
-            background:
-              "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)",
-          }}
-        />
-
-        {/* Text content */}
-        <div className="absolute bottom-0 inset-x-0 z-10 px-6 md:px-12 pb-20 md:pb-24">
-          <AnimatePresence mode="wait">
+        <Link
+          href={SLIDES[current].href}
+          aria-label={`View ${SLIDES[current].title} project details`}
+          className="absolute inset-0 cursor-pointer"
+        >
+          <AnimatePresence initial={false} custom={direction} mode="popLayout">
             <motion.div
               key={current}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0"
             >
-              <h3 className="font-display text-white text-2xl md:text-4xl lg:text-5xl tracking-wide mb-3">
-                {SLIDES[current].title}
-              </h3>
-              <p className="text-white/75 text-sm md:text-base font-light leading-relaxed max-w-xl">
-                {SLIDES[current].description}
-              </p>
+              <Image
+                src={SLIDES[current].src}
+                alt={SLIDES[current].title}
+                fill
+                className="object-cover"
+                sizes="100vw"
+                priority={current === 0}
+              />
             </motion.div>
           </AnimatePresence>
-        </div>
+
+          {/* Dark gradient for text legibility */}
+          <div
+            className="absolute inset-x-0 bottom-0 z-1 pointer-events-none"
+            style={{
+              height: "55%",
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)",
+            }}
+          />
+
+          {/* Text content */}
+          <div className="absolute bottom-0 inset-x-0 z-10 px-6 md:px-12 pb-20 md:pb-24">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <h3 className="font-display text-white text-2xl md:text-4xl lg:text-5xl tracking-wide mb-3">
+                  {SLIDES[current].title}
+                </h3>
+                <p className="text-white/75 text-sm md:text-base font-light leading-relaxed max-w-xl">
+                  {SLIDES[current].description}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </Link>
 
         {/* Dots — bottom center */}
         <div className="absolute bottom-0 inset-x-0 z-10 flex items-center justify-start gap-3 px-6 md:px-12 pb-8 md:pb-10">

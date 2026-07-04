@@ -6,13 +6,13 @@ import ProjectCarousel from '@/components/ui/ProjectCarousel';
 // Mock data to match the project theme
 const projectsData = {
   "1": {
-    title: "RAJYOG COMMERCIAL",
+    title: "ZENITH COMMERCIAL",
     subtitle: "",
     category: "Commercial",
     year: "2025",
     client: "Hatch Group",
-    description: "A premium residential development by Rajyog Groups, designed to elevate everyday living through thoughtful architecture, refined interiors, and a seamless blend of comfort and luxury.",
-    details: "Spanning across thoughtfully planned layouts, Rajyog Groups Residences brings together contemporary design principles with timeless elegance. Every unit is crafted to maximise natural light, ventilation, and spatial flow — creating homes that feel expansive and inviting.",
+    description: "A premium residential development designed to elevate everyday living through thoughtful architecture, refined interiors, and a seamless blend of comfort and luxury.",
+    details: "Spanning across thoughtfully planned layouts, Zenith Commercial brings together contemporary design principles with timeless elegance. Every unit is crafted to maximise natural light, ventilation, and spatial flow — creating homes that feel expansive and inviting.",
     images: [
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png",
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_26_19_PM_o7j9xh.png",
@@ -23,13 +23,13 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731449/ChatGPT_Image_Jun_29_2026_at_04_18_55_PM_swccj8.png",
   },
   "2": {
-    title: "LOOMBA CORPORATE",
+    title: "SOLSTICE CORPORATE",
     subtitle: "",
     category: "Commercial",
     year: "2025",
     client: "Hatch Group",
-    description: "Loomba Residences redefines urban living with meticulously designed spaces that balance sophistication with warmth — a place where every detail speaks of quality craftsmanship.",
-    details: "Set in a prime location, Loomba Residences offers a curated living experience with premium amenities, landscaped surroundings, and interiors that reflect a modern yet rooted lifestyle. Built for families who value both form and function.",
+    description: "Solstice Corporate redefines urban living with meticulously designed spaces that balance sophistication with warmth — a place where every detail speaks of quality craftsmanship.",
+    details: "Set in a prime location, Solstice Corporate offers a curated living experience with premium amenities, landscaped surroundings, and interiors that reflect a modern yet rooted lifestyle. Built for families who value both form and function.",
     images: [
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png",
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782799515/ChatGPT_Image_Jun_30_2026_at_01_16_59_AM_pdc7tq.png",
