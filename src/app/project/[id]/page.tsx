@@ -6,13 +6,13 @@ import ProjectCarousel from '@/components/ui/ProjectCarousel';
 // Mock data to match the project theme
 const projectsData = {
   "1": {
-    title: "ZENITH COMMERCIAL",
+    title: "DYNAMIC BUSINESS HUBS",
     subtitle: "",
     category: "Commercial",
     year: "2025",
     client: "Hatch Group",
     description: "A premium residential development designed to elevate everyday living through thoughtful architecture, refined interiors, and a seamless blend of comfort and luxury.",
-    details: "Spanning across thoughtfully planned layouts, Zenith Commercial brings together contemporary design principles with timeless elegance. Every unit is crafted to maximise natural light, ventilation, and spatial flow — creating homes that feel expansive and inviting.",
+    details: "Spanning across thoughtfully planned layouts, Dynamic Business Hubs brings together contemporary design principles with timeless elegance. Every unit is crafted to maximise natural light, ventilation, and spatial flow — creating homes that feel expansive and inviting.",
     images: [
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png",
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_26_19_PM_o7j9xh.png",
@@ -23,13 +23,13 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731449/ChatGPT_Image_Jun_29_2026_at_04_18_55_PM_swccj8.png",
   },
   "2": {
-    title: "SOLSTICE CORPORATE",
+    title: "CONTEMPORARY COMMERCIALS",
     subtitle: "",
     category: "Commercial",
     year: "2025",
     client: "Hatch Group",
-    description: "Solstice Corporate redefines urban living with meticulously designed spaces that balance sophistication with warmth — a place where every detail speaks of quality craftsmanship.",
-    details: "Set in a prime location, Solstice Corporate offers a curated living experience with premium amenities, landscaped surroundings, and interiors that reflect a modern yet rooted lifestyle. Built for families who value both form and function.",
+    description: "Contemporary Commercials redefines urban living with meticulously designed spaces that balance sophistication with warmth — a place where every detail speaks of quality craftsmanship.",
+    details: "Set in a prime location, Contemporary Commercials offers a curated living experience with premium amenities, landscaped surroundings, and interiors that reflect a modern yet rooted lifestyle. Built for families who value both form and function.",
     images: [
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png",
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782799515/ChatGPT_Image_Jun_30_2026_at_01_16_59_AM_pdc7tq.png",
@@ -40,13 +40,13 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png",
   },
   "5": {
-    title: "MERIDIAN TOWER",
+    title: "ICONIC DEVELOPMENTS",
     subtitle: "",
     category: "Commercial",
     year: "2025",
     client: "Hatch Group",
-    description: "The Meridian is a defining statement in luxury residential architecture — a landmark address conceived for those who demand the finest in design, craftsmanship, and lifestyle.",
-    details: "Rising with quiet authority, The Meridian brings together bold architectural form and restrained interior elegance. Each residence is a study in proportion and light, with curated materials and bespoke finishes that speak of permanence and prestige.",
+    description: "Iconic Developments is a defining statement in luxury residential architecture — a landmark address conceived for those who demand the finest in design, craftsmanship, and lifestyle.",
+    details: "Rising with quiet authority, Iconic Developments brings together bold architectural form and restrained interior elegance. Each residence is a study in proportion and light, with curated materials and bespoke finishes that speak of permanence and prestige.",
     images: [
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png",
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782799870/ChatGPT_Image_Jun_30_2026_at_01_23_56_AM_fvnd0t.png",
@@ -56,12 +56,12 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png",
   },
   "4": {
-    title: "DELHI BUSINESS",
+    title: "LANDMARK SPACES",
     subtitle: "",
     category: "Commercial",
     year: "2025",
     client: "Hatch Group",
-    description: "Delhi Residences is a landmark residential development in the capital, crafting refined urban homes that merge contemporary elegance with the cultural richness of New Delhi.",
+    description: "Landmark Spaces is a landmark residential development in the capital, crafting refined urban homes that merge contemporary elegance with the cultural richness of New Delhi.",
     details: "Situated in one of Delhi's most sought-after addresses, this development offers meticulously planned residences with premium finishes, curated amenities, and thoughtful spatial design — redefining what modern capital living can feel like.",
     images: [
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png",
@@ -73,7 +73,7 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png",
   },
   "3": {
-    title: "RAIPUR HUB",
+    title: "SIGNATURE COMMERCIALS",
     subtitle: "",
     category: "Commercial",
     year: "2025",
@@ -90,13 +90,13 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799365/ChatGPT_Image_Jun_30_2026_at_01_10_56_AM_rfz3wg.png",
   },
   "6": {
-    title: "AURORA RESIDENCES",
+    title: "PRIME LIVING",
     subtitle: "",
     category: "Residential",
     year: "2026",
     client: "Hatch Group",
-    description: "Aurora Residences is an exquisite new residential project offering unparalleled luxury and comfort. Designed for modern living, it features state-of-the-art amenities and elegant architecture.",
-    details: "Nestled in a serene environment, Aurora Residences provides a perfect blend of nature and urban convenience. The residences are crafted with premium materials and thoughtful layouts to ensure a vibrant and fulfilling lifestyle for all its residents.",
+    description: "Prime Living is an exquisite new residential project offering unparalleled luxury and comfort. Designed for modern living, it features state-of-the-art amenities and elegant architecture.",
+    details: "Nestled in a serene environment, Prime Living provides a perfect blend of nature and urban convenience. The residences are crafted with premium materials and thoughtful layouts to ensure a vibrant and fulfilling lifestyle for all its residents.",
     images: [
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_15_56_PM_1_sntyol.png",
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_14_16_PM_1_jrgplw.png",
@@ -106,13 +106,13 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_15_56_PM_1_sntyol.png",
   },
   "7": {
-    title: "CELESTIA RESIDENCES",
+    title: "TIMELESS RESIDENCES",
     subtitle: "",
     category: "Residential",
     year: "2026",
     client: "Hatch Group",
-    description: "Celestia Residences redefines the standard of premium living, merging breathtaking architectural vision with serene, beautifully crafted interiors.",
-    details: "Designed as an urban sanctuary, Celestia Residences offers panoramic views, open-concept layouts, and exclusive amenities that elevate the everyday experience. Every corner reflects an uncompromising commitment to quality and elegance.",
+    description: "Timeless Residences redefines the standard of premium living, merging breathtaking architectural vision with serene, beautifully crafted interiors.",
+    details: "Designed as an urban sanctuary, Timeless Residences offers panoramic views, open-concept layouts, and exclusive amenities that elevate the everyday experience. Every corner reflects an uncompromising commitment to quality and elegance.",
     images: [
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_11_09_PM_mcuxi0.png",
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_12_22_PM_fo1is9.png",
@@ -122,13 +122,13 @@ const projectsData = {
     image2: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_11_09_PM_mcuxi0.png",
   },
   "8": {
-    title: "LUMINA RESIDENCES",
+    title: "BESPOKE HOMES",
     subtitle: "",
     category: "Residential",
     year: "2026",
     client: "Hatch Group",
-    description: "Lumina Residences offers a brilliant synthesis of refined architecture and warm, inviting living spaces, creating a haven of tranquility in the heart of the city.",
-    details: "Meticulously designed to capture abundant natural light, Lumina Residences features expansive windows, premium materials, and lushly landscaped terraces. It is the epitome of sophisticated modern living crafted for discerning individuals.",
+    description: "Bespoke Homes offers a brilliant synthesis of refined architecture and warm, inviting living spaces, creating a haven of tranquility in the heart of the city.",
+    details: "Meticulously designed to capture abundant natural light, Bespoke Homes features expansive windows, premium materials, and lushly landscaped terraces. It is the epitome of sophisticated modern living crafted for discerning individuals.",
     images: [
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_22_20_PM_fgdd8g.png",
       "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_20_32_PM_rufoen.png",
