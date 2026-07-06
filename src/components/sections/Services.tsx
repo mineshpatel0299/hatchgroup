@@ -220,15 +220,14 @@ export default function Services() {
               return (
                 <motion.div
                   key={s.id}
-                  onMouseEnter={() => setActive(i)}
-                  onClick={() => router.push(s.href)}
+                  onClick={() => (isActive ? router.push(s.href) : setActive(i))}
                   animate={{ flexGrow: isActive ? 4.2 : 1 }}
                   transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                   className="relative basis-0 min-w-0 overflow-hidden rounded-t-full cursor-pointer group"
                   role="link"
                   tabIndex={0}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") router.push(s.href);
+                    if (e.key === "Enter") (isActive ? router.push(s.href) : setActive(i));
                   }}
                   data-cursor-interact
                 >
