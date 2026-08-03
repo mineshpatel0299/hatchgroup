@@ -408,9 +408,101 @@ function AboutHero() {
   );
 }
 
+function TeamMember({ member }: { member: (typeof TEAM)[number] }) {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={{ hidden: {}, visible: {} }}
+      transition={{ staggerChildren: 0.12, delayChildren: 0.1 }}
+      className="flex flex-col group"
+    >
+      {/* Image — curtain reveal + Ken Burns settle */}
+      <div className="relative">
+        {/* Ghost number, opulent, overlapping the frame — sits outside the
+            clipped image box so it isn't cropped by overflow-hidden below */}
+        <span
+          className="absolute -top-6 -left-3 z-0 font-display font-light select-none leading-none pointer-events-none"
+          style={{ fontSize: "clamp(4.5rem, 8vw, 7rem)", color: "rgba(169,140,95,0.18)", letterSpacing: "-0.03em" }}
+        >
+          {member.number}
+        </span>
+
+        <div className="relative aspect-4/5 overflow-hidden z-10">
+          <div className="absolute inset-4 border border-accent/20 group-hover:border-accent/60 transition-colors duration-700 pointer-events-none z-20" />
+
+          <motion.div
+            initial={{ scale: 1.18, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0"
+          >
+            <Image
+              src={member.image}
+              alt={member.name}
+              fill
+              className="object-cover object-top transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
+              sizes="(min-width: 640px) 50vw, 100vw"
+            />
+          </motion.div>
+
+          {/* Curtain wipe — sweeps up and off on reveal */}
+          <motion.div
+            initial={{ scaleY: 1 }}
+            whileInView={{ scaleY: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 1, ease: [0.76, 0, 0.24, 1], delay: 0.15 }}
+            style={{ transformOrigin: "top", background: "linear-gradient(180deg, #0d1a15 0%, #1c2420 100%)" }}
+            className="absolute inset-0 z-30"
+          />
+        </div>
+      </div>
+
+      {/* Caption below the image */}
+      <div className="pt-8">
+        <motion.div
+          variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }}
+          className="flex items-center gap-4 mb-5"
+        >
+          <div className="h-px w-8 luxe-rule shrink-0" />
+          <span className="text-accent/70 text-[9px] tracking-[0.5em] uppercase font-sans font-medium">
+            {member.role}
+          </span>
+        </motion.div>
+
+        {/* Name — masked line reveal */}
+        <div className="overflow-hidden mb-4">
+          <motion.h3
+            variants={{ hidden: { y: "110%" }, visible: { y: 0, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] as const } } }}
+            className="font-display font-light text-foreground"
+            style={{ fontSize: "clamp(1.6rem, 2.6vw, 2.2rem)", letterSpacing: "-0.01em" }}
+          >
+            {member.name}
+          </motion.h3>
+        </div>
+
+        <motion.div
+          variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } } }}
+          className="w-12 h-px mb-6 origin-left"
+          style={{ background: "rgba(169,140,95,0.5)" }}
+        />
+
+        <motion.p
+          variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
+          className="text-foreground/50 font-light leading-[1.95] text-[0.9rem] md:text-[0.98rem] max-w-md"
+        >
+          {member.bio}
+        </motion.p>
+      </div>
+    </motion.div>
+  );
+}
+
 export function TeamSlider() {
   return (
-    <section id="our-team" className="relative luxe-ivory overflow-hidden py-20 md:py-28">
+    <section id="our-team" className="relative luxe-ivory overflow-hidden py-24 md:py-40">
       <div className="absolute inset-0 pointer-events-none luxe-grain opacity-40" />
       <div
         className="absolute pointer-events-none"
@@ -422,7 +514,7 @@ export function TeamSlider() {
       />
 
       {/* Section header */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 mb-16 md:mb-24">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 mb-20 md:mb-32">
         <motion.div
           {...fadeUp}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
@@ -446,46 +538,16 @@ export function TeamSlider() {
       </div>
 
       {/* Two images side by side, caption below each */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 grid grid-cols-1 sm:grid-cols-2 gap-x-8 md:gap-x-12 gap-y-16">
-        {TEAM.map((member) => (
-          <motion.div
-            key={member.number}
-            {...fadeUp}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col"
-          >
-            {/* Image */}
-            <div className="relative aspect-[4/5] overflow-hidden">
-              <div className="absolute inset-4 border border-accent/20 pointer-events-none z-10" />
-              <Image
-                src={member.image}
-                alt={member.name}
-                fill
-                className="object-cover object-top"
-                sizes="(min-width: 640px) 50vw, 100vw"
-              />
-            </div>
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 grid grid-cols-1 sm:grid-cols-2 gap-x-12 md:gap-x-20 gap-y-20">
+        {/* Vertical hairline divider with diamond ornament, desktop only */}
+        <div className="hidden sm:flex absolute inset-y-10 left-1/2 -translate-x-1/2 flex-col items-center pointer-events-none">
+          <div className="flex-1 w-px luxe-rule" />
+          <div className="w-1.5 h-1.5 rotate-45 border border-accent/50 my-3 shrink-0" />
+          <div className="flex-1 w-px luxe-rule" />
+        </div>
 
-            {/* Caption below the image */}
-            <div className="pt-7">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="h-px w-8 luxe-rule shrink-0" />
-                <span className="text-accent/70 text-[9px] tracking-[0.5em] uppercase font-sans font-medium">
-                  {member.role}
-                </span>
-              </div>
-              <h3
-                className="font-display font-light text-foreground mb-4"
-                style={{ fontSize: "clamp(1.5rem, 2.4vw, 2rem)", letterSpacing: "-0.01em" }}
-              >
-                {member.name}
-              </h3>
-              <div className="w-12 h-px mb-5" style={{ background: "rgba(169,140,95,0.4)" }} />
-              <p className="text-foreground/50 font-light leading-[1.9] text-[0.9rem] md:text-[0.98rem] max-w-md">
-                {member.bio}
-              </p>
-            </div>
-          </motion.div>
+        {TEAM.map((member) => (
+          <TeamMember key={member.number} member={member} />
         ))}
       </div>
     </section>
