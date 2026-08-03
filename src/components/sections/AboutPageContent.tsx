@@ -3,7 +3,7 @@
 import { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "motion/react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
 import Footer from "@/components/sections/Footer";
 
 const fadeUp = {
@@ -27,13 +27,13 @@ const TEAM = [
     bio: "With over a decade of shaping India's most discerning interiors, she brings an architect's rigour and an artist's intuition to every project — finding beauty in precision and soul in restraint.",
     image: "/images/residential-thumb.png",
   },
-  // {
-  //   number: "02",
-  //   name: "Sumit Verma",
-  //   role: "Co-Founder & Creative Director",
-  //   bio: "A master of material narratives, he curates palettes that feel both inevitable and surprising — championing Indian craft traditions while speaking fluently in global design language.",
-  //   image: "/images/commercial-thumb.png",
-  // },
+  {
+    number: "02",
+    name: "Sumit Verma",
+    role: "Co-Founder & Creative Director",
+    bio: "A master of material narratives, he curates palettes that feel both inevitable and surprising — championing Indian craft traditions while speaking fluently in global design language.",
+    image: "/images/commercial-thumb.png",
+  },
 ];
 
 const VALUES = [
@@ -408,44 +408,9 @@ function AboutHero() {
   );
 }
 
-const textVariants = {
-  enter: (dir: number) => ({ x: dir > 0 ? 50 : -50, opacity: 0 }),
-  center: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.75,
-      ease: [0.16, 1, 0.3, 1] as const,
-      staggerChildren: 0.09,
-      delayChildren: 0.18,
-    },
-  },
-  exit: (dir: number) => ({
-    x: dir > 0 ? -50 : 50,
-    opacity: 0,
-    transition: { duration: 0.35, ease: [0.4, 0, 1, 1] as const },
-  }),
-};
-
-const itemVariants = {
-  enter: { opacity: 0, y: 22 },
-  center: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] as const } },
-  exit: { opacity: 0, y: -8, transition: { duration: 0.2 } },
-};
-
-const imgVariants = {
-  enter: (dir: number) => ({ x: dir > 0 ? 80 : -80, opacity: 0, scale: 1.05 }),
-  center: { x: 0, opacity: 1, scale: 1, transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] as const } },
-  exit: (dir: number) => ({ x: dir > 0 ? -80 : 80, opacity: 0, scale: 1.03, transition: { duration: 0.4, ease: [0.4, 0, 1, 1] as const } }),
-};
-
-function TeamSlider() {
-  const current = 0;
-  const direction = 1;
-  const member = TEAM[current];
-
+export function TeamSlider() {
   return (
-    <section id="our-team" className="relative luxe-ivory overflow-hidden">
+    <section id="our-team" className="relative luxe-ivory overflow-hidden py-20 md:py-28">
       <div className="absolute inset-0 pointer-events-none luxe-grain opacity-40" />
       <div
         className="absolute pointer-events-none"
@@ -457,11 +422,11 @@ function TeamSlider() {
       />
 
       {/* Section header */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 pt-20 md:pt-28">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 mb-16 md:mb-24">
         <motion.div
           {...fadeUp}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center text-center mb-16 md:mb-24"
+          className="flex flex-col items-center text-center"
         >
           <span className="text-accent text-[9px] md:text-[11px] tracking-[0.55em] uppercase font-medium mb-5">
             The Principals
@@ -475,104 +440,53 @@ function TeamSlider() {
             className="font-display font-light text-foreground leading-[1.1]"
             style={{ fontSize: "clamp(2rem, 3.8vw, 3.4rem)", letterSpacing: "-0.01em" }}
           >
-            The minds behind{" "}
-            <span className="luxe-gradient-text">the maison</span>
+            Meet the <span className="luxe-gradient-text">team</span>
           </h2>
         </motion.div>
       </div>
 
-      {/* Slider grid */}
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: "65vh" }}>
-
-        {/* LEFT: Text panel */}
-        <div className="relative flex flex-col justify-center px-8 md:px-16 lg:px-20 xl:px-28 py-16 lg:py-24 overflow-hidden order-2 lg:order-1">
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={current}
-              custom={direction}
-              variants={textVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="flex flex-col"
-            >
-              {/* Ghost number */}
-              <motion.span
-                variants={itemVariants}
-                className="font-display font-light select-none leading-none mb-4"
-                style={{
-                  fontSize: "clamp(6rem, 10vw, 10rem)",
-                  color: "rgba(28,36,32,0.05)",
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                {member.number}
-              </motion.span>
-
-              {/* Role eyebrow */}
-              <motion.div variants={itemVariants} className="flex items-center gap-4 mb-5 -mt-8 lg:-mt-14">
-                <div className="h-px w-8 luxe-rule shrink-0" />
-                <span className="text-accent/70 text-[9px] tracking-[0.5em] uppercase font-sans font-medium">
-                  {member.role}
-                </span>
-              </motion.div>
-
-              {/* Name */}
-              <motion.h3
-                variants={itemVariants}
-                className="font-display font-light text-foreground mb-5"
-                style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", letterSpacing: "-0.01em" }}
-              >
-                {member.name}
-              </motion.h3>
-
-              {/* Gold rule */}
-              <motion.div variants={itemVariants} className="w-12 h-px mb-7" style={{ background: "rgba(169,140,95,0.4)" }} />
-
-              {/* Bio */}
-              <motion.p variants={itemVariants} className="text-foreground/50 font-light leading-[1.95] text-[0.95rem] md:text-[1.05rem] max-w-md">
-                {member.bio}
-              </motion.p>
-            </motion.div>
-          </AnimatePresence>
-
-        </div>
-
-        {/* RIGHT: Image panel */}
-        <div
-          className="relative overflow-hidden order-1 lg:order-2"
-          style={{ minHeight: "45vw", maxHeight: "70vh" }}
-        >
-          {/* Inset gold frame */}
-          <div className="absolute inset-4 border border-accent/20 pointer-events-none z-10" />
-
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={current}
-              custom={direction}
-              variants={imgVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="absolute inset-0"
-            >
+      {/* Two images side by side, caption below each */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 grid grid-cols-1 sm:grid-cols-2 gap-x-8 md:gap-x-12 gap-y-16">
+        {TEAM.map((member) => (
+          <motion.div
+            key={member.number}
+            {...fadeUp}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col"
+          >
+            {/* Image */}
+            <div className="relative aspect-[4/5] overflow-hidden">
+              <div className="absolute inset-4 border border-accent/20 pointer-events-none z-10" />
               <Image
                 src={member.image}
                 alt={member.name}
                 fill
                 className="object-cover object-top"
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                priority
+                sizes="(min-width: 640px) 50vw, 100vw"
               />
-              {/* Bottom fade to ivory */}
-              <div
-                className="absolute inset-x-0 bottom-0 h-2/5 pointer-events-none"
-                style={{ background: "linear-gradient(to top, rgba(243,232,222,0.55) 0%, transparent 100%)" }}
-              />
-            </motion.div>
-          </AnimatePresence>
+            </div>
 
-        </div>
+            {/* Caption below the image */}
+            <div className="pt-7">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="h-px w-8 luxe-rule shrink-0" />
+                <span className="text-accent/70 text-[9px] tracking-[0.5em] uppercase font-sans font-medium">
+                  {member.role}
+                </span>
+              </div>
+              <h3
+                className="font-display font-light text-foreground mb-4"
+                style={{ fontSize: "clamp(1.5rem, 2.4vw, 2rem)", letterSpacing: "-0.01em" }}
+              >
+                {member.name}
+              </h3>
+              <div className="w-12 h-px mb-5" style={{ background: "rgba(169,140,95,0.4)" }} />
+              <p className="text-foreground/50 font-light leading-[1.9] text-[0.9rem] md:text-[0.98rem] max-w-md">
+                {member.bio}
+              </p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

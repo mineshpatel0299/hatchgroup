@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
 
 const fadeUp = {
@@ -67,14 +68,14 @@ export default function AboutUs() {
               interiors across India. Every project is an act of authorship, not decoration.
             </p>
 
-            <a
-              href="#"
+            <Link
+              href="/about"
               className="inline-flex items-center gap-4 text-[9px] md:text-[10px] tracking-[0.42em] uppercase text-accent hover:text-foreground transition-colors duration-500 group"
               data-cursor-interact
             >
               Our Story
               <span className="w-8 h-px bg-accent/50 group-hover:w-12 group-hover:bg-foreground/50 transition-all duration-500" />
-            </a>
+            </Link>
           </motion.div>
         </div>
 
@@ -93,8 +94,8 @@ export default function AboutUs() {
             className="absolute top-[8%] right-[8%] w-[68%] h-[78%] overflow-hidden rounded-t-full shadow-[0_40px_80px_-30px_rgba(28,36,32,0.35)]"
           >
             <Image
-              src="/images/hospitality-thumb.png"
-              alt="Hatch Group interior"
+              src="https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png"
+              alt="Hatch Group interior — Dynamic Business Hubs"
               fill
               className="object-cover scale-[1.15]"
               sizes="(min-width: 1024px) 40vw, 70vw"
@@ -108,8 +109,8 @@ export default function AboutUs() {
           >
             <div className="relative w-full h-full overflow-hidden">
               <Image
-                src="/images/residential-thumb.png"
-                alt="Detail — bespoke residence"
+                src="https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_22_20_PM_fgdd8g.png"
+                alt="Detail — Bespoke Homes"
                 fill
                 className="object-cover scale-[1.12]"
                 sizes="(min-width: 1024px) 25vw, 45vw"

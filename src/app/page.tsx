@@ -11,24 +11,26 @@ import ProjectGrid from "@/components/sections/ProjectGrid";
 // import Testimonials from "@/components/sections/Testimonials";
 import SocialProof from "@/components/sections/SocialProof";
 // import FooterCTA from "@/components/sections/FooterCTA";
+import { TeamSlider } from "@/components/sections/AboutPageContent";
 import Footer from "@/components/sections/Footer";
 
 export default function Home() {
   return (
     <main className="relative bg-background w-full min-h-screen">
       <Hero />
-<AboutUs />
+      <AboutUs />
       {/* <VisionMissionParallax /> */}
       <Philosophy />
-      <Services />
+      {/* <Services /> */}
       <ShowcaseSlider />
       {/* <Walkthrough /> */}
       {/* <FloorPlan3D /> */}
       {/* <FeaturedProject /> */}
-      <ProjectGrid />
+      {/* <ProjectGrid /> */}
       {/* <Testimonials /> */}
-      <SocialProof />
+      {/* <SocialProof /> */}
       {/* <FooterCTA /> */}
+      <TeamSlider />
       <Footer />
     </main>
   );

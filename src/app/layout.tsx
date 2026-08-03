@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
-import CustomCursor from "@/components/CustomCursor";
 import Nav from "@/components/Nav";
 import Preloader from "@/components/Preloader";
 
@@ -26,10 +25,9 @@ export default function RootLayout({
     <html lang="en" className={poppins.variable}>
       {/* suppressHydrationWarning: browser extensions (e.g. Grammarly) inject
           attributes into <body> before hydration, causing false mismatches */}
-      <body suppressHydrationWarning className="antialiased font-sans text-foreground bg-background cursor-none">
+      <body suppressHydrationWarning className="antialiased font-sans text-foreground bg-background">
         <Preloader />
         <LenisProvider>
-          <CustomCursor />
           <Nav />
           {children}
         </LenisProvider>
