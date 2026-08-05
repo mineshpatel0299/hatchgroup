@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion, useInView } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Footer from "@/components/sections/Footer";
 
 interface ProjectDetailContentProps {
@@ -56,55 +56,43 @@ function groupImages(images: string[]): string[][] {
 function GalleryImage({
   src,
   alt,
-  delay = 0,
   priority = false,
   className = "relative flex-1 h-full overflow-hidden bg-background",
   sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
 }: {
   src: string;
   alt: string;
-  delay?: number;
   priority?: boolean;
   className?: string;
   sizes?: string;
 }) {
-  // Driven off useInView (rather than whileInView variant propagation) so
-  // the hidden/visible transition durations below are respected both ways —
-  // on the way in and on the way out.
   const tileRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(tileRef, { amount: 0.25, once: false });
 
-  // Scales up from the center on enter and shrinks back on exit — matches
-  // the reversible expand/contract animation used on the /project listing
-  // page. The enter stagger delay lives on "visible" only, so an image that
-  // scrolls out never waits before shrinking back.
-  const variants = {
-    hidden: {
-      scale: 0,
-      opacity: 0,
-      transition: { duration: 1.2, ease: [0.7, 0, 0.84, 0] as const },
-    },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] as const, delay },
-    },
-  };
+  // Curtain reveal, scrubbed directly off scroll position rather than played
+  // as a timed transition: progress 0 → tile's top just entering the bottom
+  // of the viewport (closed), 1 → tile centered in the viewport (fully open).
+  // Only two points on purpose — useTransform clamps past the last one, so
+  // once a tile opens while scrolling down it just stays open (even after it
+  // exits above the viewport) instead of shrinking back. Scrolling back up
+  // re-enters that same range from the top, so the clip only unwinds then.
+  const { scrollYProgress } = useScroll({
+    target: tileRef,
+    offset: ["start end", "center center"],
+  });
+  const curtainClipPath = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["inset(50% 50% 50% 50%)", "inset(0% 0% 0% 0%)"]
+  );
 
   return (
     <div ref={tileRef} className={className}>
-      <motion.div
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        variants={variants}
-        style={{ transformOrigin: "center" }}
-        className="absolute inset-0"
-      >
+      <motion.div style={{ clipPath: curtainClipPath, transformOrigin: "center" }} className="absolute inset-0">
         <Image
           src={src}
           alt={alt}
           fill
-          className="object-cover transition-transform duration-700 ease-out hover:scale-105"
+          className="object-cover"
           sizes={sizes}
           priority={priority}
         />
@@ -154,14 +142,17 @@ export default function ProjectDetailContent({ id, project, nextProjectId, nextP
         animate={{ opacity: isExiting ? 0.5 : 1 }}
         transition={{ duration: 0.8 }}
       >
-        {/* ── 1. HERO — complete, full-bleed image ── */}
-        <GalleryImage
-          src={heroImage}
-          alt={project.title}
-          priority
-          sizes="100vw"
-          className="relative w-full h-screen overflow-hidden bg-background"
-        />
+        {/* ── 1. HERO — complete, full-bleed image, no scroll animation ── */}
+        <div className="relative w-full h-screen overflow-hidden bg-background">
+          <Image
+            src={heroImage}
+            alt={project.title}
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
+        </div>
 
         {/* ── 2. PROJECT INFORMATION ── */}
         <section className="relative w-full py-24 md:py-32 px-6 md:px-16 lg:px-24">
@@ -201,43 +192,45 @@ export default function ProjectDetailContent({ id, project, nextProjectId, nextP
         </section>
 
         {/* ── 3. GALLERY — image only, same alternating full/split rows as /project ── */}
-        <div className="relative w-full flex flex-col gap-0.5">
+        <div className="relative w-full flex flex-col gap-1 md:gap-1.5 px-4 md:px-8 lg:px-12 py-4 md:py-6">
           {galleryRows.map((row, ri) => (
-            <div key={ri} className="flex flex-col sm:flex-row w-full gap-y-0.5 gap-x-2 h-[70vh] md:h-[88vh]">
+            <div key={ri} className="flex flex-col sm:flex-row w-full gap-1 md:gap-1.5 h-[70vh] md:h-[88vh]">
               {row.map((src, ii) => (
                 <GalleryImage
                   key={src}
                   src={src}
                   alt={`${project.title} — photo ${ri * 2 + ii + 1}`}
-                  delay={ii * 0.15}
+                  className="relative flex-1 h-full overflow-hidden rounded-sm bg-background"
                 />
               ))}
             </div>
           ))}
         </div>
 
-        {/* ── Next project ── */}
-        <div className="relative w-full overflow-hidden">
-          <div className="w-full h-[40vh] md:h-[50vh] luxe-emerald p-8 md:p-14 flex flex-col justify-between text-foreground relative group overflow-hidden">
-            <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-            <a
-              href={`/project/${nextProjectId}`}
-              onClick={handleNextClick}
-              className="absolute inset-0 z-10 cursor-pointer"
-              aria-label="Next Project"
-            />
-            <h2 className="text-3xl md:text-4xl font-bold font-display leading-tight z-10 group-hover:scale-105 transition-transform duration-500 origin-left">
-              Next <br /> project
-            </h2>
-            <div className="flex justify-between items-end mt-auto text-[10px] uppercase font-bold tracking-widest z-10">
-              <div className="flex items-center gap-4">
-                <span className="text-accent group-hover:text-white transition-colors duration-300">0{nextProjectId}</span>
-                <div className="w-12 h-px bg-foreground/30 group-hover:w-16 transition-all duration-300 origin-left" />
-              </div>
-              <span className="text-foreground/70">{nextProject.category}</span>
+        {/* ── Next project — compact link strip, not a full-bleed banner ── */}
+        <motion.div {...fadeUp} className="relative w-full border-t border-foreground/10">
+          <a
+            href={`/project/${nextProjectId}`}
+            onClick={handleNextClick}
+            data-cursor-interact
+            className="group flex items-center justify-between gap-8 max-w-7xl mx-auto px-6 md:px-16 lg:px-24 py-14 md:py-20"
+          >
+            <div>
+              <span className="block text-accent text-[10px] tracking-[0.5em] uppercase font-medium mb-3">
+                Next Project · 0{nextProjectId}
+              </span>
+              <h2
+                className="font-display font-light text-accent uppercase leading-none transition-transform duration-500 ease-out group-hover:translate-x-2"
+                style={{ fontSize: "clamp(1.6rem, 3.2vw, 2.75rem)", letterSpacing: "-0.01em" }}
+              >
+                {nextProject.category}
+              </h2>
             </div>
-          </div>
-        </div>
+            <span className="flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full border border-foreground/20 text-foreground text-xl shrink-0 transition-all duration-500 ease-out group-hover:border-accent group-hover:bg-accent group-hover:text-white group-hover:translate-x-1">
+              →
+            </span>
+          </a>
+        </motion.div>
 
         <Footer />
       </motion.main>

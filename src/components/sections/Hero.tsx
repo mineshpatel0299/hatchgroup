@@ -148,7 +148,7 @@ export default function Hero() {
           {/* Subtle dark scrim so text reads on top of video */}
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.22) 100%)" }}
+            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.1) 100%)" }}
           />
         </motion.div>
 

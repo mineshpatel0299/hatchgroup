@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
 import Footer from "@/components/sections/Footer";
+import { PROJECTS } from "@/data/projects";
 
 const fadeUp = {
   initial: { opacity: 0, y: 40 },
@@ -409,6 +410,23 @@ function AboutHero() {
 }
 
 function TeamMember({ member }: { member: (typeof TEAM)[number] }) {
+  const tileRef = useRef<HTMLDivElement>(null);
+
+  // Curtain reveal, scrubbed directly off scroll position — same effect used
+  // on the project pages: closed while the tile is below the viewport, fully
+  // open once it reaches center. Only two points on purpose — useTransform
+  // clamps past the last one, so once a tile opens while scrolling down it
+  // stays open; it only unwinds if the user scrolls back up past that point.
+  const { scrollYProgress } = useScroll({
+    target: tileRef,
+    offset: ["start end", "center center"],
+  });
+  const curtainClipPath = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["inset(50% 50% 50% 50%)", "inset(0% 0% 0% 0%)"]
+  );
+
   return (
     <motion.div
       initial="hidden"
@@ -418,7 +436,7 @@ function TeamMember({ member }: { member: (typeof TEAM)[number] }) {
       transition={{ staggerChildren: 0.12, delayChildren: 0.1 }}
       className="flex flex-col group"
     >
-      {/* Image — curtain reveal + Ken Burns settle */}
+      {/* Image — scroll-scrubbed curtain reveal */}
       <div className="relative">
         {/* Ghost number, opulent, overlapping the frame — sits outside the
             clipped image box so it isn't cropped by overflow-hidden below */}
@@ -429,34 +447,18 @@ function TeamMember({ member }: { member: (typeof TEAM)[number] }) {
           {member.number}
         </span>
 
-        <div className="relative aspect-4/5 overflow-hidden z-10">
+        <div ref={tileRef} className="relative aspect-4/5 overflow-hidden z-10">
           <div className="absolute inset-4 border border-accent/20 group-hover:border-accent/60 transition-colors duration-700 pointer-events-none z-20" />
 
-          <motion.div
-            initial={{ scale: 1.18, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0"
-          >
+          <motion.div style={{ clipPath: curtainClipPath, transformOrigin: "center" }} className="absolute inset-0">
             <Image
               src={member.image}
               alt={member.name}
               fill
-              className="object-cover object-top transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
+              className="object-cover object-top"
               sizes="(min-width: 640px) 50vw, 100vw"
             />
           </motion.div>
-
-          {/* Curtain wipe — sweeps up and off on reveal */}
-          <motion.div
-            initial={{ scaleY: 1 }}
-            whileInView={{ scaleY: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 1, ease: [0.76, 0, 0.24, 1], delay: 0.15 }}
-            style={{ transformOrigin: "top", background: "linear-gradient(180deg, #0d1a15 0%, #1c2420 100%)" }}
-            className="absolute inset-0 z-30"
-          />
         </div>
       </div>
 
@@ -756,8 +758,8 @@ export default function AboutPageContent() {
               className="absolute top-[8%] left-[8%] w-[66%] h-[74%] overflow-hidden rounded-t-full shadow-[0_40px_80px_-30px_rgba(28,36,32,0.35)]"
             >
               <Image
-                src="/images/hospitality-thumb.png"
-                alt="Hatch Group — hospitality interior"
+                src={PROJECTS[0].image}
+                alt={`Hatch Group — ${PROJECTS[0].title}`}
                 fill
                 className="object-cover scale-[1.15]"
                 sizes="(min-width: 1024px) 38vw, 70vw"
@@ -769,8 +771,8 @@ export default function AboutPageContent() {
             >
               <div className="relative w-full h-full overflow-hidden">
                 <Image
-                  src="/images/residential-thumb.png"
-                  alt="Hatch Group — bespoke residence"
+                  src={PROJECTS[5].image}
+                  alt={`Hatch Group — ${PROJECTS[5].title}`}
                   fill
                   className="object-cover scale-[1.12]"
                   sizes="(min-width: 1024px) 22vw, 44vw"

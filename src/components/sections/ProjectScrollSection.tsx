@@ -3,24 +3,8 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView, useScroll, useSpring, useTransform } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { PROJECTS, type Project } from "@/data/projects";
-
-// Scales up from the center so the tile appears to expand outward from all
-// four sides at once; reverts (shrinks back to center) when scrolled out of
-// view since the viewport trigger below isn't "once".
-const expandVariants = {
-  hidden: {
-    scale: 0,
-    opacity: 0,
-    transition: { duration: 1.6, ease: [0.7, 0, 0.84, 0] as const },
-  },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
 
 // Alternating rows: one full-bleed image, then a row of two side by side —
 // repeating for the length of the portfolio.
@@ -40,49 +24,42 @@ function groupProjects(projects: Project[]): Project[][] {
 function ProjectTile({ project, index, total }: { project: Project; index: number; total: number }) {
   const num = String(index + 1).padStart(2, "0");
 
-  // The image grows steadily as the tile travels through the viewport —
-  // spring-smoothed so it eases rather than tracking the scroll 1:1.
   const tileRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: tileRef,
-    offset: ["start end", "end start"],
-  });
-  const rawScale = useTransform(scrollYProgress, [0, 1], [1, 1.35]);
-  const imageScale = useSpring(rawScale, { stiffness: 60, damping: 25, mass: 0.6 });
 
-  // Driven explicitly off useInView (rather than whileInView variant
-  // propagation) so the hidden/visible transition durations below are
-  // actually respected on the way out, not just on the way in.
-  const isInView = useInView(tileRef, { amount: 0.25, once: false });
+  // Curtain reveal, scrubbed directly off scroll position — same effect as
+  // the project detail page's gallery: closed while the tile is below the
+  // viewport, fully open once it reaches center. Only two points on purpose —
+  // useTransform clamps past the last one, so once a tile opens while
+  // scrolling down it stays open; it only unwinds if the user scrolls back
+  // up past that point.
+  const { scrollYProgress: curtainProgress } = useScroll({
+    target: tileRef,
+    offset: ["start end", "center center"],
+  });
+  const curtainClipPath = useTransform(
+    curtainProgress,
+    [0, 1],
+    ["inset(50% 50% 50% 50%)", "inset(0% 0% 0% 0%)"]
+  );
 
   return (
     <div ref={tileRef} className="relative flex-1 h-full">
-      {/* This outer wrapper never transforms, so it keeps a stable layout
-          box for the viewport observer. The inner element carries the
-          actual scale/opacity animation so its own collapsing geometry
-          never feeds back into the intersection check above. */}
-      <motion.div
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        variants={expandVariants}
-        style={{ transformOrigin: "center" }}
-        className="h-full"
-      >
+      <motion.div style={{ clipPath: curtainClipPath, transformOrigin: "center" }} className="h-full">
         <Link
           href={`/project/${project.id}`}
           data-cursor-interact
           className="group relative flex w-full h-full overflow-hidden bg-background"
         >
-          <motion.div className="absolute inset-0" style={{ scale: imageScale }}>
+          <div className="absolute inset-0">
             <Image
               src={project.image}
               alt={project.title}
               fill
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              className="object-cover"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               priority={index < 3}
             />
-          </motion.div>
+          </div>
           <div
             className="absolute inset-0 bg-[#000f0b]/60 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           />
@@ -99,16 +76,16 @@ function ProjectTile({ project, index, total }: { project: Project; index: numbe
           <div className="absolute top-5 left-6 w-8 h-8 border-t border-l border-accent/50 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
           <div className="absolute bottom-5 right-6 w-8 h-8 border-b border-r border-accent/50 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
 
-          {/* Hover state — title and CTA converge on dead-center */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 opacity-0 scale-95 transition-all duration-700 ease-out group-hover:opacity-100 group-hover:scale-100 pointer-events-none">
+          {/* Hover state — title and CTA slide in from the bottom-left */}
+          <div className="absolute inset-x-0 bottom-0 flex flex-col items-start text-left p-6 md:p-8 opacity-0 translate-y-4 transition-all duration-700 ease-out group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none">
             <h3 className="font-display font-light text-2xl lg:text-4xl text-foreground mb-4">
               {project.title}
             </h3>
             <div
-              className="h-px w-14 mb-4 mx-auto"
-              style={{ background: "linear-gradient(to right, transparent, rgba(169,140,95,0.9), transparent)" }}
+              className="h-px w-14 mb-4"
+              style={{ background: "linear-gradient(to right, rgba(169,140,95,0.9), transparent)" }}
             />
-            <div className="flex items-center justify-center gap-6">
+            <div className="flex items-center gap-6">
               <span className="inline-flex items-center gap-2 text-accent text-xs tracking-[0.3em] uppercase">
                 Explore
                 <span className="transition-transform duration-500 group-hover:translate-x-1.5">→</span>
@@ -156,7 +133,7 @@ export default function ProjectScrollSection() {
 
       {/* Alternating full-bleed / split rows — each row uses the full
           viewport-scaled height, whether it holds one image or two. */}
-      <div className="relative z-10 w-full flex flex-col gap-0.5">
+      <div className="relative z-10 w-full flex flex-col gap-1 md:gap-1.5 px-4 md:px-8 lg:px-12">
         {rows.map((row, ri) => {
           const tiles = row.map((project) => {
             const tile = (
@@ -166,7 +143,7 @@ export default function ProjectScrollSection() {
             return tile;
           });
           return (
-            <div key={ri} className="flex flex-col sm:flex-row w-full gap-y-0.5 gap-x-2 h-[70vh] md:h-[88vh]">
+            <div key={ri} className="flex flex-col sm:flex-row w-full gap-1 md:gap-1.5 h-[70vh] md:h-[88vh]">
               {tiles}
             </div>
           );

@@ -119,9 +119,9 @@ export default function Footer() {
             <h4 className="uppercase tracking-[0.3em] text-[10px] font-medium mb-6 text-accent">Explore</h4>
             <ul className="space-y-3 font-light text-sm text-foreground/60">
               <li><Link href="/" className="hover:text-accent transition-colors duration-300">Home</Link></li>
-              <li><Link href="/projects" className="hover:text-accent transition-colors duration-300">Projects</Link></li>
-              <li><Link href="/studio" className="hover:text-accent transition-colors duration-300">Studio</Link></li>
-              <li><Link href="/journal" className="hover:text-accent transition-colors duration-300">Journal</Link></li>
+              <li><Link href="/project" className="hover:text-accent transition-colors duration-300">Projects</Link></li>
+              <li><Link href="/about" className="hover:text-accent transition-colors duration-300">About</Link></li>
+              {/* <li><Link href="/journal" className="hover:text-accent transition-colors duration-300">Journal</Link></li> */}
             </ul>
           </div>
 

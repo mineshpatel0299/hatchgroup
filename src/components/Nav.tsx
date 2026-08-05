@@ -28,13 +28,11 @@ function NavDropdown({
   href,
   items,
   isActive,
-  useDarkText,
 }: {
   label: string;
   href: string;
   items: { label: string; href: string }[];
   isActive: boolean;
-  useDarkText: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const timeout = useRef<ReturnType<typeof setTimeout>>(null);
@@ -53,18 +51,13 @@ function NavDropdown({
         href={href}
         data-cursor-interact
         className={clsx(
-          "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300 flex items-center gap-1.5",
-          useDarkText ? "text-foreground/70 hover:text-foreground" : "text-white/80 hover:text-white",
-          isActive && (useDarkText ? "text-foreground" : "text-white")
+          "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300 flex items-center gap-1.5 text-white/80 hover:text-white",
+          isActive && "text-white"
         )}
       >
         {label}
         <svg
-          className={clsx(
-            "w-2.5 h-2.5 transition-transform duration-300",
-            open && "rotate-180",
-            useDarkText ? "text-accent/60" : "text-white/50"
-          )}
+          className={clsx("w-2.5 h-2.5 transition-transform duration-300 text-white/50", open && "rotate-180")}
           fill="none"
           viewBox="0 0 10 10"
           stroke="currentColor"
@@ -74,9 +67,8 @@ function NavDropdown({
         </svg>
         <span
           className={clsx(
-            "absolute -bottom-0.5 left-0 h-px transition-all duration-500 ease-in-out",
-            isActive ? "w-full" : "w-0 group-hover:w-full",
-            useDarkText ? "bg-accent" : "bg-white/60"
+            "absolute -bottom-0.5 left-0 h-px transition-all duration-500 ease-in-out bg-white/60",
+            isActive ? "w-full" : "w-0 group-hover:w-full"
           )}
         />
       </Link>
@@ -90,11 +82,7 @@ function NavDropdown({
       >
         <div
           className="relative min-w-[180px] border border-accent/20 backdrop-blur-xl py-3 px-1"
-          style={{
-            background: useDarkText
-              ? "linear-gradient(165deg, rgba(243,232,222,0.97) 0%, rgba(239,227,204,0.97) 100%)"
-              : "linear-gradient(165deg, rgba(0,37,31,0.95) 0%, rgba(0,47,34,0.95) 100%)",
-          }}
+          style={{ background: "linear-gradient(165deg, rgba(0,37,31,0.95) 0%, rgba(0,47,34,0.95) 100%)" }}
         >
           {/* Gold accent line at top */}
           <div className="absolute top-0 left-4 right-4 h-px luxe-rule" />
@@ -105,19 +93,9 @@ function NavDropdown({
               href={item.href}
               data-cursor-interact
               onClick={() => setOpen(false)}
-              className={clsx(
-                "flex items-center gap-3 px-5 py-2.5 text-[9px] tracking-[0.3em] uppercase font-medium transition-all duration-300 group/item",
-                useDarkText
-                  ? "text-foreground/55 hover:text-foreground hover:bg-accent/8"
-                  : "text-white/55 hover:text-white hover:bg-white/8"
-              )}
+              className="flex items-center gap-3 px-5 py-2.5 text-[9px] tracking-[0.3em] uppercase font-medium transition-all duration-300 group/item text-white/55 hover:text-white hover:bg-white/8"
             >
-              <span
-                className={clsx(
-                  "w-0 h-px transition-all duration-300 group-hover/item:w-4",
-                  useDarkText ? "bg-accent/60" : "bg-accent/60"
-                )}
-              />
+              <span className="w-0 h-px transition-all duration-300 group-hover/item:w-4 bg-accent/60" />
               {item.label}
             </Link>
           ))}
@@ -133,32 +111,42 @@ function NavDropdown({
 export default function Nav() {
   const [scrolled, setScrolled]   = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
+  const [navHidden, setNavHidden] = useState(false);
+  const lastScrollY = useRef(0);
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    lastScrollY.current = window.scrollY;
+
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 60);
+      // Slide away past a small threshold while scrolling down; any upward
+      // scroll brings it right back, so it's never gone for good.
+      setNavHidden(currentY > lastScrollY.current && currentY > 80);
+      lastScrollY.current = currentY;
+    };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isDarkHero = ["/", "/project", "/enquire"].includes(pathname);
-  const isAlwaysDarkPage = ["/project", "/enquire"].includes(pathname);
-  
-  // If we are on an always-dark page, the background is always dark, so text is always light (useDarkText = false).
-  // Otherwise, use dark text if scrolled or if it's not a dark hero.
-  const light = isDarkHero && !scrolled;
-  const useDarkText = isAlwaysDarkPage ? false : (scrolled || !light);
-  
+  // Never hide the bar while the mobile drawer is open — its own toggle lives there.
+  const hidden = navHidden && !menuOpen;
+
   const isProjectDetail = pathname.startsWith("/project/") && pathname !== "/project";
-
-
 
   if (isProjectDetail) {
     return (
       <>
-        <nav className="absolute top-0 left-0 right-0 z-50 pointer-events-none">
-          <div className="flex w-full md:w-[45vw] p-8 md:p-16 justify-between items-start text-[10px] tracking-widest uppercase font-bold">
+        <nav
+          className={clsx(
+            "fixed top-0 left-0 right-0 z-50 pointer-events-none transition-transform duration-500 ease-in-out",
+            hidden ? "-translate-y-full" : "translate-y-0"
+          )}
+        >
+          <div className="absolute inset-x-0 top-0 h-32 bg-linear-to-b from-black/45 to-transparent" />
+          <div className="relative flex w-full md:w-[45vw] p-8 md:p-16 justify-between items-start text-[10px] tracking-widest uppercase font-bold text-white">
             <div className="flex items-center gap-8">
               <Link href="/project" className="pointer-events-auto hover:text-accent transition-colors flex items-center gap-2 group">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:-translate-x-1 transition-transform">
@@ -181,10 +169,9 @@ export default function Nav() {
     <>
       <nav
         className={clsx(
-          "absolute top-0 left-0 right-0 z-50 transition-all duration-700 ease-in-out",
-          (scrolled && !isAlwaysDarkPage)
-            ? "bg-background/80 backdrop-blur-xl border-b border-foreground/10"
-            : "bg-transparent"
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out",
+          hidden ? "-translate-y-full" : "translate-y-0",
+          scrolled ? "bg-linear-to-b from-black/55 to-transparent backdrop-blur-md" : "bg-transparent"
         )}
       >
         <div className="mx-auto max-w-screen-xl px-6 md:px-12 flex items-center justify-between h-16 md:h-20">
@@ -192,11 +179,7 @@ export default function Nav() {
           {/* Logo */}
           <a href="/" className="relative flex-shrink-0 w-40 md:w-55 h-12 md:h-14" data-cursor-interact>
             <Image
-              src={
-                useDarkText
-                  ? "https://res.cloudinary.com/de4pazo51/image/upload/c_crop,g_north_west,h_1055,w_6023,x_988,y_1660/HATCH_DARK_LOGO-02_oi3nyq.png"
-                  : "https://res.cloudinary.com/de4pazo51/image/upload/c_crop,g_north_west,h_1055,w_6125,x_908,y_1653/HATCH_LOGO_GOLD-02_1_arrhel.png"
-              }
+              src="https://res.cloudinary.com/de4pazo51/image/upload/c_crop,g_north_west,h_1055,w_6125,x_908,y_1653/HATCH_LOGO_GOLD-02_1_arrhel.png"
               alt="Hatch Group"
               fill
               className="object-contain object-left transition-all duration-500"
@@ -222,17 +205,15 @@ export default function Nav() {
                       href={href}
                       data-cursor-interact
                       className={clsx(
-                        "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300",
-                        useDarkText ? "text-foreground/70 hover:text-foreground" : "text-white/80 hover:text-white",
-                        isActive && (useDarkText ? "text-foreground" : "text-white")
+                        "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300 text-white/80 hover:text-white",
+                        isActive && "text-white"
                       )}
                     >
                       {label}
                       <span
                         className={clsx(
-                          "absolute -bottom-0.5 left-0 h-px transition-all duration-500 ease-in-out",
-                          isActive ? "w-full" : "w-0 group-hover:w-full",
-                          useDarkText ? "bg-accent" : "bg-white/60"
+                          "absolute -bottom-0.5 left-0 h-px transition-all duration-500 ease-in-out bg-white/60",
+                          isActive ? "w-full" : "w-0 group-hover:w-full"
                         )}
                       />
                     </Link>
@@ -247,7 +228,6 @@ export default function Nav() {
                   href={href}
                   items={children}
                   isActive={isActive}
-                  useDarkText={useDarkText}
                 />
               );
             })}
@@ -258,12 +238,7 @@ export default function Nav() {
             <Link
               href="/enquire"
               data-cursor-interact
-              className={clsx(
-                "hidden md:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-medium px-5 py-2.5 border transition-all duration-500",
-                useDarkText
-                  ? "border-foreground/25 text-foreground hover:bg-foreground hover:text-background"
-                  : "border-white/30 text-white hover:bg-white hover:text-foreground"
-              )}
+              className="hidden md:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-medium px-5 py-2.5 border transition-all duration-500 border-white/30 text-white hover:bg-white hover:text-foreground"
             >
               Enquire
             </Link>
@@ -274,10 +249,7 @@ export default function Nav() {
             onClick={() => setMenuOpen((o) => !o)}
             data-cursor-interact
             aria-label="Toggle menu"
-            className={clsx(
-              "md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 transition-colors duration-300",
-              useDarkText ? "text-foreground" : "text-white"
-            )}
+            className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 transition-colors duration-300 text-white"
           >
             <span
               className={clsx(
