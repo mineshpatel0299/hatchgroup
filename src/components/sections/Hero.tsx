@@ -136,7 +136,7 @@ export default function Hero() {
         >
           <video
             ref={videoRef}
-            src="/vids/jj-scrub.mp4"
+            src="/hh.mp4"
             className="w-full h-full object-cover"
             preload="auto"
             muted
