@@ -89,7 +89,7 @@ export default function Footer() {
             <h4 className="uppercase tracking-[0.4em] text-[8px] font-medium mb-5 text-accent">Connect</h4>
             <ul className="space-y-3 font-light text-[0.82rem] text-foreground/60">
               <li><a href="https://www.instagram.com/hatchgroup.official?igsh=ZzQ1bmN4NmQ0Y21l&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors duration-300">Instagram</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors duration-300">LinkedIn</a></li>
+              <li><a href="https://www.linkedin.com/company/hatch-group-1/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors duration-300">LinkedIn</a></li>
               <li><a href="#" className="hover:text-accent transition-colors duration-300">Pinterest</a></li>
               <li><a href="mailto:info@hatchgroup.in" className="hover:text-accent transition-colors duration-300 break-all">Email Us</a></li>
             </ul>
@@ -129,7 +129,7 @@ export default function Footer() {
             <h4 className="uppercase tracking-[0.3em] text-[10px] font-medium mb-6 text-accent">Connect</h4>
             <ul className="space-y-3 font-light text-sm text-foreground/60">
               <li><a href="https://www.instagram.com/hatchgroup.official?igsh=ZzQ1bmN4NmQ0Y21l&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors duration-300">Instagram</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors duration-300">LinkedIn</a></li>
+              <li><a href="https://www.linkedin.com/company/hatch-group-1/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors duration-300">LinkedIn</a></li>
               <li><a href="#" className="hover:text-accent transition-colors duration-300">Pinterest</a></li>
               <li><a href="mailto:info@hatchgroup.in" className="hover:text-accent transition-colors duration-300">info@hatchgroup.in</a></li>
             </ul>
