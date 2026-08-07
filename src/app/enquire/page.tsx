@@ -14,6 +14,9 @@ export default function EnquirePage() {
     message: ""
   });
   
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
   const inputRef = useRef<HTMLInputElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -26,11 +29,24 @@ export default function EnquirePage() {
     }
   }, [step]);
 
-  const handleNext = (e: React.FormEvent) => {
+  const handleNext = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step === 5) {
-      // Simulate submit
-      setStep(6);
+      setIsSubmitting(true);
+      setSubmitError("");
+      try {
+        const res = await fetch("/api/enquire", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+        if (!res.ok) throw new Error("Failed to submit enquiry");
+        setStep(6);
+      } catch {
+        setSubmitError("Something went wrong. Please try again.");
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
       setStep((s) => s + 1);
     }
@@ -219,12 +235,19 @@ export default function EnquirePage() {
                 rows={3}
                 className="w-full max-w-xl bg-transparent border-b-2 border-white/20 focus:border-white py-4 text-xl md:text-2xl text-center outline-none placeholder-white/20 transition-colors resize-none"
               />
-              <button type="submit" className="mt-16 group flex items-center gap-4 text-sm uppercase tracking-[0.3em] font-medium hover:text-accent transition-colors">
-                <span>Submit Request</span>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="mt-16 group flex items-center gap-4 text-sm uppercase tracking-[0.3em] font-medium hover:text-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span>{isSubmitting ? "Submitting..." : "Submit Request"}</span>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="group-hover:translate-x-2 transition-transform">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </button>
+              {submitError && (
+                <p className="mt-6 text-sm text-red-400">{submitError}</p>
+              )}
             </motion.form>
           )}
 

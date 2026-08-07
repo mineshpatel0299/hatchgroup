@@ -20,6 +20,7 @@ const links: { label: string; href: string; children?: { label: string; href: st
     ],
   },
   { label: "Projects", href: "/project" },
+  { label: "Careers", href: "/career" },
 
 ];
 
@@ -28,11 +29,13 @@ function NavDropdown({
   href,
   items,
   isActive,
+  isDarkTheme,
 }: {
   label: string;
   href: string;
   items: { label: string; href: string }[];
   isActive: boolean;
+  isDarkTheme?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const timeout = useRef<ReturnType<typeof setTimeout>>(null);
@@ -51,13 +54,18 @@ function NavDropdown({
         href={href}
         data-cursor-interact
         className={clsx(
-          "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300 flex items-center gap-1.5 text-white/80 hover:text-white",
-          isActive && "text-white"
+          "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300 flex items-center gap-1.5",
+          isDarkTheme ? "text-foreground/70 hover:text-foreground" : "text-white/80 hover:text-white",
+          isActive && (isDarkTheme ? "text-foreground" : "text-white")
         )}
       >
         {label}
         <svg
-          className={clsx("w-2.5 h-2.5 transition-transform duration-300 text-white/50", open && "rotate-180")}
+          className={clsx(
+            "w-2.5 h-2.5 transition-transform duration-300", 
+            open && "rotate-180",
+            isDarkTheme ? "text-foreground/50" : "text-white/50"
+          )}
           fill="none"
           viewBox="0 0 10 10"
           stroke="currentColor"
@@ -67,7 +75,8 @@ function NavDropdown({
         </svg>
         <span
           className={clsx(
-            "absolute -bottom-0.5 left-0 h-px transition-all duration-500 ease-in-out bg-white/60",
+            "absolute -bottom-0.5 left-0 h-px transition-all duration-500 ease-in-out",
+            isDarkTheme ? "bg-foreground/60" : "bg-white/60",
             isActive ? "w-full" : "w-0 group-hover:w-full"
           )}
         />
@@ -133,6 +142,8 @@ export default function Nav() {
 
   // Never hide the bar while the mobile drawer is open — its own toggle lives there.
   const hidden = navHidden && !menuOpen;
+  
+  const isDarkTheme = pathname === "/about" && !scrolled;
 
   const isProjectDetail = pathname.startsWith("/project/") && pathname !== "/project";
 
@@ -205,14 +216,16 @@ export default function Nav() {
                       href={href}
                       data-cursor-interact
                       className={clsx(
-                        "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300 text-white/80 hover:text-white",
-                        isActive && "text-white"
+                        "group relative text-[10px] font-medium tracking-[0.22em] uppercase transition-colors duration-300",
+                        isDarkTheme ? "text-foreground/70 hover:text-foreground" : "text-white/80 hover:text-white",
+                        isActive && (isDarkTheme ? "text-foreground" : "text-white")
                       )}
                     >
                       {label}
                       <span
                         className={clsx(
-                          "absolute -bottom-0.5 left-0 h-px transition-all duration-500 ease-in-out bg-white/60",
+                          "absolute -bottom-0.5 left-0 h-px transition-all duration-500 ease-in-out",
+                          isDarkTheme ? "bg-foreground/60" : "bg-white/60",
                           isActive ? "w-full" : "w-0 group-hover:w-full"
                         )}
                       />
@@ -228,6 +241,7 @@ export default function Nav() {
                   href={href}
                   items={children}
                   isActive={isActive}
+                  isDarkTheme={isDarkTheme}
                 />
               );
             })}
@@ -238,7 +252,12 @@ export default function Nav() {
             <Link
               href="/enquire"
               data-cursor-interact
-              className="hidden md:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-medium px-5 py-2.5 border transition-all duration-500 border-white/30 text-white hover:bg-white hover:text-foreground"
+              className={clsx(
+                "hidden md:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-medium px-5 py-2.5 border transition-all duration-500",
+                isDarkTheme
+                  ? "border-foreground/30 text-foreground hover:bg-foreground hover:text-background"
+                  : "border-white/30 text-white hover:bg-white hover:text-foreground"
+              )}
             >
               Enquire
             </Link>
@@ -249,7 +268,10 @@ export default function Nav() {
             onClick={() => setMenuOpen((o) => !o)}
             data-cursor-interact
             aria-label="Toggle menu"
-            className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 transition-colors duration-300 text-white"
+            className={clsx(
+              "md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 transition-colors duration-300",
+              isDarkTheme ? "text-foreground" : "text-white"
+            )}
           >
             <span
               className={clsx(

@@ -153,6 +153,7 @@ const SLIDES = [
 ];
 
 const INTERVAL = 4500;
+const ACTIVE_SLIDES = SLIDES.slice(0, 5);
 
 export default function ShowcaseSlider() {
   const [current, setCurrent] = useState(0);
@@ -160,7 +161,7 @@ export default function ShowcaseSlider() {
 
   const next = useCallback(() => {
     setDirection(1);
-    setCurrent((prev) => (prev + 1) % SLIDES.length);
+    setCurrent((prev) => (prev + 1) % ACTIVE_SLIDES.length);
   }, []);
 
   useEffect(() => {
@@ -185,8 +186,8 @@ export default function ShowcaseSlider() {
 
       <div className="relative w-full" style={{ height: "clamp(50vh, 75vw, 90vh)" }}>
         <Link
-          href={SLIDES[current].href}
-          aria-label={`View ${SLIDES[current].title} project details`}
+          href={ACTIVE_SLIDES[current].href}
+          aria-label={`View ${ACTIVE_SLIDES[current].title} project details`}
           className="absolute inset-0 cursor-pointer"
         >
           <AnimatePresence initial={false} custom={direction} mode="popLayout">
@@ -201,8 +202,8 @@ export default function ShowcaseSlider() {
               className="absolute inset-0"
             >
               <Image
-                src={SLIDES[current].src}
-                alt={SLIDES[current].title}
+                src={ACTIVE_SLIDES[current].src}
+                alt={ACTIVE_SLIDES[current].title}
                 fill
                 className="object-cover"
                 sizes="100vw"
@@ -232,10 +233,10 @@ export default function ShowcaseSlider() {
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
                 <h3 className="font-display text-white text-2xl md:text-4xl lg:text-5xl tracking-wide mb-3">
-                  {SLIDES[current].title}
+                  {ACTIVE_SLIDES[current].title}
                 </h3>
                 <p className="text-white/75 text-sm md:text-base font-light leading-relaxed max-w-xl">
-                  {SLIDES[current].description}
+                  {ACTIVE_SLIDES[current].description}
                 </p>
               </motion.div>
             </AnimatePresence>
@@ -244,7 +245,7 @@ export default function ShowcaseSlider() {
 
         {/* Dots — bottom center */}
         <div className="absolute bottom-0 inset-x-0 z-10 flex items-center justify-start gap-3 px-6 md:px-12 pb-8 md:pb-10">
-          {SLIDES.map((_, i) => (
+          {ACTIVE_SLIDES.map((_, i) => (
             <button
               key={i}
               onClick={() => goTo(i)}
