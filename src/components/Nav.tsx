@@ -20,7 +20,7 @@ const links: { label: string; href: string; children?: { label: string; href: st
     ],
   },
   { label: "Projects", href: "/project" },
-  // { label: "Careers", href: "/career" },
+  { label: "Careers", href: "/career" },
 
 ];
 
