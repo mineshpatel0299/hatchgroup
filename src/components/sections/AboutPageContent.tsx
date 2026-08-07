@@ -593,9 +593,9 @@ export default function AboutPageContent() {
           }}
         />
 
-        {/* Ghost watermark — exactly matches the section's own width */}
-        <div className="absolute inset-0 flex items-center pointer-events-none select-none opacity-[0.05]" aria-hidden="true">
-          <Image src="/monogram.png" alt="" width={2000} height={2000} className="w-full h-auto" />
+        {/* Ghost watermark — vertical and positioned on the right */}
+        <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[40%] pointer-events-none select-none opacity-[0.05]" aria-hidden="true">
+          <Image src="/monogram.png" alt="" width={2000} height={2000} className="w-[120vh] md:w-[180vh] h-auto max-w-none -rotate-90" />
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-16 lg:px-24">
