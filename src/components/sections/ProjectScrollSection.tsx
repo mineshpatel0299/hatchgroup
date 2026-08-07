@@ -46,7 +46,7 @@ function ProjectTile({ project, index, total }: { project: Project; index: numbe
     <div ref={tileRef} className="relative flex-1 h-full">
       <motion.div style={{ clipPath: curtainClipPath, transformOrigin: "center" }} className="h-full">
         <Link
-          href={`/project/${project.id}`}
+          href={project.href}
           data-cursor-interact
           className="group relative flex w-full h-full overflow-hidden bg-background"
         >

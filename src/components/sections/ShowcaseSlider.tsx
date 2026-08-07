@@ -72,6 +72,84 @@ const SLIDES = [
     description: "A brilliant synthesis of refined architecture and warm, inviting living spaces in the heart of the city.",
     href: "/project/8",
   },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786093954/ChatGPT_Image_Aug_7_2026_at_02_40_20_AM_x3uxbz.png",
+    title: "Azure Heights",
+    description: "A contemporary haven with expansive views and world-class amenities.",
+    href: "/project/9",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786093953/ChatGPT_Image_Aug_7_2026_at_02_37_52_AM_snyimh.png",
+    title: "Lumina Residences",
+    description: "Embrace modern living in these bright, thoughtfully designed spaces.",
+    href: "/project/10",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786093953/ChatGPT_Image_Aug_7_2026_at_02_39_07_AM_zwwadw.png",
+    title: "The Verdant Collection",
+    description: "Where luxury meets nature in a beautifully landscaped setting.",
+    href: "/project/11",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786093952/ChatGPT_Image_Aug_7_2026_at_02_36_37_AM_aglkgl.png",
+    title: "Elysian Suites",
+    description: "Sophisticated homes offering unparalleled comfort and elegance.",
+    href: "/project/12",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786094272/ChatGPT_Image_Aug_7_2026_at_02_30_48_AM_dfjfoe.png",
+    title: "Nexus Corporate Park",
+    description: "A state-of-the-art commercial park designed for modern enterprises.",
+    href: "/project/13",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786094271/ChatGPT_Image_Aug_7_2026_at_02_32_42_AM_aklrrw.png",
+    title: "The Pinnacle Tower",
+    description: "A towering achievement in commercial architecture offering panoramic city views.",
+    href: "/project/14",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786094270/ChatGPT_Image_Aug_7_2026_at_02_29_07_AM_gttp2w.png",
+    title: "Zenith Business Center",
+    description: "Fostering innovation with premium amenities and flexible workspaces.",
+    href: "/project/15",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786094269/ChatGPT_Image_Aug_7_2026_at_02_26_31_AM_uecukt.png",
+    title: "Meridian Plaza",
+    description: "A vibrant commercial plaza combining retail and premium office spaces.",
+    href: "/project/16",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786094269/ChatGPT_Image_Aug_7_2026_at_02_27_55_AM_noncmf.png",
+    title: "Apex Commercial Hub",
+    description: "Where business meets luxury in a seamlessly designed corporate environment.",
+    href: "/project/17",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786096376/ChatGPT_Image_Aug_7_2026_at_02_18_46_AM_zthbas.png",
+    title: "Serenity Gardens",
+    description: "A tranquil residential retreat surrounded by lush greenery and modern comforts.",
+    href: "/project/18",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786096375/ChatGPT_Image_Aug_7_2026_at_02_16_14_AM_lslny2.png",
+    title: "The Grand Manor",
+    description: "Exquisite architectural design meeting unparalleled luxury in a pristine setting.",
+    href: "/project/19",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786096373/ChatGPT_Image_Aug_7_2026_at_02_14_46_AM_dnyrol.png",
+    title: "Aria Residences",
+    description: "Modern, open-concept homes crafted to elevate the everyday living experience.",
+    href: "/project/20",
+  },
+  {
+    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786096373/ChatGPT_Image_Aug_7_2026_at_02_13_37_AM_vt2bgj.png",
+    title: "Oasis Villas",
+    description: "Exclusive luxury villas offering privacy, elegance, and premium amenities.",
+    href: "/project/21",
+  },
 ];
 
 const INTERVAL = 4500;
