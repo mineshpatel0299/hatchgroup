@@ -90,7 +90,7 @@ export default function ImageUploader({ images, onChange, multiple = false, labe
               <button
                 type="button"
                 onClick={() => removeAt(i)}
-                className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
                 aria-label="Remove image"
               >
                 ×

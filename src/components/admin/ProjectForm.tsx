@@ -245,20 +245,20 @@ export default function ProjectForm({ mode, projectId, initial }: ProjectFormPro
         </label>
       </section>
 
-      <div className="flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={pending}
-          className="rounded-lg bg-[#00251f] text-white text-[12px] tracking-[0.1em] uppercase font-medium px-6 py-3 hover:bg-[#00251f]/90 transition-colors disabled:opacity-50"
-        >
-          {pending ? "Saving…" : mode === "create" ? "Create Project" : "Save Changes"}
-        </button>
+      <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-3">
         <button
           type="button"
           onClick={() => router.push("/admin/projects")}
-          className="text-sm text-slate-500 hover:text-[#1C2420] px-4 py-3"
+          className="text-sm text-slate-500 hover:text-[#1C2420] px-4 py-3 text-center sm:text-left"
         >
           Cancel
+        </button>
+        <button
+          type="submit"
+          disabled={pending}
+          className="rounded-lg bg-[#00251f] text-white text-[12px] tracking-[0.1em] uppercase font-medium px-6 py-3 hover:bg-[#00251f]/90 transition-colors disabled:opacity-50 w-full sm:w-auto"
+        >
+          {pending ? "Saving…" : mode === "create" ? "Create Project" : "Save Changes"}
         </button>
       </div>
     </form>
