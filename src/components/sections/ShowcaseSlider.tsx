@@ -5,155 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 
-const SLIDES = [
-  {
-    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731450/ChatGPT_Image_Jun_29_2026_at_04_28_46_PM_ybvhq4.png",
-    title: "Dynamic Business Hubs",
-    description: "A premium residential development designed to elevate everyday living through thoughtful architecture and refined interiors.",
-    href: "/project/1",
-  },
-  {
-    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799516/ChatGPT_Image_Jun_30_2026_at_01_18_09_AM_zwxp14.png",
-    title: "Contemporary Commercials",
-    description: "Meticulously designed spaces that balance sophistication with warmth — where every detail speaks of quality craftsmanship.",
-    href: "/project/2",
-  },
-  {
-    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799365/ChatGPT_Image_Jun_30_2026_at_01_10_56_AM_rfz3wg.png",
-    title: "Signature Commercials",
-    description: "Upcoming commercial and mixed-use developments designed to shape the city's evolving skyline with bold architecture.",
-    href: "/project/3",
-  },
-  {
-    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799749/ChatGPT_Image_Jun_30_2026_at_01_04_55_AM_xnwlvw.png",
-    title: "Landmark Spaces",
-    description: "A landmark residential development in the capital, merging contemporary elegance with the cultural richness of New Delhi.",
-    href: "/project/4",
-  },
-  {
-    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799871/ChatGPT_Image_Jun_30_2026_at_01_25_07_AM_y5k5su.png",
-    title: "Iconic Developments",
-    description: "A defining statement in luxury residential architecture — a landmark address conceived for those who demand the finest.",
-    href: "/project/5",
-  },
-  {
-    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782731449/ChatGPT_Image_Jun_29_2026_at_04_17_12_PM_rget7w.png",
-    title: "Dynamic Business Hubs",
-    description: "Contemporary design principles meet timeless elegance — every unit crafted to maximise light, ventilation, and spatial flow.",
-    href: "/project/1",
-  },
-  {
-    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799849/ChatGPT_Image_Jun_30_2026_at_01_35_58_AM_u8onhf.png",
-    title: "Iconic Developments",
-    description: "Rising with quiet authority — bold architectural form and restrained interior elegance in perfect harmony.",
-    href: "/project/5",
-  },
-  {
-    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782799750/ChatGPT_Image_Jun_30_2026_at_12_55_25_AM_1_xx8bn7.png",
-    title: "Landmark Spaces",
-    description: "Meticulously planned residences with premium finishes and thoughtful spatial design — redefining capital living.",
-    href: "/project/4",
-  },
-  {
-    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971826/ChatGPT_Image_Jul_1_2026_at_05_15_56_PM_1_sntyol.png",
-    title: "Prime Living",
-    description: "An exquisite new residential project offering unparalleled luxury and comfort for modern living.",
-    href: "/project/6",
-  },
-  {
-    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971888/ChatGPT_Image_Jul_1_2026_at_06_11_09_PM_mcuxi0.png",
-    title: "Timeless Residences",
-    description: "Redefining the standard of premium living, merging breathtaking architectural vision with serene interiors.",
-    href: "/project/7",
-  },
-  {
-    src: "https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_22_20_PM_fgdd8g.png",
-    title: "Bespoke Homes",
-    description: "A brilliant synthesis of refined architecture and warm, inviting living spaces in the heart of the city.",
-    href: "/project/8",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786093954/ChatGPT_Image_Aug_7_2026_at_02_40_20_AM_x3uxbz.png",
-    title: "Azure Heights",
-    description: "A contemporary haven with expansive views and world-class amenities.",
-    href: "/project/9",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786093953/ChatGPT_Image_Aug_7_2026_at_02_37_52_AM_snyimh.png",
-    title: "Lumina Residences",
-    description: "Embrace modern living in these bright, thoughtfully designed spaces.",
-    href: "/project/10",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786093953/ChatGPT_Image_Aug_7_2026_at_02_39_07_AM_zwwadw.png",
-    title: "The Verdant Collection",
-    description: "Where luxury meets nature in a beautifully landscaped setting.",
-    href: "/project/11",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786093952/ChatGPT_Image_Aug_7_2026_at_02_36_37_AM_aglkgl.png",
-    title: "Elysian Suites",
-    description: "Sophisticated homes offering unparalleled comfort and elegance.",
-    href: "/project/12",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786094272/ChatGPT_Image_Aug_7_2026_at_02_30_48_AM_dfjfoe.png",
-    title: "Nexus Corporate Park",
-    description: "A state-of-the-art commercial park designed for modern enterprises.",
-    href: "/project/13",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786094271/ChatGPT_Image_Aug_7_2026_at_02_32_42_AM_aklrrw.png",
-    title: "The Pinnacle Tower",
-    description: "A towering achievement in commercial architecture offering panoramic city views.",
-    href: "/project/14",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786094270/ChatGPT_Image_Aug_7_2026_at_02_29_07_AM_gttp2w.png",
-    title: "Zenith Business Center",
-    description: "Fostering innovation with premium amenities and flexible workspaces.",
-    href: "/project/15",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786094269/ChatGPT_Image_Aug_7_2026_at_02_26_31_AM_uecukt.png",
-    title: "Meridian Plaza",
-    description: "A vibrant commercial plaza combining retail and premium office spaces.",
-    href: "/project/16",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786094269/ChatGPT_Image_Aug_7_2026_at_02_27_55_AM_noncmf.png",
-    title: "Apex Commercial Hub",
-    description: "Where business meets luxury in a seamlessly designed corporate environment.",
-    href: "/project/17",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786096376/ChatGPT_Image_Aug_7_2026_at_02_18_46_AM_zthbas.png",
-    title: "Serenity Gardens",
-    description: "A tranquil residential retreat surrounded by lush greenery and modern comforts.",
-    href: "/project/18",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786096375/ChatGPT_Image_Aug_7_2026_at_02_16_14_AM_lslny2.png",
-    title: "The Grand Manor",
-    description: "Exquisite architectural design meeting unparalleled luxury in a pristine setting.",
-    href: "/project/19",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786096373/ChatGPT_Image_Aug_7_2026_at_02_14_46_AM_dnyrol.png",
-    title: "Aria Residences",
-    description: "Modern, open-concept homes crafted to elevate the everyday living experience.",
-    href: "/project/20",
-  },
-  {
-    src: "https://res.cloudinary.com/djicxkd9u/image/upload/v1786096373/ChatGPT_Image_Aug_7_2026_at_02_13_37_AM_vt2bgj.png",
-    title: "Oasis Villas",
-    description: "Exclusive luxury villas offering privacy, elegance, and premium amenities.",
-    href: "/project/21",
-  },
-];
+import { PROJECTS } from "@/data/projects";
+
+const ACTIVE_SLIDES = PROJECTS.slice(0, 8).map(p => ({
+  src: p.image,
+  title: p.title,
+  description: p.description,
+  href: p.href,
+}));
 
 const INTERVAL = 4500;
-const ACTIVE_SLIDES = SLIDES.slice(0, 5);
 
 export default function ShowcaseSlider() {
   const [current, setCurrent] = useState(0);
@@ -244,7 +105,7 @@ export default function ShowcaseSlider() {
         </Link>
 
         {/* Dots — bottom center */}
-        <div className="absolute bottom-0 inset-x-0 z-10 flex items-center justify-start gap-3 px-6 md:px-12 pb-8 md:pb-10">
+        <div className="absolute bottom-0 inset-x-0 z-10 flex items-center justify-start gap-3 px-6 md:px-12 pb-8 md:pb-10 pointer-events-auto">
           {ACTIVE_SLIDES.map((_, i) => (
             <button
               key={i}
@@ -260,6 +121,19 @@ export default function ShowcaseSlider() {
               }}
             />
           ))}
+        </div>
+
+        {/* View More Button */}
+        <div className="absolute bottom-0 right-0 z-10 flex items-center justify-end px-6 md:px-12 pb-8 md:pb-10 pointer-events-auto">
+          <Link
+            href="/project"
+            className="flex items-center gap-2 text-[10px] md:text-[12px] tracking-[0.2em] uppercase font-medium text-white hover:text-accent transition-colors duration-300"
+          >
+            <span>View More Projects</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform duration-300 group-hover:translate-x-1">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
         </div>
       </div>
     </section>

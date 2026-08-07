@@ -30,9 +30,9 @@ const TEAM = [
   },
   {
     number: "02",
-    name: "Sumit Verma",
-    role: "Co-Founder & Creative Director",
-    bio: "A master of material narratives, he curates palettes that feel both inevitable and surprising — championing Indian craft traditions while speaking fluently in global design language.",
+    name: "Divya Verma",
+    role: "Co-Founder",
+    bio: "A master of material narratives, she curates palettes that feel both inevitable and surprising — championing Indian craft traditions while speaking fluently in global design language.",
     image: "/images/commercial-thumb.png",
   },
 ];
