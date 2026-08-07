@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 
 const LOGO_URL =
@@ -10,10 +11,14 @@ const LOGO_URL =
 const HOLD_MS = 1500;
 
 export default function Preloader() {
-  const [loading, setLoading] = useState(true);
+  const pathname = usePathname();
+  // The admin CMS has its own chrome — skip the marketing splash screen there.
+  const isAdmin = pathname?.startsWith("/admin") ?? false;
+  const [loading, setLoading] = useState(!isAdmin);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    if (isAdmin) return;
     document.body.style.overflow = "hidden";
 
     const start = performance.now();
@@ -31,7 +36,7 @@ export default function Preloader() {
     raf = requestAnimationFrame(tick);
 
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [isAdmin]);
 
   useEffect(() => {
     if (!loading) document.body.style.overflow = "";

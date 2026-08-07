@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
 import Footer from "@/components/sections/Footer";
-import { PROJECTS } from "@/data/projects";
+import type { Project } from "@/data/projects";
 
 const fadeUp = {
   initial: { opacity: 0, y: 40 },
@@ -556,7 +556,7 @@ export function TeamSlider() {
   );
 }
 
-export default function AboutPageContent() {
+export default function AboutPageContent({ projects }: { projects: Project[] }) {
   const storyRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress: storyScroll } = useScroll({
@@ -745,8 +745,8 @@ export default function AboutPageContent() {
               className="absolute top-[8%] left-[8%] w-[66%] h-[74%] overflow-hidden rounded-t-full shadow-[0_40px_80px_-30px_rgba(28,36,32,0.35)]"
             >
               <Image
-                src={PROJECTS[0].image}
-                alt={`Hatch Group — ${PROJECTS[0].title}`}
+                src={projects[0]?.image ?? ""}
+                alt={`Hatch Group — ${projects[0]?.title ?? ""}`}
                 fill
                 className="object-cover scale-[1.15]"
                 sizes="(min-width: 1024px) 38vw, 70vw"
@@ -758,8 +758,8 @@ export default function AboutPageContent() {
             >
               <div className="relative w-full h-full overflow-hidden">
                 <Image
-                  src={PROJECTS[5].image}
-                  alt={`Hatch Group — ${PROJECTS[5].title}`}
+                  src={projects[5]?.image ?? projects[0]?.image ?? ""}
+                  alt={`Hatch Group — ${projects[5]?.title ?? ""}`}
                   fill
                   className="object-cover scale-[1.12]"
                   sizes="(min-width: 1024px) 22vw, 44vw"

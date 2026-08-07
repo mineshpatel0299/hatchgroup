@@ -109,7 +109,7 @@ export default function AboutUs() {
           >
             <div className="relative w-full h-full overflow-hidden">
               <Image
-                src="https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_22_20_PM_fgdd8g.png"
+                src="https://res.cloudinary.com/de4pazo51/image/upload/v1782971960/ChatGPT_Image_Jul_1_2026_at_06_20_32_PM_rufoen.png"
                 alt="Detail — Bespoke Homes"
                 fill
                 className="object-cover scale-[1.12]"

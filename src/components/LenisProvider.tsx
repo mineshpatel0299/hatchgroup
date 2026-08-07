@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "@studio-freight/lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -8,7 +9,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  // The admin CMS is a data-table/form heavy control panel — it wants normal
+  // native scroll, not the marketing site's smooth-scroll feel.
+  const isAdmin = pathname?.startsWith("/admin") ?? false;
+
   useEffect(() => {
+    if (isAdmin) return;
+
     // Touch/mobile devices get native scroll — Lenis smooth scroll is desktop-only.
     // Lenis intercepts the scroll loop even with syncTouch:false, which breaks
     // native momentum scroll and overscroll-bounce on iOS/Android.
@@ -41,7 +49,7 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
       gsap.ticker.remove(tick);
       lenis.destroy();
     };
-  }, []);
+  }, [isAdmin]);
 
   return <>{children}</>;
 }

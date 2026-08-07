@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 
 const links: { label: string; href: string; children?: { label: string; href: string }[] }[] = [
@@ -123,6 +123,7 @@ export default function Nav() {
   const [navHidden, setNavHidden] = useState(false);
   const lastScrollY = useRef(0);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     lastScrollY.current = window.scrollY;
@@ -142,7 +143,12 @@ export default function Nav() {
 
   // Never hide the bar while the mobile drawer is open — its own toggle lives there.
   const hidden = navHidden && !menuOpen;
-  
+
+  // The admin CMS has its own sidebar chrome, not the marketing nav.
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
   const isDarkTheme = pathname === "/about" && !scrolled;
 
   const isProjectDetail = pathname.startsWith("/project/") && pathname !== "/project";
@@ -159,12 +165,12 @@ export default function Nav() {
           <div className="absolute inset-x-0 top-0 h-32 bg-linear-to-b from-black/45 to-transparent" />
           <div className="relative flex w-full md:w-[45vw] p-8 md:p-16 justify-between items-start text-[10px] tracking-widest uppercase font-bold text-white">
             <div className="flex items-center gap-8">
-              <Link href="/project" className="pointer-events-auto hover:text-accent transition-colors flex items-center gap-2 group">
+              <button onClick={() => router.back()} className="pointer-events-auto hover:text-accent transition-colors flex items-center gap-2 group cursor-pointer bg-transparent border-none outline-none uppercase font-bold text-inherit p-0">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:-translate-x-1 transition-transform">
                   <path d="M19 12H5M12 19l-7-7 7-7" />
                 </svg>
                 <span>Back</span>
-              </Link>
+              </button>
               <Link href="/" className="pointer-events-auto hover:text-accent transition-colors hidden md:block">
                 HATCH GROUP™
               </Link>

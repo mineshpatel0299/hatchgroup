@@ -1,0 +1,22 @@
+CREATE TABLE "projects" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"slug" text NOT NULL,
+	"title" text NOT NULL,
+	"category" text NOT NULL,
+	"year" text NOT NULL,
+	"description" text NOT NULL,
+	"details" text DEFAULT '' NOT NULL,
+	"location" text DEFAULT '' NOT NULL,
+	"site_area" text DEFAULT '' NOT NULL,
+	"project_area" text DEFAULT '' NOT NULL,
+	"project_type" text DEFAULT '' NOT NULL,
+	"project_language" text DEFAULT '' NOT NULL,
+	"project_scope" text DEFAULT '' NOT NULL,
+	"hero_image" text NOT NULL,
+	"images" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	"sort_order" integer DEFAULT 0 NOT NULL,
+	"published" boolean DEFAULT true NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "projects_slug_unique" UNIQUE("slug")
+);

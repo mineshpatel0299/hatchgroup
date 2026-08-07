@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { findProjectByCategory } from "@/data/projects";
+import type { Project } from "@/data/projects";
 
-const SERVICES = [
+const SERVICES_BASE = [
   {
     id: "01",
     title: "Residential",
@@ -32,12 +32,15 @@ const SERVICES = [
     description: "End-to-end execution with uncompromising material quality — from concept to completion, seamlessly.",
     image: "/images/turnkey-thumb.png",
   },
-].map((s) => ({
-  ...s,
-  href: findProjectByCategory(s.title)?.href ?? "/project",
-}));
+];
 
-function MobileCarousel() {
+type ServiceItem = (typeof SERVICES_BASE)[number] & { href: string };
+
+function findProjectByCategory(projects: Project[], category: string): Project | undefined {
+  return projects.find((p) => p.category.toLowerCase() === category.toLowerCase());
+}
+
+function MobileCarousel({ services }: { services: ServiceItem[] }) {
   const trackRef  = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -91,7 +94,7 @@ function MobileCarousel() {
         className="flex overflow-x-auto gap-4 px-[8vw] snap-x snap-mandatory scrollbar-none"
         style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
       >
-        {SERVICES.map((s, i) => (
+        {services.map((s, i) => (
           <motion.div
             key={s.id}
             initial={{ opacity: 0, y: 36 }}
@@ -147,7 +150,7 @@ function MobileCarousel() {
 
       {/* Dot indicators */}
       <div className="flex items-center justify-center gap-2.5 mt-8">
-        {SERVICES.map((_, i) => (
+        {services.map((_, i) => (
           <motion.div
             key={i}
             animate={{
@@ -163,9 +166,14 @@ function MobileCarousel() {
   );
 }
 
-export default function Services() {
+export default function Services({ projects }: { projects: Project[] }) {
   const [active, setActive] = useState(0);
   const router = useRouter();
+
+  const services: ServiceItem[] = SERVICES_BASE.map((s) => ({
+    ...s,
+    href: findProjectByCategory(projects, s.title)?.href ?? "/project",
+  }));
 
   return (
     <section className="relative z-20 luxe-emerald">
@@ -199,12 +207,12 @@ export default function Services() {
           {/* Dial */}
           <div className="flex items-center gap-3 pb-2">
             <span className="font-display text-3xl luxe-gradient-text leading-none w-12 text-right">
-              {SERVICES[active].id}
+              {services[active].id}
             </span>
             <div className="w-14 h-px bg-foreground/15 relative">
               <motion.div
                 className="absolute inset-y-0 left-0 bg-accent"
-                animate={{ width: `${((active + 1) / SERVICES.length) * 100}%` }}
+                animate={{ width: `${((active + 1) / services.length) * 100}%` }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               />
             </div>
@@ -215,7 +223,7 @@ export default function Services() {
         {/* The doors */}
         <div className="relative z-10 max-w-7xl mx-auto w-full px-12">
           <div className="flex gap-4 h-[58vh]">
-            {SERVICES.map((s, i) => {
+            {services.map((s, i) => {
               const isActive = i === active;
               return (
                 <motion.div
@@ -307,7 +315,7 @@ export default function Services() {
       </div>
 
       {/* ════ Mobile: horizontal snap carousel ════ */}
-      <MobileCarousel />
+      <MobileCarousel services={services} />
     </section>
   );
 }

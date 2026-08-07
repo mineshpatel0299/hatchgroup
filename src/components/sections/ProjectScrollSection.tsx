@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
-import { PROJECTS, type Project } from "@/data/projects";
+import type { Project } from "@/data/projects";
 
 // Alternating rows: one full-bleed image, then a row of two side by side —
 // repeating for the length of the portfolio.
@@ -101,9 +101,9 @@ function ProjectTile({ project, index, total }: { project: Project; index: numbe
   );
 }
 
-export default function ProjectScrollSection() {
-  const total = PROJECTS.length;
-  const rows = groupProjects(PROJECTS);
+export default function ProjectScrollSection({ projects }: { projects: Project[] }) {
+  const total = projects.length;
+  const rows = groupProjects(projects);
   let runningIndex = 0;
 
   return (

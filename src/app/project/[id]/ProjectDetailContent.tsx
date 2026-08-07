@@ -10,10 +10,8 @@ interface ProjectDetailContentProps {
   id: string;
   project: {
     title: string;
-    subtitle: string;
     category: string;
     year: string;
-    client: string;
     description: string;
     details: string;
     location: string;
@@ -122,7 +120,10 @@ export default function ProjectDetailContent({ id, project, nextProjectId, nextP
   };
 
   const heroImage = project.image2 || project.images[0];
-  const galleryImages = project.images.filter((src) => src !== heroImage);
+  let galleryImages = project.images.filter((src) => src !== heroImage);
+  if (galleryImages.length === 0 && project.images.length > 0) {
+    galleryImages = [heroImage];
+  }
   const galleryRows = groupImages(galleryImages);
 
   const infoRows: Array<[string, string]> = [
