@@ -410,6 +410,7 @@ function AboutHero() {
 }
 
 function TeamMember({ member }: { member: (typeof TEAM)[number] }) {
+  const SHOW_IMAGE = false; // images hidden for now — re-enable once final team photography is ready
   const tileRef = useRef<HTMLDivElement>(null);
 
   // Curtain reveal, scrubbed directly off scroll position — same effect used
@@ -417,10 +418,9 @@ function TeamMember({ member }: { member: (typeof TEAM)[number] }) {
   // open once it reaches center. Only two points on purpose — useTransform
   // clamps past the last one, so once a tile opens while scrolling down it
   // stays open; it only unwinds if the user scrolls back up past that point.
-  const { scrollYProgress } = useScroll({
-    target: tileRef,
-    offset: ["start end", "center center"],
-  });
+  const { scrollYProgress } = useScroll(
+    SHOW_IMAGE ? { target: tileRef, offset: ["start end", "center center"] } : {}
+  );
   const curtainClipPath = useTransform(
     scrollYProgress,
     [0, 1],
@@ -437,30 +437,32 @@ function TeamMember({ member }: { member: (typeof TEAM)[number] }) {
       className="flex flex-col group"
     >
       {/* Image — scroll-scrubbed curtain reveal */}
-      <div className="relative">
-        {/* Ghost number, opulent, overlapping the frame — sits outside the
-            clipped image box so it isn't cropped by overflow-hidden below */}
-        <span
-          className="absolute -top-6 -left-3 z-0 font-display font-light select-none leading-none pointer-events-none"
-          style={{ fontSize: "clamp(4.5rem, 8vw, 7rem)", color: "rgba(169,140,95,0.18)", letterSpacing: "-0.03em" }}
-        >
-          {member.number}
-        </span>
+      {SHOW_IMAGE && (
+        <div className="relative">
+          {/* Ghost number, opulent, overlapping the frame — sits outside the
+              clipped image box so it isn't cropped by overflow-hidden below */}
+          <span
+            className="absolute -top-6 -left-3 z-0 font-display font-light select-none leading-none pointer-events-none"
+            style={{ fontSize: "clamp(4.5rem, 8vw, 7rem)", color: "rgba(169,140,95,0.18)", letterSpacing: "-0.03em" }}
+          >
+            {member.number}
+          </span>
 
-        <div ref={tileRef} className="relative aspect-4/5 overflow-hidden z-10">
-          <div className="absolute inset-4 border border-accent/20 group-hover:border-accent/60 transition-colors duration-700 pointer-events-none z-20" />
+          <div ref={tileRef} className="relative aspect-4/5 overflow-hidden z-10">
+            <div className="absolute inset-4 border border-accent/20 group-hover:border-accent/60 transition-colors duration-700 pointer-events-none z-20" />
 
-          <motion.div style={{ clipPath: curtainClipPath, transformOrigin: "center" }} className="absolute inset-0">
-            <Image
-              src={member.image}
-              alt={member.name}
-              fill
-              className="object-cover object-top"
-              sizes="(min-width: 640px) 50vw, 100vw"
-            />
-          </motion.div>
+            <motion.div style={{ clipPath: curtainClipPath, transformOrigin: "center" }} className="absolute inset-0">
+              <Image
+                src={member.image}
+                alt={member.name}
+                fill
+                className="object-cover object-top"
+                sizes="(min-width: 640px) 50vw, 100vw"
+              />
+            </motion.div>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Caption below the image */}
       <div className="pt-8">
