@@ -21,8 +21,14 @@ export interface ProjectRecord {
   projectScope: string;
   heroImage: string;
   images: string[];
+  imageAlts: Record<string, string>;
+  metaTitle: string;
+  metaDescription: string;
+  ogImage: string;
+  noIndex: boolean;
   sortOrder: number;
   published: boolean;
+  updatedAt: Date | undefined;
 }
 
 function slugFromHref(href: string): string {
@@ -47,8 +53,14 @@ function rowToRecord(row: ProjectRow): ProjectRecord {
     projectScope: row.projectScope,
     heroImage: row.heroImage,
     images: row.images ?? [],
+    imageAlts: row.imageAlts ?? {},
+    metaTitle: row.metaTitle,
+    metaDescription: row.metaDescription,
+    ogImage: row.ogImage,
+    noIndex: row.noIndex,
     sortOrder: row.sortOrder,
     published: row.published,
+    updatedAt: row.updatedAt,
   };
 }
 
@@ -74,8 +86,14 @@ function fallbackProjects(): ProjectRecord[] {
       projectScope: detail?.projectScope ?? "",
       heroImage: detail?.image2 ?? p.image,
       images: detail?.images?.length ? detail.images : [p.image],
+      imageAlts: {},
+      metaTitle: "",
+      metaDescription: "",
+      ogImage: "",
+      noIndex: false,
       sortOrder: index,
       published: true,
+      updatedAt: undefined,
     } satisfies ProjectRecord;
   });
 }

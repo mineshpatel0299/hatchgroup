@@ -42,9 +42,21 @@ interface ImageUploaderProps {
   multiple?: boolean;
   label: string;
   hint?: string;
+  /** When provided, renders an alt-text input under each thumbnail, keyed by image URL
+   *  (not index) so text stays attached to its image through reordering. */
+  alts?: Record<string, string>;
+  onAltsChange?: (alts: Record<string, string>) => void;
 }
 
-export default function ImageUploader({ images, onChange, multiple = false, label, hint }: ImageUploaderProps) {
+export default function ImageUploader({
+  images,
+  onChange,
+  multiple = false,
+  label,
+  hint,
+  alts,
+  onAltsChange,
+}: ImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -74,7 +86,16 @@ export default function ImageUploader({ images, onChange, multiple = false, labe
   }
 
   function removeAt(index: number) {
+    const removed = images[index];
     onChange(images.filter((_, i) => i !== index));
+    if (alts && onAltsChange && removed in alts) {
+      onAltsChange(Object.fromEntries(Object.entries(alts).filter(([src]) => src !== removed)));
+    }
+  }
+
+  function setAlt(src: string, value: string) {
+    if (!onAltsChange) return;
+    onAltsChange({ ...alts, [src]: value });
   }
 
   function reorder(from: number, to: number) {
@@ -111,46 +132,56 @@ export default function ImageUploader({ images, onChange, multiple = false, labe
       {images.length > 0 && (
         <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3">
           {images.map((src, i) => (
-            <div
-              key={src + i}
-              draggable={images.length > 1}
-              onDragStart={(e) => handleThumbDragStart(e, i)}
-              onDragEnter={() => images.length > 1 && dragIndex !== null && setOverIndex(i)}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={() => handleThumbDrop(i)}
-              onDragEnd={handleThumbDragEnd}
-              title={images.length > 1 ? "Drag to reorder" : undefined}
-              className={cn(
-                "relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-100 border border-slate-200 group transition-opacity",
-                images.length > 1 && "cursor-grab active:cursor-grabbing",
-                dragIndex === i && "opacity-40",
-                overIndex === i && dragIndex !== null && dragIndex !== i && "ring-2 ring-[#A98C5F]"
-              )}
-            >
-              <Image src={src} alt="" fill sizes="200px" draggable={false} className="object-cover pointer-events-none" />
-              {images.length > 1 && (
-                <span
-                  className="absolute top-1.5 left-1.5 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
-                  aria-hidden="true"
-                >
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
-                    <circle cx="2" cy="2" r="1.2" />
-                    <circle cx="8" cy="2" r="1.2" />
-                    <circle cx="2" cy="5" r="1.2" />
-                    <circle cx="8" cy="5" r="1.2" />
-                    <circle cx="2" cy="8" r="1.2" />
-                    <circle cx="8" cy="8" r="1.2" />
-                  </svg>
-                </span>
-              )}
-              <button
-                type="button"
-                onClick={() => removeAt(i)}
-                className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
-                aria-label="Remove image"
+            <div key={src + i}>
+              <div
+                draggable={images.length > 1}
+                onDragStart={(e) => handleThumbDragStart(e, i)}
+                onDragEnter={() => images.length > 1 && dragIndex !== null && setOverIndex(i)}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={() => handleThumbDrop(i)}
+                onDragEnd={handleThumbDragEnd}
+                title={images.length > 1 ? "Drag to reorder" : undefined}
+                className={cn(
+                  "relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-100 border border-slate-200 group transition-opacity",
+                  images.length > 1 && "cursor-grab active:cursor-grabbing",
+                  dragIndex === i && "opacity-40",
+                  overIndex === i && dragIndex !== null && dragIndex !== i && "ring-2 ring-[#A98C5F]"
+                )}
               >
-                ×
-              </button>
+                <Image src={src} alt="" fill sizes="200px" draggable={false} className="object-cover pointer-events-none" />
+                {images.length > 1 && (
+                  <span
+                    className="absolute top-1.5 left-1.5 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
+                    aria-hidden="true"
+                  >
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+                      <circle cx="2" cy="2" r="1.2" />
+                      <circle cx="8" cy="2" r="1.2" />
+                      <circle cx="2" cy="5" r="1.2" />
+                      <circle cx="8" cy="5" r="1.2" />
+                      <circle cx="2" cy="8" r="1.2" />
+                      <circle cx="8" cy="8" r="1.2" />
+                    </svg>
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={() => removeAt(i)}
+                  className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
+                  aria-label="Remove image"
+                >
+                  ×
+                </button>
+              </div>
+              {alts && (
+                <input
+                  type="text"
+                  value={alts[src] ?? ""}
+                  onChange={(e) => setAlt(src, e.target.value)}
+                  placeholder="Alt text"
+                  className="mt-1.5 w-full rounded-md border border-slate-200 px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-[#A98C5F]/40 focus:border-[#A98C5F]"
+                />
+              )}
             </div>
           ))}
         </div>

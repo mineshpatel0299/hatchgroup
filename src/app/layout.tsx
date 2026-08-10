@@ -4,6 +4,7 @@ import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
 import Nav from "@/components/Nav";
 import Preloader from "@/components/Preloader";
+import { SITE_URL } from "@/lib/site";
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
@@ -12,6 +13,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Hatch Group | Premium Indian Interior Design Studio",
   description: "We architect experiences. Architectural Digest India meets a luxury hotel brand film.",
 };

@@ -27,6 +27,11 @@ const emptyInput: ProjectInput = {
   projectScope: "",
   heroImage: "",
   images: [],
+  imageAlts: {},
+  metaTitle: "",
+  metaDescription: "",
+  ogImage: "",
+  noIndex: false,
   published: true,
 };
 
@@ -46,6 +51,11 @@ function toInput(p: ProjectRecord): ProjectInput {
     projectScope: p.projectScope,
     heroImage: p.heroImage,
     images: p.images,
+    imageAlts: p.imageAlts ?? {},
+    metaTitle: p.metaTitle ?? "",
+    metaDescription: p.metaDescription ?? "",
+    ogImage: p.ogImage ?? "",
+    noIndex: p.noIndex ?? false,
     published: p.published,
   };
 }
@@ -72,6 +82,16 @@ function Field({
 
 const inputClass =
   "w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#A98C5F]/40 focus:border-[#A98C5F] transition-colors";
+
+function CharCount({ value, recommended }: { value: string; recommended: number }) {
+  const length = value?.length ?? 0;
+  const over = length > recommended;
+  return (
+    <span className={`block text-[11px] mt-1 ${over ? "text-amber-600" : "text-slate-400"}`}>
+      {length} / {recommended} characters recommended
+    </span>
+  );
+}
 
 export default function ProjectForm({ mode, projectId, initial }: ProjectFormProps) {
   const router = useRouter();
@@ -229,7 +249,55 @@ export default function ProjectForm({ mode, projectId, initial }: ProjectFormPro
             multiple
             images={form.images}
             onChange={(imgs) => set("images", imgs)}
+            alts={form.imageAlts}
+            onAltsChange={(alts) => set("imageAlts", alts)}
           />
+        </div>
+      </section>
+
+      <section className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+        <h2 className="text-[11px] tracking-[0.2em] uppercase font-medium text-slate-500 mb-5">SEO</h2>
+        <div className="grid grid-cols-1 gap-5">
+          <Field label="Meta Title" hint="Falls back to Title above if left blank. Shown as the search result headline.">
+            <input
+              className={inputClass}
+              value={form.metaTitle}
+              onChange={(e) => set("metaTitle", e.target.value)}
+              placeholder={form.title || "e.g. Prime Living | Hatch Group"}
+            />
+            <CharCount value={form.metaTitle} recommended={60} />
+          </Field>
+          <Field
+            label="Meta Description"
+            hint="Falls back to Short Description above if left blank. Shown as the search result snippet."
+          >
+            <textarea
+              className={inputClass}
+              rows={2}
+              value={form.metaDescription}
+              onChange={(e) => set("metaDescription", e.target.value)}
+              placeholder={form.description || undefined}
+            />
+            <CharCount value={form.metaDescription} recommended={160} />
+          </Field>
+          <ImageUploader
+            label="Social Share Image"
+            hint="Used for link previews (Open Graph/Twitter) and falls back to the hero image if left blank"
+            images={form.ogImage ? [form.ogImage] : []}
+            onChange={(imgs) => set("ogImage", imgs[0] ?? "")}
+          />
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={form.noIndex}
+              onChange={(e) => set("noIndex", e.target.checked)}
+              className="w-4 h-4 accent-[#A98C5F]"
+            />
+            <span className="text-sm text-[#1C2420]">
+              Hide from search engines (noindex) — stays published and reachable by direct link, just excluded from
+              Google/Bing indexing and the sitemap
+            </span>
+          </label>
         </div>
       </section>
 

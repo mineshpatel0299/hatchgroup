@@ -27,6 +27,11 @@ export interface ProjectInput {
   projectScope: string;
   heroImage: string;
   images: string[];
+  imageAlts: Record<string, string>;
+  metaTitle: string;
+  metaDescription: string;
+  ogImage: string;
+  noIndex: boolean;
   published: boolean;
 }
 

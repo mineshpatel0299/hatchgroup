@@ -22,6 +22,7 @@ interface ProjectDetailContentProps {
     projectScope: string;
     images: string[];
     image2: string;
+    imageAlts: Record<string, string>;
   };
   nextProjectId: string;
   nextProject: {
@@ -147,7 +148,7 @@ export default function ProjectDetailContent({ id, project, nextProjectId, nextP
         <div className="relative w-full h-screen overflow-hidden bg-background">
           <Image
             src={heroImage}
-            alt={project.title}
+            alt={project.imageAlts[heroImage] || project.title}
             fill
             className="object-cover"
             sizes="100vw"
@@ -200,7 +201,7 @@ export default function ProjectDetailContent({ id, project, nextProjectId, nextP
                 <GalleryImage
                   key={src}
                   src={src}
-                  alt={`${project.title} — photo ${ri * 2 + ii + 1}`}
+                  alt={project.imageAlts[src] || `${project.title} — photo ${ri * 2 + ii + 1}`}
                   className="relative flex-1 h-full overflow-hidden rounded-sm bg-background"
                 />
               ))}
