@@ -13,12 +13,12 @@ const fadeUp = {
   viewport: { once: true, amount: 0.3 },
 };
 
-const STATS = [
-  { value: "10+", label: "Years of Practice" },
-  { value: "120+", label: "Projects Delivered" },
-  { value: "18", label: "Design Awards" },
-  { value: "6", label: "Cities Across India" },
-];
+// const STATS = [
+//   { value: "10+", label: "Years of Practice" },
+//   { value: "120+", label: "Projects Delivered" },
+//   { value: "18", label: "Design Awards" },
+//   { value: "6", label: "Cities Across India" },
+// ];
 
 const TEAM = [
   {
@@ -697,7 +697,7 @@ export default function AboutPageContent({ projects }: { projects: Project[] }) 
       })()}
 
       {/* ── STATS BAR ── */}
-      <section className="relative py-16 md:py-20 luxe-ivory overflow-hidden">
+      {/* <section className="relative py-16 md:py-20 luxe-ivory overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain opacity-30" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-0">
@@ -725,7 +725,7 @@ export default function AboutPageContent({ projects }: { projects: Project[] }) 
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ── 4. LAYERED STORY IMAGE + COPY ── */}
       <section
