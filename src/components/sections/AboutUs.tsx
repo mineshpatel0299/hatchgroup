@@ -63,9 +63,8 @@ export default function AboutUs() {
 
           <motion.div {...fadeUp} transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}>
             <p className="text-foreground/55 font-light leading-[1.95] text-[0.95rem] md:text-[1.05rem] max-w-md mb-8">
-              <span className="font-display text-accent text-5xl float-left leading-[0.8] mr-3 mt-1">S</span>
-              ince 2014, Hatch Group has quietly redefined the language of luxury
-              interiors across India. Every project is an act of authorship, not decoration.
+              
+              Hatch Group is a design studio shaped by a global perspective and an instinct for the exceptional. Every project is an act of authorship , composed through architecture, material, craft and detail to create spaces with a distinct sense of identity.
             </p>
 
             <Link

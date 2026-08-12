@@ -24,15 +24,15 @@ const TEAM = [
   {
     number: "01",
     name: "Kareena Gambhir",
-    role: "Co-Founder & Partner",
-    bio: "With over a decade of shaping India's most discerning interiors, she brings an architect's rigour and an artist's intuition to every project — finding beauty in precision and soul in restraint.",
+    role: "Design Principal",
+    bio: "A curator of material, form, and detail, she shapes spaces with a refined global sensibility, balancing timeless craftsmanship with a distinctly contemporary design language.",
     image: "/images/residential-thumb.png",
   },
   {
     number: "02",
     name: "Divya Verma",
-    role: "Co-Founder",
-    bio: "A master of material narratives, she curates palettes that feel both inevitable and surprising — championing Indian craft traditions while speaking fluently in global design language.",
+    role: "Managing Principal",
+    bio: "Bridging vision and execution, she brings structure, precision, and intent to every project, ensuring the studio’s design standards are delivered seamlessly across a global practice.",
     image: "/images/commercial-thumb.png",
   },
 ];
@@ -42,7 +42,7 @@ const VALUES = [
     number: "01",
     title: "Authorship",
     body:
-      "Every space we create carries a singular point of view. We don't decorate — we narrate, shaping rooms that tell the story of the people who inhabit them.",
+      "Every space we create carries a singular point of view. We don't decorate, we narrate, shaping rooms that tell the story of the people who inhabit them.",
   },
   {
     number: "02",
@@ -134,12 +134,13 @@ function VisionMissionSection() {
               className="font-display font-light text-foreground leading-[1.22] mb-7"
               style={{ fontSize: "clamp(1.5rem, 2.4vw, 2.2rem)", letterSpacing: "-0.01em" }}
             >
-              The defining voice of luxury design in{" "}
-              <span className="luxe-gradient-text">contemporary India.</span>
+              A defining voice in global {" "}
+              <span className="luxe-gradient-text">Luxury design.</span>
             </h3>
 
             <p className="text-foreground/45 font-light leading-[1.95] text-[0.9rem] md:text-[0.95rem]">
-              Indian interiors that carry global cultural authority — rooted in craft, fluent in modernity, unmistakably Indian.
+              Spaces of enduring character and cultural relevance,  rooted in craftsmanship, fluent in contemporary design, and shaped for a global perspective.
+
             </p>
           </motion.div>
 
@@ -210,7 +211,7 @@ function VisionMissionSection() {
             </h3>
 
             <p className="text-foreground/45 font-light leading-[1.95] text-[0.9rem] md:text-[0.95rem]">
-              A collaboration between client and studio, tradition and innovation — making every project extraordinary.
+              A collaboration between client and studio, tradition and innovation, making every project extraordinary.
             </p>
           </motion.div>
 
@@ -641,7 +642,7 @@ export default function AboutPageContent({ projects }: { projects: Project[] }) 
               interiors across India. Founded on the belief that a space should
               speak before its occupant does, we have shaped residences,
               hospitality suites, corporate sanctuaries, and cultural
-              institutions — each a singular act of authorship.
+              institutions, each a singular act of authorship.
             </motion.p>
 
             {/* Gold rule centered */}
@@ -805,7 +806,7 @@ export default function AboutPageContent({ projects }: { projects: Project[] }) 
               }}
             >
               <p className="text-foreground/55 font-light leading-[1.95] text-[0.95rem] md:text-[1.05rem] mb-6">
-                We begin every engagement with listening — not to brief
+                We begin every engagement with listening, not to brief
                 documents, but to the client themselves. What are their
                 unspoken rituals? How do they move through a room at 7 AM
                 versus midnight? What textures have they loved and never
@@ -813,7 +814,7 @@ export default function AboutPageContent({ projects }: { projects: Project[] }) 
               </p>
               <p className="text-foreground/55 font-light leading-[1.95] text-[0.95rem] md:text-[1.05rem]">
                 These invisible cues become the architecture of everything
-                that follows — the spatial flow, the material palette, the
+                that follows, the spatial flow, the material palette, the
                 calibration of light, the rhythm of detail.
               </p>
             </motion.div>
