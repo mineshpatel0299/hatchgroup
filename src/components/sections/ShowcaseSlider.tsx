@@ -5,25 +5,29 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 
-import { PROJECTS } from "@/data/projects";
+import type { Project } from "@/data/projects";
 
-const ACTIVE_SLIDES = PROJECTS.slice(0, 8).map(p => ({
-  src: p.image,
-  title: p.title,
-  description: p.description,
-  href: p.href,
-}));
+export interface ShowcaseSliderProps {
+  projects: Project[];
+}
 
 const INTERVAL = 4500;
 
-export default function ShowcaseSlider() {
+export default function ShowcaseSlider({ projects }: ShowcaseSliderProps) {
+  const ACTIVE_SLIDES = projects.slice(0, 8).map((p) => ({
+    src: p.image,
+    title: p.title,
+    description: p.description,
+    href: p.href,
+  }));
+
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
 
   const next = useCallback(() => {
     setDirection(1);
     setCurrent((prev) => (prev + 1) % ACTIVE_SLIDES.length);
-  }, []);
+  }, [ACTIVE_SLIDES.length]);
 
   useEffect(() => {
     const timer = setInterval(next, INTERVAL);
@@ -40,6 +44,8 @@ export default function ShowcaseSlider() {
     center: { x: 0, opacity: 1 },
     exit: (d: number) => ({ x: d > 0 ? "-100%" : "100%", opacity: 0 }),
   };
+
+  if (ACTIVE_SLIDES.length === 0) return null;
 
   return (
     <section className="relative z-20 luxe-ivory overflow-hidden">

@@ -13,8 +13,11 @@ import SocialProof from "@/components/sections/SocialProof";
 // import FooterCTA from "@/components/sections/FooterCTA";
 import { TeamSlider } from "@/components/sections/AboutPageContent";
 import Footer from "@/components/sections/Footer";
+import { getPublishedProjects, toLegacyProject } from "@/lib/projects-repo";
 
-export default function Home() {
+export default async function Home() {
+  const projects = (await getPublishedProjects()).map(toLegacyProject);
+
   return (
     <main className="relative bg-background w-full min-h-screen">
       <Hero />
@@ -22,7 +25,7 @@ export default function Home() {
       {/* <VisionMissionParallax /> */}
       <Philosophy />
       {/* <Services /> */}
-      <ShowcaseSlider />
+      <ShowcaseSlider projects={projects} />
       {/* <Walkthrough /> */}
       {/* <FloorPlan3D /> */}
       {/* <FeaturedProject /> */}
