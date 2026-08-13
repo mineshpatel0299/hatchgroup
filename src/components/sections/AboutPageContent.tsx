@@ -636,9 +636,9 @@ export default function AboutPageContent({ projects }: { projects: Project[] }) 
                 className="font-display text-accent float-left leading-[0.82] mr-4 mt-1.5 select-none"
                 style={{ fontSize: "clamp(3.8rem, 5.5vw, 5.5rem)" }}
               >
-                S
+              H
               </motion.span>
-              ince 2014, Hatch Group has quietly redefined the language of luxury
+              atch Group has quietly redefined the language of luxury
               interiors across India. Founded on the belief that a space should
               speak before its occupant does, we have shaped residences,
               hospitality suites, corporate sanctuaries, and cultural
