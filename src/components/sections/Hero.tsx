@@ -87,7 +87,7 @@ export default function Hero() {
                 style={{ background: "linear-gradient(to right, transparent, rgba(169,140,95,0.7))" }}
               />
               <span className="text-[#D6BD94] text-[8px] md:text-[10px] font-sans font-medium tracking-[0.55em] uppercase">
-                Interior Atelier · Est. 2014
+                Interior Atelier
               </span>
               <div
                 className="h-px w-10 md:w-16"

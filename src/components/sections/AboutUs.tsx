@@ -49,7 +49,7 @@ export default function AboutUs() {
         <div className="lg:col-span-5 order-2 lg:order-1">
           <motion.div {...fadeUp} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}>
             <span className="block text-accent text-[9px] md:text-[11px] tracking-[0.5em] uppercase font-medium mb-7">
-              The Studio · Est. 2014
+              The Studio 
             </span>
             <h2
               className="font-display font-light text-foreground leading-[1.12] mb-9"
