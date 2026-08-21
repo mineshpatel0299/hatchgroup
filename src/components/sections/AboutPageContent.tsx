@@ -574,8 +574,29 @@ export default function AboutPageContent({ projects }: { projects: Project[] }) 
   return (
     <>
       {/* ── 1. OUR STORY — Hero ── */}
-      <section id="our-story" className="relative pt-44 md:pt-56 pb-28 md:pb-40 luxe-ivory overflow-hidden">
+      <section id="our-story" className="relative pt-32 md:pt-56 pb-28 md:pb-40 luxe-ivory overflow-hidden">
         <div className="absolute inset-0 pointer-events-none luxe-grain opacity-50" />
+
+        {/* Mobile-only hero opener — a proper title moment instead of dropping straight
+            into body copy. No imagery, just refined type, to establish the section as a hero. */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-10 md:hidden flex flex-col items-center text-center px-6 mb-12"
+        >
+          <span className="font-sans font-medium text-accent/80 text-[9px] tracking-[0.55em] uppercase mb-6">
+            The Studio · Est. 2014
+          </span>
+          <h1
+            className="font-display font-light text-foreground leading-[0.95] m-0 p-0 flex flex-col items-center"
+            style={{ fontSize: "clamp(2.6rem, 13vw, 3.4rem)", letterSpacing: "-0.02em" }}
+          >
+            <span className="block italic text-accent" style={{ fontSize: "0.7em" }}>Authors of</span>
+            <span className="block font-sans font-thin tracking-tighter uppercase">Space</span>
+          </h1>
+          <div className="w-14 h-px mt-8" style={{ background: "rgba(169,140,95,0.5)" }} />
+        </motion.div>
 
         {/* Ambient gold wash — top left */}
         <div
@@ -596,19 +617,21 @@ export default function AboutPageContent({ projects }: { projects: Project[] }) 
           }}
         />
 
-        {/* Ghost watermark — vertical and positioned on the right */}
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[40%] pointer-events-none select-none opacity-[0.05]" aria-hidden="true">
-          <Image src="/monogram.png" alt="" width={2000} height={2000} className="w-[120vh] md:w-[180vh] h-auto max-w-none -rotate-90" />
+        {/* Ghost watermark — centered behind content on mobile, vertical on the right on desktop */}
+        <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-[40%] pointer-events-none select-none opacity-[0.05]" aria-hidden="true">
+          <Image src="/monogram.png" alt="" width={2000} height={2000} className="w-[85vw] md:w-[180vh] h-auto max-w-none rotate-0 md:-rotate-90" />
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-16 lg:px-24">
 
-          {/* Centered eyebrow */}
+          {/* Centered eyebrow — desktop only; the mobile hero opener above already
+              establishes this section, so repeating an eyebrow+divider here read
+              as a redundant second title moment on small screens. */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center text-center mb-14 md:mb-20"
+            className="hidden md:flex flex-col items-center text-center md:mt-0 md:mb-20"
           >
             <span className="text-accent text-[10px] md:text-[12px] tracking-[0.6em] uppercase font-medium mb-5">
               Our Story
@@ -620,21 +643,24 @@ export default function AboutPageContent({ projects }: { projects: Project[] }) 
             </div>
           </motion.div>
 
-          {/* Main copy with drop cap */}
+          {/* Main copy with drop cap — left-aligned with a true wrapped drop cap on
+              mobile too (previously a giant standalone "H" floated above centered
+              text, which read as an odd, disconnected accident rather than a
+              deliberate editorial drop cap). */}
           <div className="max-w-3xl mx-auto">
             <motion.p
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display font-light text-foreground/80 leading-[1.85] text-center md:text-left"
+              className="font-display font-light text-foreground/80 leading-[1.85] text-left"
               style={{ fontSize: "clamp(1.25rem, 2.2vw, 1.7rem)" }}
             >
               <motion.span
                 initial={{ opacity: 0, scale: 0.7 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="font-display text-accent float-left leading-[0.82] mr-4 mt-1.5 select-none"
-                style={{ fontSize: "clamp(3.8rem, 5.5vw, 5.5rem)" }}
+                className="font-display text-accent float-left leading-[0.82] mr-3 mt-1 mb-0 md:mb-0 md:mr-4 md:mt-1.5 select-none"
+                style={{ fontSize: "clamp(3.4rem, 15vw, 5.5rem)" }}
               >
               H
               </motion.span>
@@ -645,12 +671,12 @@ export default function AboutPageContent({ projects }: { projects: Project[] }) 
               institutions, each a singular act of authorship.
             </motion.p>
 
-            {/* Gold rule centered */}
+            {/* Gold rule — left-aligned to match the now left-aligned copy on mobile */}
             <motion.div
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
               transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="w-20 h-px mt-12 mx-auto md:mx-0 origin-left"
+              className="w-20 h-px mt-12 origin-left"
               style={{ background: "linear-gradient(to right, rgba(169,140,95,0.6), rgba(169,140,95,0.15))" }}
             />
           </div>
