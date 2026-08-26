@@ -80,7 +80,7 @@ export default function Footer() {
             <h4 className="uppercase tracking-[0.4em] text-[8px] font-medium mb-5 text-accent">Explore</h4>
             <ul className="space-y-3 font-light text-[0.82rem] text-foreground/60">
               <li><Link href="/" className="hover:text-accent transition-colors duration-300">Home</Link></li>
-              <li><Link href="/projects" className="hover:text-accent transition-colors duration-300">Projects</Link></li>
+              <li><Link href="/project" className="hover:text-accent transition-colors duration-300">Projects</Link></li>
               <li><Link href="/about" className="hover:text-accent transition-colors duration-300">About</Link></li>
               <li><Link href="/career" className="hover:text-accent transition-colors duration-300">Careers</Link></li>
             </ul>

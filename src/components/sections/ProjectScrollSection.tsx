@@ -34,7 +34,7 @@ function ProjectTile({ project, index, total }: { project: Project; index: numbe
   // up past that point.
   const { scrollYProgress: curtainProgress } = useScroll({
     target: tileRef,
-    offset: ["start end", "center center"],
+    offset: ["start end", "start 0.15"],
   });
   const curtainClipPath = useTransform(
     curtainProgress,
@@ -43,29 +43,43 @@ function ProjectTile({ project, index, total }: { project: Project; index: numbe
   );
 
   return (
-    <div ref={tileRef} className="relative flex-1 h-full">
-      <motion.div style={{ clipPath: curtainClipPath, transformOrigin: "center" }} className="h-full">
+    <div ref={tileRef} className="relative sm:flex-1 sm:h-full">
+      <motion.div style={{ clipPath: curtainClipPath, transformOrigin: "center" }} className="sm:h-full">
         <Link
           href={project.href}
           data-cursor-interact
-          className="group relative flex w-full h-full overflow-hidden bg-background"
+          className="group relative flex w-full sm:h-full overflow-hidden bg-background"
         >
-          <div className="absolute inset-0">
+          {/* Mobile: intrinsic-size image — the card's height comes from the
+              image itself (100% width, auto height), so nothing is cropped
+              or letterboxed. */}
+          <Image
+            src={project.image}
+            alt={project.title}
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: "100%", height: "auto" }}
+            className="block sm:hidden"
+            priority={index < 3}
+          />
+          {/* Desktop: fill + cover within the fixed-height row. */}
+          <div className="hidden sm:block absolute inset-0">
             <Image
               src={project.image}
               alt={project.title}
               fill
               className="object-cover"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              sizes="(max-width: 1024px) 50vw, 33vw"
               priority={index < 3}
             />
           </div>
           <div
-            className="absolute inset-0 bg-[#000f0b]/60 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            className="hidden sm:block absolute inset-0 bg-[#000f0b]/60 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           />
 
-          {/* Category + counter — hidden until hover */}
-          <div className="absolute top-5 left-6 right-6 flex items-center justify-between opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100">
+          {/* Category + counter — hidden until hover, desktop only */}
+          <div className="hidden sm:flex absolute top-5 left-6 right-6 items-center justify-between opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100">
             <span className="text-[9px] tracking-[0.5em] uppercase font-medium text-accent">
               {project.category}
             </span>
@@ -73,11 +87,11 @@ function ProjectTile({ project, index, total }: { project: Project; index: numbe
               {num}/{String(total).padStart(2, "0")}
             </span>
           </div>
-          <div className="absolute top-5 left-6 w-8 h-8 border-t border-l border-accent/50 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
-          <div className="absolute bottom-5 right-6 w-8 h-8 border-b border-r border-accent/50 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
+          <div className="hidden sm:block absolute top-5 left-6 w-8 h-8 border-t border-l border-accent/50 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
+          <div className="hidden sm:block absolute bottom-5 right-6 w-8 h-8 border-b border-r border-accent/50 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
 
-          {/* Hover state — title and CTA slide in from the bottom-left */}
-          <div className="absolute inset-x-0 bottom-0 flex flex-col items-start text-left p-6 md:p-8 opacity-0 translate-y-4 transition-all duration-700 ease-out group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none">
+          {/* Hover state — title and CTA slide in from the bottom-left, desktop only */}
+          <div className="hidden sm:flex absolute inset-x-0 bottom-0 flex-col items-start text-left p-6 md:p-8 opacity-0 translate-y-4 transition-all duration-700 ease-out group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none">
             <h3 className="font-display font-light text-2xl lg:text-4xl text-foreground mb-4">
               {project.title}
             </h3>
@@ -133,7 +147,7 @@ export default function ProjectScrollSection({ projects }: { projects: Project[]
 
       {/* Alternating full-bleed / split rows — each row uses the full
           viewport-scaled height, whether it holds one image or two. */}
-      <div className="relative z-10 w-full flex flex-col gap-1 md:gap-1.5 px-4 md:px-8 lg:px-12">
+      <div className="relative z-10 w-full flex flex-col gap-1 px-4 md:px-8 lg:px-12">
         {rows.map((row, ri) => {
           const tiles = row.map((project) => {
             const tile = (
@@ -143,7 +157,7 @@ export default function ProjectScrollSection({ projects }: { projects: Project[]
             return tile;
           });
           return (
-            <div key={ri} className="flex flex-col sm:flex-row w-full gap-1 md:gap-1.5 h-[70vh] md:h-[88vh]">
+            <div key={ri} className="flex flex-col sm:flex-row w-full gap-1 sm:h-[70vh] md:h-[88vh]">
               {tiles}
             </div>
           );

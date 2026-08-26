@@ -56,8 +56,8 @@ function GalleryImage({
   src,
   alt,
   priority = false,
-  className = "relative flex-1 h-full overflow-hidden bg-background",
-  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+  className = "relative sm:flex-1 sm:h-full overflow-hidden bg-background",
+  sizes = "(max-width: 1024px) 50vw, 33vw",
 }: {
   src: string;
   alt: string;
@@ -86,15 +86,31 @@ function GalleryImage({
 
   return (
     <div ref={tileRef} className={className}>
-      <motion.div style={{ clipPath: curtainClipPath, transformOrigin: "center" }} className="absolute inset-0">
+      <motion.div style={{ clipPath: curtainClipPath, transformOrigin: "center" }} className="sm:absolute sm:inset-0">
+        {/* Mobile: intrinsic-size image — the card's height comes from the
+            image itself (100% width, auto height), so nothing is cropped
+            or letterboxed. */}
         <Image
           src={src}
           alt={alt}
-          fill
-          className="object-cover"
-          sizes={sizes}
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{ width: "100%", height: "auto" }}
+          className="block sm:hidden"
           priority={priority}
         />
+        {/* Desktop: fill + cover within the fixed-height row. */}
+        <div className="hidden sm:block absolute inset-0">
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            className="object-cover"
+            sizes={sizes}
+            priority={priority}
+          />
+        </div>
       </motion.div>
     </div>
   );
@@ -196,13 +212,13 @@ export default function ProjectDetailContent({ id, project, nextProjectId, nextP
         {/* ── 3. GALLERY — image only, same alternating full/split rows as /project ── */}
         <div className="relative w-full flex flex-col gap-1 md:gap-1.5 px-4 md:px-8 lg:px-12 py-4 md:py-6">
           {galleryRows.map((row, ri) => (
-            <div key={ri} className="flex flex-col sm:flex-row w-full gap-1 md:gap-1.5 h-[70vh] md:h-[88vh]">
+            <div key={ri} className="flex flex-col sm:flex-row w-full gap-1 md:gap-1.5 sm:h-[70vh] md:h-[88vh]">
               {row.map((src, ii) => (
                 <GalleryImage
                   key={src}
                   src={src}
                   alt={project.imageAlts[src] || `${project.title} — photo ${ri * 2 + ii + 1}`}
-                  className="relative flex-1 h-full overflow-hidden rounded-sm bg-background"
+                  className="relative sm:flex-1 sm:h-full overflow-hidden rounded-sm bg-background"
                 />
               ))}
             </div>

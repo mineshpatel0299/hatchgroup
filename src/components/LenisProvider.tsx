@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "@studio-freight/lenis";
 import gsap from "gsap";
@@ -13,6 +13,7 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
   // The admin CMS is a data-table/form heavy control panel — it wants normal
   // native scroll, not the marketing site's smooth-scroll feel.
   const isAdmin = pathname?.startsWith("/admin") ?? false;
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
     if (isAdmin) return;
@@ -37,6 +38,7 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
       syncTouch: false,
       touchMultiplier: 2,
     });
+    lenisRef.current = lenis;
 
     lenis.on("scroll", ScrollTrigger.update);
 
@@ -48,8 +50,20 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
     return () => {
       gsap.ticker.remove(tick);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, [isAdmin]);
+
+  // Lenis keeps its own scroll position independent of the native one, and
+  // this instance persists across route changes (it's only recreated when
+  // crossing the admin/marketing boundary) — so without this, navigating to
+  // a new page leaves it rendered at whatever offset the previous page was
+  // scrolled to instead of the top.
+  useEffect(() => {
+    if (isAdmin) return;
+    window.scrollTo(0, 0);
+    lenisRef.current?.scrollTo(0, { immediate: true });
+  }, [pathname, isAdmin]);
 
   return <>{children}</>;
 }
