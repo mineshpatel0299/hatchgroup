@@ -341,6 +341,7 @@ export default function CareerPageContent() {
 
               <motion.form
                 {...fadeUp}
+                viewport={{ once: true, amount: 0.05 }}
                 onSubmit={handleSubmit}
                 className="relative bg-white/40 backdrop-blur-sm border border-foreground/10 shadow-[0_40px_80px_-40px_rgba(28,36,32,0.25)] px-6 py-12 sm:px-10 md:px-16 md:py-16 flex flex-col gap-12"
               >
